@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    *{margin:0;padding:0; height:2000px;}
+         /*background: url(images/s03.jpg) no-repeat;
+         background-size: contain;
+         background-position:0 -200px; 
+         background-attachment:fixed;
+         fixed:이미지를 고정(스크롤 안됨), scroll:스크롤시 이미지 올라감 */
+    div{width:100%; height:700px;
+        border:3px solid black;
+        background:url("images/s03.jpg") no-repeat fixed 0px -200px;
+        background-size: cover;}
+       /* background-size는 통합이 안됨 */
+       /* cover:이미지 비율이 큰 방향으로 채우기(빈공간X,이미지 잘림O), 
+          contain:이미지 비율이 작은 방향으로 채우기(빈공간O, 이미지 잘림X) */
+  </style>
+</head>
+<body>
+  <div></div>
+</body>
+</html>
