@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+
+  font-family: "Noto Sans KR", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+.top_menu {
+  width: 100%;
+  height: 35px;
+  background: #202020;
+}
+
+.top_menu ul {
+  float: right;
+  color: white;
+  width: 700px;
+  height: 25px;
+}
+
+.top_menu li {
+
+  float: left;
+  width: 100px;
+  height: 32px;
+  font-size: 13px;
+  margin-top: 7px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+#top_menu_01 {
+  margin-left: 90px;
+}
+
+.menu {
+  width: 100%;
+  height: 82px;
+  border-bottom: 1px solid black;
+  display: flex;
+  box-sizing: border-box;
+}
+
+.logo {
+  width: 150px;
+  height: 82px;
+  box-sizing: border-box;
+  padding-top: 25px;
+  padding-left: 40px;
+}
+
+.logo h4 {
+  width: 100px;
+  height: 30px;
+  background: url(../images/ico_set.png) -320PX -385PX no-repeat;
+  background-size: 800px;
+}
+
+/* 로고 중심 맞추는 법 다시 한번 더 확인 */
+
+.menu_ ul {
+  width: 750px;
+  height: 40px;
+  margin: 0 auto;
+  margin-top: 23px;
+  display: flex;
+  margin-left: 550px;
+  box-sizing: border-box;
+}
+
+.menu_ li {
+
+  margin-right: 60px;
+  color: #101010;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 32px;
+}
+
+.menu _a {
+  display: inline-block;
+}
+
+.menu_ li:hover {
+  border-bottom: 3px solid #101010;
+}
+
+.quick_menu {
+  width: 200px;
+  height: 82px;
+  text-align: center;
+  margin-left: 550px;
+}
+
+.quick_menu ul {
+  display: flex;
+  width: 130px;
+  height: 52px;
+  margin-top: 15px;
+}
+
+.quick_menu li {
+  width: 62px;
+  height: 52px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #101010;
+}
+
+#quick_menu div {
+  width: 50px;
+  height: 20px;
+  position: relative;
+  top: 30px;
+  left: -10px;
+}
+
+#quick_menu_01 a {
+  width: 32px;
+  height: 32px;
+  display: inline-block;
+  background: url(../images/ico_set.png) -584px -320px no-repeat;
+  background-size: 800px 800px;
+}
+
+#quick_menu_02 a {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  background: url(../images/ico_set.png) -628px -320px no-repeat;
+  background-size: 800px 800px;
+}
+
+/* 메뉴 상단부분이 제일 어려우므로 논리를 잘 이해하고 있어야함. */
+
+section{width:100%; height:6800px; box-sizing:border-box;}
+#banner{height:640px; background:url(../images/main_top.jpg) center /cover no-repeat;}
+#banner_title h4{display : block; width:70px; height:30px; color:#101010; background:white; }

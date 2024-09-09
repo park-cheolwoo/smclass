@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    img {
+      width: 200px;
+      display: inline-block;
+    }
+
+    #i01.hover {
+      visibility: hidden;
+    }
+
+    span {
+      width: 200px;
+      height: 100px;
+      display: inline;
+      padding-left: 30px;
+      margin-left: 50px;
+    }
+
+    /* display : none/block/inline/inline-block */
+    #s01 {
+      background: yellow;
+      border: 3px solid black;
+    }
+
+    #s02 {
+      background: green;
+      border: 3px solid black;
+    }
+
+    #s03 {
+      background: gray;
+      border: 3px solid black;
+    }
+
+    /* visibility:hidden : 공간은 남기고 사라지는 태그 
+       display:none : 공간까지 사라지는 태그 */
+  </style>
+</head>
+
+<body>
+  <span id="s01">가나다</span>
+  <span id="s02">가나다</span>
+  <span id="s03">가나다</span>
+  <br />
+  <img src="images/a01.jpg">
+  <img src="images/a02.jpg" id="i01">
+  <img src="images/a03.jpg">
+</body>
+
+</html>
