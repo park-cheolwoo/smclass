@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      width: 900px;
+      height: 300px;
+      margin: 30px auto;
+      border: 1px solid black;
+      display:flex;
+      flex-direction:row; /* row, column */
+      flex-wrap:no-wrap;
+      justify-content:flex-start; /* 가로정렬 방식 : flex-start, flex-end, center, space-between(양쪽정렬), space-around(간격 동일배치)*/
+      align-items:flex-end; /* 세로정렬 방식 : center, flex-end(아래 정렬), flex-start(위 정렬)*/
+    }
+
+    div{width:100px; height:100px; background:yellow; border:5px solid black; box-sizing:border-box;
+    }
+
+    /* 예전 : float:left + box-sizing:border-box; / 현재 : display:flex;(부모) 
+       display-flex 적용시 너비/높이 계산을 잘 해야함(너무 클 경우 div를 축소해서 높이/길이를 맞추기 때문에 유의) */
+
+       /* flex:2 2 0; */
+  </style>
+</head>
+
+<body>
+
+  <!-- 복습 링크 : https://wackym.tistory.com/18 -->
+  <header>
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+  </header>
+  <!-- inline-block를 사용할 경우, width(넓이)를 직접 정해주어야한다.(길이가 너무 길어지면 1줄로 올릴 수 없음) 
+       flex를 사용할 경우, flex값만 지정해주면 알아서 width(넓이)를 정해주기
+       때문에 따로 계산하여 정할 필요가 없다. -->
+</body>
+
+</html>

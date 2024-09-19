@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h2>달러 환율</h2>
+  <form action="#" name="wfrm" method="get">
+    <label>달러</label>
+    <input type="text" name="dollar" id="dollar" onkeyup="wbtn(event)">
+    <br/>
+    <label>원화</label>
+    <input type="text" name="won" id="won">
+    <br/>
+    <button type="button" onclick="wbtn()">확인</button>
+  </form>
+  <script>
+    function wbtn(event) {console.log(event.keyCode);
+      if(event.keyCode === 13){
+        var dollar = Number(document.getElementById("dollar").value);
+        document.getElementById("won").value = dollar * 1327;
+      }
+    }
+    // 환율기준 : 달러당 1327원
+
+  </script>
+  
+  
+  
+  <hr>
+
+
+
+  <h2>당신의 나이는 ?</h2>
+  <h2 id="age"></h2>
+
+  <form action="#" name="frm" method="get">
+    <label>태어난 년도</label>
+    <input type="text" name="birth_year" id="birth_year">
+    <br />
+    <button type="button" onclick="btn()">확인</button>
+  </form>
+  <script>
+    function btn() {
+      alert("확인 버튼 클릭");
+      var age = Number(document.getElementById("birth_year").value);
+      document.getElementById("age").innerText = 2025 - age;
+    };
+  </script>
+</body>
+
+</html>
