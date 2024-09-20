@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>삼항조건연산자</title>
+</head>
+<body>
+  <script>
+    var a = Number(prompt("첫번째 숫자를 입력하세요."));
+    var b = Number(prompt("두번째 숫자를 입력하세요."));
+    var c = Number(prompt("세번째 숫자를 입력하세요."));
+
+    var result = a<=b?(b<=c?c:b):(a<=c?c:a);
+    document.write(result);
+
+    // var num = Number(prompt("숫자를 입력하세요."));
+    // var result = num%2==0?"짝수입니다.":"홀수입니다.";
+    // document.write(result);
+
+    // var a = Number(prompt("첫번째 숫자를 입력하세요."));
+    // var b = Number(prompt("두번째 숫자를 입력하세요."));
+    // var result = a<=b?b:a
+    // document.write("더 큰 수 : "+result);
+    // document.write(a+"<br/>");
+    // document.write(b+"<br/>");
+ 
+
+
+
+
+    // var a = 10;
+    // var b = 3;
+    // var result = a>b?"정답입니다.":"오답입니다"; //~?가:나    ~~ 구문이 true 면 가, false면 나 
+    // document.write(result)
+  </script>
+  
+</body>
+</html>

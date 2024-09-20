@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+
+    var a = 10;
+    var b = 20;
+    var c = 30;
+    var d = 40;
+    var result = a > b && c > a; // and 연산자 : 둘 다 true일 때만 ture
+    document.write(result + "<br/>");
+    var result2 = d > c || a > d; // or 연산자 : 둘 다 false일 때만 false
+    document.write(result2 + "<br/>");
+    var result3 = !(a > b); // !(false) = true
+    document.write(result3 + "<br/>");
+
+
+
+
+    
+    // var a = 10;
+    // var b = 20;
+    // var c = 10;
+    // var f = "20";
+    // var result = a > b; //false
+    // document.write(result + "<br/>");
+    // var result2 = a < b; // true
+    // document.write(result2 + "<br/>")
+    // var result3 = b == f;
+    // document.write(result3 + "<br/>")
+    // var result4 = b === f;
+    // document.write(result4 + "<br/>")
+    // var result5 = a != c;
+    // document.write(result5 + "<br/>")
+    // for(var i=0;i<10;i++){
+    //   document.write(i+"<br/>");
+    // }
+
+
+    // var num = 1;
+    // num++;
+    // num2 = num // 두줄 처리 선호
+    // document.write(num+"<br/>");
+
+    // var num2=0;
+    // num2 = num++; // num(2)를 num2에 대입 후 num2(2)에 +1
+    // num2 = ++num; // num(2)에 +1을 대입 후 num2에 대입(3)
+    // document.write("num2 : "+num2);
+
+    //   var num = 10;
+    //   var num2 = 5;
+    //   num += num2;
+    // document.write(num);
+
+    //A+=B >> A=A+B
+    //A*=B >> A=A*B
+    //A/=B >> A=A/B
+    //A%=B >> A=A%B
+
+
+    // var num = Number(prompt("숫자를 입력하세요."));
+    // var num2 = Number(prompt("숫자를 입력하세요."));
+    // var result = num + num2;
+    // document.write("더하기 : " + result + "<br/>");
+    // var result2 = num - num2;
+    // document.write("빼기 : " + result2 + "<br/>");
+    // var result3 = num * num2
+    // document.write("곱하기 : " + result3 + "<br/>");
+    // var result4 = num / num2
+    // document.write("나누기 : " + result4 + "<br/>");
+    // document.write("몫 : " + parseInt(result4) + "<br/>");
+    // document.write("실수형으로 변환 : " + parseFloat(result4) + "<br/>")
+    // var result5 = num % num2
+    // document.write("나머지 : " + result5 + "<br/>");
+  </script>
+</body>
+
+</html>
