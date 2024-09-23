@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>scroll 객체</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    #wrap {
+      width: 2000px;
+      height: 3000px;
+      border: 1px solid black;
+    }
+
+    #d_wrap {
+      position: fixed;
+    }
+
+    #txt {
+      width: 200px;
+      height: 100px;
+      border: 1px solid black;
+      background: yellow;
+      font-size: 30px;
+      text-align: center;
+    }
+
+    #img {
+      width: 300px;
+      height: 200px;
+      border: 1px solid black;
+
+      background: url(images/a01.jpg)
+    }
+  </style>
+
+</head>
+
+<body>
+  <div id="wrap">
+    <div id="d_wrap">
+      <div id="txt">000</div>
+      <button id="b01" onclick="b01()">500 하단이동</button>
+      <button id="b02" onclick="b02()">1000 하단이동</button>
+      <button id="b03" onclick="b03()">2000 하단이동</button>
+      <div id="img"></div>
+    </div>
+  </div>
+  <script>
+    //window 이벤트 실행문
+    //window.scrollX(Y) :: X(Y) 좌표값
+    //window.scrollTo({top:0, left:0, behavior:"smooth"}) : X좌표는 0, Y좌표는 0만큼 이동, 이동 방법은 부드럽게 (*소괄호 중괄호 유의)
+
+
+
+    window.addEventListener('scroll', function () {
+      document.getElementById("txt").innerText = window.scrollY;
+    });
+
+    b01.addEventListener('click', function () {
+      window.scrollTo({ top: 500, behavior: "smooth" });
+      document.getElementById("txt").style.background = "orange";
+    });
+    b02.addEventListener('click', function () {
+      window.scrollTo({ top: 1000, behavior: "smooth" });
+      document.getElementById("txt").style.background = "green";
+    });
+
+    b03.addEventListener('click', function () {
+      window.scrollTo({ top: 2000, behavior: "smooth" });
+      document.getElementById("txt").style.background = "cyan";
+    });
+
+    if (window.scrollY > 1000) {
+      document.getElementById("img").style.backgroundImage = "url(images/a02.jpg)"
+    }
+    else if (window.scrollY > 500) {
+      document.getElementById("img").style.backgroundImage = "url(images/a03.jpg)"
+    }
+    else { document.getElementById("img").style.backgroundImage = "url(images/a01.jpg)" }
+
+    // 이벤트 실행문
+    // document.getElementById("b01").addEventListener("click", function(){
+    //   alert("버튼 클릭")
+    // });
+
+    function btn01() { alert("버튼 클릭") }; // window를 대상으로 함수 지정할 때는 아래의 방식 사용 불가      
+  </script>
+</body>
+
+</html>

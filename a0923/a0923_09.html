@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    #wrap {
+      width: 800px;
+      height: 3000px;
+      font-size: 30px;
+      text-align: center;
+      background: url(images/img_main_slide_20240612_2_pc.jpg);
+    }
+
+    #txt {
+      position: fixed;
+      width: 200px;
+      height: 100px;
+    }
+  </style>
+  <script>
+
+    //onclick, onchange, onfocus, onscroll... 이벤트
+    // scrollTo, scrollY, scrollX
+    window.addEventListener('scroll', function () {
+      console.log("스크롤 이동합니다.");
+      document.getElementById("txt").innerText = window.scrollX;
+      if (window.scrollY > 2000) {
+        document.getElementById("wrap").style.backgroundImage = "url('images/nw01.jpg')"
+      } else { document.getElementById("wrap").style.backgroundImage = "url(images/img_main_slide_20240612_2_pc.jpg)" }
+    });
+
+    function firstBtn() {
+      window.scrollY = 0;
+      window.scrollTo({ top: 0, behavior: smooth })
+    }
+
+
+  </script>
+</head>
+
+<body>
+  <div id="wrap">
+    <button type="button" onclick="firstBtn()">처음으로 가기</button>
+    <div id=" txt">0</div>
+  </div>
+</body>
+
+</html>
