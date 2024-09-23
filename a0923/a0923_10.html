@@ -60,29 +60,29 @@
 
     window.addEventListener('scroll', function () {
       document.getElementById("txt").innerText = window.scrollY;
+      if (window.scrollY > 1000) {
+        document.getElementById("img").style.backgroundImage = "url(images/a02.jpg)";
+      }
+      else if (window.scrollY > 500) {
+        document.getElementById("img").style.backgroundImage = "url(images/a03.jpg)";
+      }
+      else {
+        document.getElementById("img").style.backgroundImage = "url(images/a01.jpg)";
+      };
     });
 
     b01.addEventListener('click', function () {
       window.scrollTo({ top: 500, behavior: "smooth" });
-      document.getElementById("txt").style.background = "orange";
     });
     b02.addEventListener('click', function () {
       window.scrollTo({ top: 1000, behavior: "smooth" });
-      document.getElementById("txt").style.background = "green";
     });
 
     b03.addEventListener('click', function () {
       window.scrollTo({ top: 2000, behavior: "smooth" });
-      document.getElementById("txt").style.background = "cyan";
     });
 
-    if (window.scrollY > 1000) {
-      document.getElementById("img").style.backgroundImage = "url(images/a02.jpg)"
-    }
-    else if (window.scrollY > 500) {
-      document.getElementById("img").style.backgroundImage = "url(images/a03.jpg)"
-    }
-    else { document.getElementById("img").style.backgroundImage = "url(images/a01.jpg)" }
+    
 
     // 이벤트 실행문
     // document.getElementById("b01").addEventListener("click", function(){
