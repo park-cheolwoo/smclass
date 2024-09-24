@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    //함수선언
+    function a_input() {
+      console.log(1);
+      console.log(2);
+      b_input(); //함수호출
+    };
+
+    //함수선언
+    function b_input() {
+      document.write("안녕하세요.")
+    };
+
+    //함수선언
+    function calc(a, b, c) {
+      return (a+b+c) //return 함수 : 계산 결과를 함수 호출위치(data)에 되돌려줌
+
+    };
+    //함수선언
+    function send_txt() {
+      var num1 = Number(document.querySelector("#txt1").value);
+      var num2 = Number(document.querySelector("#txt2").value);
+      var num3 = Number(document.querySelector("#txt3").value);
+
+      var data = calc(num1,num2,num3);
+      document.querySelector("#c1").innerText = data;
+    };
+  </script>
+  <button onclick="a_input()">함수호출</button>
+  <br />
+  <div id="c1"></div>
+  <input type="text" id="txt1"><br/>  
+  <input type="text" id="txt2"><br/>  
+  <input type="text" id="txt3"><br/>  
+  <button onclick="send_txt()">계산</button>
+</body>
+
+</html>

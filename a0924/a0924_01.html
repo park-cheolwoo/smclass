@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+    function conBtn() {
+      alert("버튼 클릭");
+
+      //querySelector - id,class 태그 둘 다 가능
+      // document.querySelector("#d01").innerText = "안녕하세요.";
+      console.log(document.querySelectorAll(".con"));
+      // document.querySelector(".con").style.color = "blue"; //1개일 때
+      var c_color = document.querySelectorAll(".con");
+      for(var i=0;i<c_color.length;i++){
+        c_color[i].style.color = "blue";
+      }
+
+      document.querySelector("h2").style.color = "red";
+
+      // id의 경우 #, class의 경우 ., 태그의 경우 그대로 작성
+
+
+
+
+
+      // getElementById vs getElement "s" ByClassName
+
+      // getElementById
+      // document.getElementById("con").innerText = "안녕하세요.";
+
+      // getElementsByClassName
+      // getElementById("con").innerText : 텍스트로 인식하여 텍스트만 변경
+      // getElementById("con").innerHTML : HTML 태그로 작성하면 HTML 태그 자체로 삽입/변경
+      // console.log(document.getElementsByClassName("con"));
+
+      // var c_color = document.getElementsByClassName("con");
+      // console.log(c_color);
+      // for (var i = 0; i < c_color.length; i++) {
+      //   c_color[i].style.color = "red";
+      // }
+      // style.속성 = "속성값"
+    }
+
+  </script>
+
+</head>
+
+<body>
+  <h1 class="con">제목</h1>
+  <h2 id="d01">부제목</h2>
+  <div class="con">내용을 입력합니다.</div>
+  <p class="con">좋은하루되세요</p>
+  <button onclick="conBtn()">글자변경</button>
+</body>
+
+</html>
