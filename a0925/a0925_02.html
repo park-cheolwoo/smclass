@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src=http://code.jquery.com/jquery-latest.min.js></script>
+  <title>Document</title>
+  <script>
+    // 제이쿼리 구문
+    $(function () {
+      $(".btn2").click(function () {
+        $(".box").stop();
+        $(".box").slideUp(1000, "linear"); //슬라이드 닫힘
+        // $(".box").fadeOut(1000, "swing"); //슬라이드 닫힘
+      })
+      $(".btn1").click(function () {
+        $(".box").stop();
+        $(".box").slideDown(1000, "linear");
+      }); //슬라이드 열림
+      // $(".box").fadeIn(1000, "swing"); //슬라이드 열림
+
+      $(".btn3").on("click", function () {
+        $(".box").stop();
+        $(".box").fadeIn(1000, "swing", function () {
+        }); //페이드 인
+      });
+
+      $(".btn4").on("click", function () {
+        $(".box").stop();
+        $(".box").slideToggle(1000, "linear"); //토글
+      });
+    });
+    // 제이쿼리 구문
+  </script>
+  <style>
+    .content {
+      width: 400px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+  <button class="btn1">슬라이드열침</button>
+  <button class="btn2">슬라이드닫힘</button>
+  <button class="btn3">페이드 in</button>
+  <button class="btn4">toggle</button>
+  <br />
+  <div class="box">
+    <div class="content">
+      백종원 더본코리아 대표가 운영하는 카페 브랜드 빽다방의 음료에 과자의 비닐봉지가 갈려 들어가 이를 먹은 고객들이 복통을 앓으며 병원 신세를 지게됐다.<br />
+      25일 연합뉴스 보도에 따르면 전북 익산에 사는 A씨는 지난 7일 낮 주말을 맞아 16살 딸, 12살 아들을 데리고 군산 쪽으로 놀러 가면서 빽다방에서 쿠키크런치빽스치노 등 3잔의 음료를 주문해 마셨다.
+    </div>
+  </div>
+
+</body>
+
+</html>
