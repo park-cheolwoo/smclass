@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <script>
+    $(function () {
+      $("#dataBtn").click(function () {
+        alert("데이터 로딩중...");
+        $.ajax({
+          url: "js/stuData.json",
+          type: "get",
+          data: "",
+          datatype: "json",
+          success: function (data) {
+            console.log(data);
+            var h_data = ""
+            for (var i = 0; i < data.length; i++) {
+              var h_sum = (Number(data[i].kor) + Number(data[i].eng) + Number(data[i].math));
+              var h_avg = (h_sum / 3).toFixed(2);
+
+              h_data += `<tr id="${i}">`
+              h_data += `<td>${data[i].id}</td>`
+              h_data += `<td>${data[i].name}</td>`
+              h_data += `<td>${data[i].kor}</td>`
+              h_data += `<td>${data[i].eng}</td>`
+              h_data += `<td>${data[i].math}</td>`
+              h_data += `<td>${h_sum}</td>`
+              h_data += `<td>${h_avg}</td>`
+              h_data += `<td><button class="delBtn">삭제</button></td>`
+              h_data += `</tr>`
+            }//for
+            $("#tbody").html(h_data);
+          },//success
+          error: function () {
+            alert("에러 발생");
+            console.log("에러 발생");
+          }//error
+        });//ajax선언
+      });//클릭함수
+
+      $(document).on("click", ".delBtn", function () {
+        var delId = $(this).closest("tr").attr("id");
+        $("#" + delId).remove();
+
+      });//삭제클릭
+
+    });//제이쿼리
+
+  </script>
+
+  <style>
+    h1 {
+      text-align: center;
+    }
+
+    table,
+    th,
+    td {
+      border-collapse: collapse;
+      border: 1px solid black;
+    }
+
+    table {
+      width: 80%;
+      margin: 0 auto;
+    }
+
+    th,
+    td {
+      width: 150px;
+      height: 40px;
+      text-align: center;
+    }
+
+    th:nth-child(2) {
+      width: 500px;
+    }
+
+    div {
+      width: 600px;
+      margin: 30px auto;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>게시판</h1>
+  <button id="dataBtn">데이터 가져오기</button>
+  <form>
+    <label>이름</label>
+    <input type="text" name="name" id="name">이름</input>
+    <label>국어</label>
+    <input type="text" name="kor" id="kor">국어</input>
+    <label>영어</label>
+    <input type="text" name="eng" id="eng">영어</input>
+    <label>수학</label>
+    <input type="text" name="math" id="math">수학</input>
+
+
+  </form>
+  <table>
+    <thead>
+      <tr>
+        <th>번호</th>
+        <th>이름</th>
+        <th>국어</th>
+        <th>영어</th>
+        <th>수학</th>
+        <th>합계</th>
+        <th>평균</th>
+        <th>삭제</th>
+      </tr>
+    </thead>
+    <tbody id="tbody">
+
+    </tbody>
+  </table>
+</body>
+
+</html>
