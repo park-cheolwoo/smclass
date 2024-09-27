@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <title>Document</title>
+  <script>
+    //제이쿼리
+    var id = $("#id").val()
+    var number = $("#number").val()
+    $(function () {
+      $("#membership").click(function () {
+
+        //3자리 영문자 체크 - 정규표현식
+        
+
+
+
+
+
+        // //3글자가 모두 영문자인지 체크
+        // let count = 0;
+        // let eng = $("#eng").val();
+        // for (let i = 0; i < $("#eng").val().length; i++) {
+        //   if (!(eng[i] >= 'a' && eng[i] <= 'z')) {
+        //     count++;
+        //   }
+        //   if (count > 0) {
+        //     alert("영문자가 아닙니다.")
+        //     return false;
+        //   }
+        // }
+
+
+
+
+        // //4자리 이상 숫자가 아니면 에러(4자리 이상 숫자를 입력하셔야 합니다.)
+        // if(isNaN($("#number").val())||($("#number").val().length<4))
+        // {alert("4자리 이상 숫자를 입력하셔야 합니다.") }
+
+
+        // // //번호가 숫자인지 체크 - 자바스크립트
+        // if(isNaN($("#number").val())){
+        //   alert("숫자만 입력이 가능합니다.");
+        // }
+
+
+        // //번호가 숫자인지 체크 - 제이쿼리
+        // if($.isNumeric($("#number").val())){
+        //   alert("숫자입니다.")
+        // } else{
+        //   alert("숫자만 입력이 가능합니다.")
+        //   return false;
+        // }
+
+        // //공백 체크
+        // if (id == "") {
+        //   alert("데이터를 입력하셔야합니다.");
+        //   return false;
+        //   //아이디 3자리 이상 체크
+        // } else if (id.length < 3) {
+        //   alert("아이디는 3자리 이상 입력하셔야합니다.");
+        //   return false;
+        // }
+      });//확인 버튼
+
+    });//제이쿼리
+  </script>
+</head>
+
+<body>
+  <h1>회원가입</h1>
+  <form action="#" name="frm" method="post">
+    <label>아이디</label>
+    <input type="text" name="id" id="id"><br />
+    <label>번호</label>
+    <input type="text" name="number" id="number"><br />
+    <label>영문자 1개 입력</label>
+    <input type="text" name="eng" id="eng">
+    <button type="button" id="membership">확인</button>
+  </form>
+</body>
+
+</html>
