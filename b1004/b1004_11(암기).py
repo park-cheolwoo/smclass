@@ -4,7 +4,6 @@ s_title = ["번호", "이름", "국어", "영어", "수학", "합계", "평균",
 
 
 while True:
-    count = 0
     print("[ 학생 성적 프로그램 ]")
     print("-" * 60)
     print("1. 학생 성적 입력")
@@ -17,8 +16,7 @@ while True:
     print("-" * 60)
     choice = input("원하는 번호를 입력하세요.(종료 : 0)>>")
 
-
-# 여기서부터 시작
+    # 여기서부터 시작
 
     if choice == "0":
         print(" [ 프로그램 종료 ] ")
@@ -47,12 +45,13 @@ while True:
         print(" [ 학생 성적 출력 ] ")
         for s in s_title:
             print(s, end="\t")
-            print()
-            print("-" * 60)
+        print()
+        print("-" * 60)
         for s in students:
             print(f"{s[0]}\t{s[1]}\t{s[2]}\t{s[3]}\t{s[4]}\t{s[5]}\t{s[6]:.2f}\t{s[7]}")
 
     if choice == "3":
+        count = 0
         name = input("찾고자 하는 학생 이름을 입력하세요.")
         for s in students:
             if name == s[1]:
@@ -77,12 +76,13 @@ while True:
 
                 print("수정이 완료되었습니다.")
                 s[5] = s[2] + s[3] + s[4]
-                s[6] = total / 3
+                s[6] = s[5] / 3
                 count = 1
         if count == 0:
             print("찾고자 하는 학생 이름이 없습니다.")
 
     if choice == "4":
+        count = 0
         name = input("찾고자 하는 학생 이름을 입력하세요.")
         for s in students:
             if name == s[1]:
@@ -100,6 +100,7 @@ while True:
             print("찾고자 하는 학생 이름이 없습니다.")
 
     if choice == "5":
+        count = 0
         name = input("삭제시키고자 하는 학생 이름을 입력하세요.")
         for s in students:
             if name == s[1]:
