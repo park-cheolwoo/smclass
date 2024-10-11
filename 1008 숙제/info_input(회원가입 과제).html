@@ -9,6 +9,7 @@
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" type="text/css" href="css/board.css">
   <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <script src="js/info_input_sc.js"></script>
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
   <title>포레스트 리솜</title>
 </head>
@@ -58,7 +59,7 @@
 
   <!-- 우측 네비게이션 부분 -->
   <section>
-    <form name="agree" method="get" action="join03_success.html">
+    <form id=agree name="agree" method="get" action="join03_success.html">
       <div id="s_Banner"></div>
 
       <div id="locationN">
@@ -105,7 +106,7 @@
             <label>이름</label>
           </dt>
           <dd>
-            <input id="name" name="name" type="text"></input>
+            <input id="user" name="user" type="text"></input>
           </dd>
         </dl>
         <dl id="d_id">
@@ -156,11 +157,6 @@
               <option id=naver value="naver.com">네이버</option>
               <option id=daum value="daum.net">다음(한메일)</option>
             </select>
-            <script>
-              $("#e_select").change(function () {
-                $("#email2").val($("#e_select").val());
-              });
-            </script>
           </dd>
         </dl>
         <dl id="d_address">
@@ -198,36 +194,14 @@
           </dt>
           <dd>
             <select id="y_select">
-              <script>
-                $(function () {
-                  let year = new Date().getFullYear();
-                  for (var i = year; i >= year - 80; i--) {
-                    $(y_select).append(`<option value="${i}">${i}</option>`)
-                  }
-                })
-              </script>
             </select>
             <span>년</span>
             </select>
             <select id="m_select">
-              <script>
-                $(function () {
-                  for (var i = 1; i <= 12; i++) {
-                    $(m_select).append(`<option value="${i}">${i}</option>`)
-                  }
-                })
-              </script>
             </select>
             <span>월</span>
             </select>
             <select id="d_select">
-              <script>
-                $(function () {
-                  for (var i = 1; i <= 31; i++) {
-                    $(d_select).append(`<option value="${i}">${i}</option>`)
-                  }
-                })
-              </script>
             </select>
             <span>일</span>
             </select>
@@ -412,7 +386,7 @@
       </div>
   </section>
 
-  
+
   <footer>
     <div id="footer_wrap">
       <div id="footer_cont">
