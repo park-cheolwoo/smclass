@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css"
+    integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" type="text/css" href="css/board.css">
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <title>포레스트 리솜</title>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <a href="/"><img src="images/img_logo_re_forest.png"></a>
+      </div>
+      <div class="nav_wrap">
+        <div class="quick_menu">
+          <ul>
+            <li><a href="#">회원예약</a></li>
+            <li><a href="#">패키지 예약</a></li>
+            <li><a href="#">부대시설 예약</a></li>
+            <li><a href="#">회원가입</a></li>
+            <li><a href="#">로그인</a></li>
+          </ul>
+        </div>
+        <script>
+          function m_over() {
+            document.querySelector(".navibg").style.display = 'block';
+          }
+
+          function m_leave() {
+            document.querySelector(".navibg").style.display = 'none';
+          }
+        </script>
+        <div class="menu" onmouseover="m_over()" onmouseleave="m_leave()">
+          <ul>
+            <li><a href="#">포레스트</a></li>
+            <li><a href="#">스파&찜질방</a></li>
+            <li><a href="#">객실</a></li>
+            <li><a href="#">특별한 경험</a></li>
+            <li><a href="#">세미나 & 연회</a></li>
+            <li><a href="#">브랜드소개</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <!-- * 하부메뉴부분 들어감 -->
+  <div class="navibg"></div>
+  <!-- 서브페이지 배너 부분 -->
+  <div class="sub_banner"></div>
+
+  <!-- 우측 네비게이션 부분 -->
+  <section>
+    <form name="agree" method="get" action="join03_success.html">
+      <div id="s_Banner"></div>
+
+      <div id="locationN">
+        <ul>
+          <li>HOME</li>
+          <li>회원가입</li>
+          <li>회원정보입력</li>
+        </ul>
+      </div>
+
+      <!-- 중앙 STEP부분 -->
+      <div id="sub_top_area">
+        <h3>회원가입</h3>
+      </div>
+
+      <div id="join_step_wrap">
+        <ul>
+          <li>
+            <span>STEP.1</span>
+            <p>약관동의</p>
+          </li>
+          <li>
+            <span>STEP.2</span>
+            <p>회원정보</p>
+          </li>
+          <li>
+            <span>STEP.3</span>
+            <p>회원가입완료</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="s_title">
+        <h4>필수 정보 입력
+          <span>(* 항목은 필수 항목입니다.)</span>
+        </h4>
+      </div>
+
+      <!-- 필수 정보 입력 -->
+      <fieldset class="fieldset">
+        <dl id="d_name">
+          <dt>
+            <div></div>
+            <label>이름</label>
+          </dt>
+          <dd>
+            <input id="name" name="name" type="text"></input>
+          </dd>
+        </dl>
+        <dl id="d_id">
+          <dt>
+            <div></div>
+            <label>아이디</label>
+          </dt>
+          <dd>
+            <input id="id" name="id" type="text"></input>
+            <button type="button" id="id_chk">중복확인</button><br />
+            <span>4~16자리의 영문, 숫자, 특수기호(_)만 사용하실 수 있습니다.<br />
+              첫 글자는 영문으로 입력해 주세요.</span>
+          </dd>
+        </dl>
+        <dl id="d_pw">
+          <dt>
+            <div></div>
+            <label>비밀번호</label>
+          </dt>
+          <dd>
+            <input id="pw" name="pw" type="password"></input><br />
+            <span>영문, 숫자, 특수문자 중 2종류 조합 시 10자리 이상 입력<br />
+              영문, 숫자, 특수문자 모두 조합 시 8자리 이상 입력</span>
+          </dd>
+        </dl>
+        <dl id="d_pwchk">
+          <dt>
+            <div></div>
+            <label>비밀번호 확인</label>
+          </dt>
+          <dd>
+            <input id="pw_check" name="pw_check" type="password"></input><br />
+            <span></span>
+          </dd>
+        </dl>
+        <dl id="d_email">
+          <dt>
+            <div></div>
+            <label>이메일</label>
+          </dt>
+          <dd>
+            <input id="email1" name="email1" type="text"></input>
+            <span>@</span>
+            <input id="email2" name="email2" type="text"></input>
+            <select name="e_select" id="e_select">
+              <option id=email_select value="">직접입력</option>
+              <option id=gmail value="gmail.com">지메일</option>
+              <option id=naver value="naver.com">네이버</option>
+              <option id=daum value="daum.net">다음(한메일)</option>
+            </select>
+            <script>
+              $("#e_select").change(function () {
+                $("#email2").val($("#e_select").val());
+              });
+            </script>
+          </dd>
+        </dl>
+        <dl id="d_address">
+          <dt>
+            <div></div>
+            <label>주소</label>
+          </dt>
+          <dd>
+            <input id="f_postal" name="f_postal" type="text"></input>
+            <span>-</span>
+            <input id="l_postal" name="l_postal" type="text"></input>
+            <button type="button" id="post_search">우편번호</button>
+            <br />
+            <input id="address1" name="address1" type="text"></input>
+            <input id="address2" name="address2" type="text"></input>
+          </dd>
+        </dl>
+        <dl id="d_phone">
+          <dt>
+            <div></div>
+            <label>휴대전화</label>
+          </dt>
+          <dd>
+            <input id="phone1" name="phone1" type="text"></input>
+            <span>-</span>
+            <input id="phone2" name="phone2" type="text"></input>
+            <span>-</span>
+            <input id="phone3" name="phone3" type="text"></input>
+          </dd>
+        </dl>
+        <dl id="d_calender">
+          <dt>
+            <div></div>
+            <label>생년월일</label>
+          </dt>
+          <dd>
+            <select id="y_select">
+              <script>
+                $(function () {
+                  let year = new Date().getFullYear();
+                  for (var i = year; i >= year - 80; i--) {
+                    $(y_select).append(`<option value="${i}">${i}</option>`)
+                  }
+                })
+              </script>
+            </select>
+            <span>년</span>
+            </select>
+            <select id="m_select">
+              <script>
+                $(function () {
+                  for (var i = 1; i <= 12; i++) {
+                    $(m_select).append(`<option value="${i}">${i}</option>`)
+                  }
+                })
+              </script>
+            </select>
+            <span>월</span>
+            </select>
+            <select id="d_select">
+              <script>
+                $(function () {
+                  for (var i = 1; i <= 31; i++) {
+                    $(d_select).append(`<option value="${i}">${i}</option>`)
+                  }
+                })
+              </script>
+            </select>
+            <span>일</span>
+            </select>
+            <br />
+            <div>
+              <input type="radio" name="calender" id="solar" value="solar"></selcet>
+              <label for="solar">양력</label>
+              <input type="radio" name="calender" id="lunar" value="lunar"></selcet>
+              <label for="lunar">음력</label>
+            </div>
+          </dd>
+        </dl>
+        <dl id="d_gender">
+          <dt>
+            <div></div>
+            <label id="gender">성별</label>
+          </dt>
+          <dd>
+            <div>
+              <input type="radio" name="gender" value="male"></input>
+              <label for="male">남성</label>
+              <input type="radio" name="gender" value="female"></input>
+              <label for="female">여성</label>
+            </div>
+          </dd>
+        </dl>
+        <dl id="d_news">
+          <dt>
+            <div></div>
+            <label id="news" name="news">뉴스레터 수신여부</label>
+          </dt>
+          <dd>
+            <div>
+              <span>이메일을 통한 상품 및 이벤트 정보 수신에 동의합니다.</span>
+              <input type="radio" name="news" id="n_yes"></input>
+              <label for="n_yes">예</label>
+              <input type="radio" name="news" id="n_no"></input>
+              <label for="n_no">아니오</label>
+            </div>
+          </dd>
+        </dl>
+        <dl id="d_sms">
+          <dt>
+            <div></div>
+            <label id="sms" name="sms">SMS 수신여부</label>
+          </dt>
+          <dd>
+            <div>
+              <span>이메일을 통한 상품 및 이벤트 정보 수신에 동의합니다.</span>
+              <input type="radio" name="sms" id="s_yes"></input>
+              <label for="s_yes">예</label>
+              <input type="radio" name="sms" id="s_no"></input>
+              <label for="n_no">아니오</label>
+            </div>
+          </dd>
+        </dl>
+      </fieldset>
+
+      <div class="s_title">
+        <h4>분양 회원 정보 입력
+          <span>(다구좌 회원일 경우 가지고 계신 카드번호 중 하나를 입력해 주시면 됩니다)</span>
+        </h4>
+        <br />
+      </div>
+
+      <!-- 분양 회원 정보 입력 -->
+      <fieldset class="fieldset">
+        <dl id="d_mem">
+          <dt>
+            <label>회원번호</label>
+          </dt>
+          <dd>
+            <input type="text" id="mem_num" name="mem_num"></input>
+            <span>하이픈(-)이나 띄어쓰기 없이 입력해 주시기 바랍니다.</span>
+          </dd>
+        </dl>
+        <dl id="d_memchk">
+          <dt>
+            <label>회원인증번호</label>
+          </dt>
+          <dd>
+            <input type="text" id="mem_check" name="mem_check"></input>
+            <span>숫자 4자리 입력</span>
+          </dd>
+        </dl>
+      </fieldset>
+      <!-- 선택 정보 입력 -->
+      <div class="s_title">
+        <h4>선택 정보 입력</h4><br />
+      </div>
+
+      <fieldset class="fieldset">
+        <dl id="d_job">
+          <dt>
+            <label id="job" name="job">직업</label>
+          </dt>
+          <dd>
+            <select>
+              <option value="">선택</option>
+              <option value="officer">회사원</option>
+              <option value="business_man">자영업</option>
+              <option value="freelancer">프리랜서</option>
+              <option value="housewife">전업주부</option>
+              <option value="student">학생</option>
+              <option value="etc">기타</option>
+            </select>
+          </dd>
+        </dl>
+        <dl id="d_marriage">
+
+          <dt>
+            <label id="marriage" name="marriage">결혼여부</label>
+          </dt>
+          <dd>
+            <input type="radio" name="marriage" value="married"></input>
+            <label for="married">예</label>
+            <input type="radio" name="marriage" value="non_married"></input>
+            <label for="non_married">아니오</label>
+          </dd>
+        </dl>
+        <dl id="d_hobby">
+
+          <dt>
+            <label id="hobby" name="hobby">관심사</label>
+          </dt>
+          <dd>
+            <li>
+              <input type="checkbox" name="hobby" id="computer" value="computer"></input>
+              <label for="computer">컴퓨터/인터넷</label>
+            </li>
+            <li>
+              <input type="checkbox" name="hobby" id="movie" value="movie"></input>
+              <label for="movie">영화/비디오</label>
+            </li>
+            <li>
+              <input type="checkbox" name="hobby" id="music" value="music"></input>
+              <label for="music">음악</label>
+            </li>
+            <li>
+              <input type="checkbox" name="hobby" id="shopping" value="shopping"></input>
+              <label for="shopping">쇼핑</label>
+            </li>
+            <li>
+              <input type="checkbox" name="hobby" id="game" value="game"></input>
+              <label for="game">게임</label>
+            </li>
+            <li>
+              <input type="checkbox" name="hobby" id="art" value="art"></input>
+              <label for="art">문화/예술</label><br />
+            </li>
+            <li>
+              <input type="checkbox" name="hobby" id="kids" value="kids"></input>
+              <label for="kids">육아/아동</label>
+            </li>
+            <li>
+              <input type="checkbox" name="hobby" id="cook" value="cook"></input>
+              <label for="cook">요리</label>
+            </li>
+            <li>
+              <input type="checkbox" name="hobby" id="interier" value="interier"></input>
+              <label for="interier">인테리어</label>
+            </li>
+            <li>
+              <input type="checkbox" name="hobby" id="leisure" value="leisure">레저</input>
+              <label for="leisure">레저</label>
+            </li>
+            <li>
+              <input type="checkbox" name="hobby" id="health" value="health"></input>
+              <label for="health">건강/다이어트</label>
+            </li>
+            <li>
+              <input type="checkbox" name="hobby" id="fassion" value="fassion"></input>
+              <label for="fassion">패션/미용</label>
+            </li>
+          </dd>
+        </dl>
+      </fieldset>
+      <br />
+      <div id="but_wrap">
+        <button type="button" id="clear">취소하기</button>
+        <button type="button" id="submit">가입하기</button>
+      </div>
+  </section>
+
+  
+  <footer>
+    <div id="footer_wrap">
+      <div id="footer_cont">
+        <div id="fl_l">
+          <a href="#"></a>
+          <p>© COOKIT ALL RIGHTS RESERVED</p>
+        </div>
+        <div id="fl_c">
+          <ul>
+            <li><a href="#">이용약관</a></li>
+            <li><a href="#">개인정보처리 방침</a></li>
+            <li><a href="#">법적고지</a></li>
+            <li><a href="#">사업자정보 확인</a></li>
+          </ul>
+          <div id="fl_c_info">
+            <p>씨제이제일제당(주)</p>
+            <p>대표이사 : 손경식,강신호,신현재</p>
+            <p>사업자등록번호 : 104-86-09535</p>
+            <p>주소 : 서울 중구 동호로 330 CJ제일제당 센터 (우) 04560</p>
+            <p>통신판매업신고 중구 제 07767호</p>
+            <p>개인정보보호책임자 : 조영민</p>
+            <p>이메일 : cjon@cj.net</p>
+            <p>호스팅제공자 : CJ올리브네트웍스㈜</p>
+            <p>고객님은 안전거래를 위해 현금등으로 결제시 LG U+ 전자 결제의 매매보호(에스크로) 서비스를 이용하실 수 있습니다. <a href="#">가입 사실 확인</a></p>
+          </div>
+        </div>
+        <div id="fl_r">
+          <span>cj그룹계열사 바로가기 ▼</span>
+          <dl>
+            <dt>고객행복센터</dt>
+            <dd>1688-1920</dd>
+          </dl>
+          <a href="#">1:1문의</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>
