@@ -600,7 +600,7 @@ dd span {
 
 #d_id dt,
 #d_id dd {
-  height: 93px;
+  height: 95px;
 }
 
 #d_id input {
@@ -617,11 +617,6 @@ dd span {
   color: #fff;
   font-weight: 700;
   font-size: 12px;
-}
-
-#d_id dd span {
-  display: block;
-  margin-top: 5px;
 }
 
 /* 비밀번호 */
@@ -642,6 +637,7 @@ dd span {
 #d_pw dd input {
   width: 276px;
 }
+
 
 /* 비밀번호 확인 */
 #d_pwchk dt,
