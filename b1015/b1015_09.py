@@ -1,3 +1,24 @@
+#4*3*2*1
+
+result = 1
+for i in range(1,5):
+  result *=i
+
+
+
+
+# 퀴즈
+# a = [1, 2, 3, 4, 5]
+# # a 리스트에 전부 10을 더해서 출력하시오.
+# # 리스트내포, map 람다식 사용
+# # 1. 리스트 내포
+# a_add = [i + 10 for i in a]
+# print(a_add)
+# # 2. 람다식
+# a_add = list(map(lambda x: x + 10, a))
+# print(a_add)
+
+
 # [ 문제 ]
 # a = [1, 2, 3, 4]
 # b = [10, 20, 30, 40]
