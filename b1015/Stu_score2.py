@@ -15,21 +15,23 @@ rank = 0  # 성적처리변수
 # ----------------------------------------------------------------
 
 # 프로그램 시작
-choice = title_program()
-if choice == "1":
-    stuNo = stu_input(stuNo, students)
-elif choice == "2":
-    stu_output(students)
-elif choice == "3":
-    stu_update(students)
-elif choice == "4":
-    stu_search(students)
-elif choice == "5":
-    stu_delete(students)
-elif choice == "6":
-    stu_rank(students)
-elif choice == "7":
-    stu_sort(students)
-elif choice == "0":
-    print("프로그램을 종료합니다.")
+while True:
+    choice = title_program()
+    if choice == "1":
+        stuNo = stu_input(stuNo)
+    elif choice == "2":
+        stu_output(students)
+    elif choice == "3":
+        stu_update()
+    elif choice == "4":
+        stu_search()
+    elif choice == "5":
+        stu_delete()
+    elif choice == "6":
+        stu_rank()
+    elif choice == "7":
+        stu_sort()
+    elif choice == "0":
+        print("프로그램을 종료합니다.")
+        break
 # ----------------------------------------------------------------

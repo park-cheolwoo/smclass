@@ -1,56 +1,20 @@
 # 학생 성적 프로그램 변수
-students = [
-    {
-        "no": 1,
-        "name": "홍길동",
-        "kor": 100,
-        "eng": 100,
-        "math": 99,
-        "total": 299,
-        "avg": 99.67,
-        "rank": 0,
-    },
-    {
-        "no": 2,
-        "name": "유관순",
-        "kor": 80,
-        "eng": 80,
-        "math": 85,
-        "total": 245,
-        "avg": 81.67,
-        "rank": 0,
-    },
-    {
-        "no": 3,
-        "name": "이순신",
-        "kor": 90,
-        "eng": 90,
-        "math": 91,
-        "total": 271,
-        "avg": 90.33,
-        "rank": 0,
-    },
-    {
-        "no": 4,
-        "name": "강감찬",
-        "kor": 60,
-        "eng": 65,
-        "math": 67,
-        "total": 192,
-        "avg": 64.00,
-        "rank": 0,
-    },
-    {
-        "no": 5,
-        "name": "김구",
-        "kor": 100,
-        "eng": 100,
-        "math": 84,
-        "total": 284,
-        "avg": 94.67,
-        "rank": 0,
-    },
-]
+students = []
+f = open('students.txt','r',encoding='utf-8')
+s_keys = ["no","name","kor","eng","math","total","avg","rank"]
+while True:
+    line = f.readline()
+    if not line :break
+    s = line.strip().split(",")
+    s[0] = int(s[0])
+    s[2] = int(s[2])
+    s[3] = int(s[3])
+    s[4] = int(s[4])
+    s[5] = int(s[5])
+    s[6] = float(s[6])
+    s[7] = int(s[7])
+    students.append(dict(zip(s_keys,s))) 
+f.close()
 s_title = ["번호", "이름", "국어", "영어", "수학", "합계", "평균", "등수"]  # 전역변수
 stuNo = len(students)  # 리스트에 학생이 있으면, 그 인원으로 변경
 choice = 0  # 전역변수
@@ -77,7 +41,7 @@ def title_program():
 
 # ---------------------------------------------------------------------
 # 학생 성적 입력 함수 시작
-def stu_input():
+def stu_input(stuNo):
     while True:
         print(" [ 학생성적입력 ] ")
         # 학생성적 직접입력
@@ -111,7 +75,7 @@ def stu_input():
 
 # ------------------------------------------------
 # 학생 성적 출력 함수 시작
-def stu_output():
+def stu_output(students):
     print(" [ 학생성적출력 ] ")
     print()
     # 상단 출력
@@ -184,7 +148,7 @@ def stu_search():
 
 # ----------------------------------------------------------------
 # 학생 성적 삭제 함수
-def stu_delete(students):
+def stu_delete():
     flag = 0
     name = input("찾고자 하는 학생 이름을 입력하세요. >> ")
     sArr = []
@@ -207,7 +171,7 @@ def stu_delete(students):
 
 # ----------------------------------------------------------------
 # 등수 처리 함수
-def stu_rank(students):
+def stu_rank():
     for s in students:
         count = 1
         for t in students:
@@ -220,7 +184,7 @@ def stu_rank(students):
 
 # ----------------------------------------------------------------
 # 학생 정렬 함수
-def stu_sort(students):
+def stu_sort():
     while True:
         print(" [ 학생 정렬 ] ")
         print("1. 학생 이름순 정렬")
