@@ -98,7 +98,9 @@ def buy_save():
 
 ########## 프로그램 시작 ##############
 while True:
-    print(" [ 로그인 화면 ] ")
+    print(" [ 메인 화면 ] ")
+    print("1. 회원 로그인")
+    print("2. 회원가입")
     input_id = input("아이디를 입력하세요.")
     input_pw = input("패스워드를 입력하세요.")
 

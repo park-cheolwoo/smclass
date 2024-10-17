@@ -1,6 +1,7 @@
 import datetime
 # 전역변수 설정
 member = []
+mem_keys = ["id", "pw", "name", "nicName", "address", "money"]
 product = [
     {"pNo": 1, "pCode": "t001", "pName": "삼성TV", "price": 2000000, "color": "black"},
     {
@@ -20,6 +21,7 @@ product = [
     {"pNo": 4, "pCode": "w001", "pName": "세탁기", "price": 1000000, "color": "yellow"},
 ]
 cart = []
+c_keys = ["cNo", "name", "pCode", "pName", "price", "date"]
 session_info = {}
 flag = 0
 now = datetime.datetime.now()
@@ -30,7 +32,6 @@ cNo = len(cart)
 # 초기 member 읽기
 def mem_read():
     f = open("member.txt", "r", encoding="utf-8")
-    mem_keys = ["id", "pw", "name", "nicName", "address", "money"]
     while True:
         line = f.readline()
         if not line:
@@ -43,7 +44,6 @@ def mem_read():
 # 초기 cart 읽기
 def cart_read():
     ff = open("cart.txt", "r", encoding="utf-8")
-    c_keys = ["cNo", "name", "pCode", "pName", "price", "date"]
     while True:
         line2 = ff.readline()
         if not line2:
@@ -65,7 +65,6 @@ def login():
       for s in member:
           if user_id == s["id"] and user_pw == s["pw"]:
               session_info = s
-              print(session_info)
               flag = 1
               print(f"SM SHOP에 오신 것을 환영합니다 {s['nicName']} 님")
               break
@@ -77,7 +76,7 @@ def login():
 # ---------------------------------------------------------
 # 구매하기 함수
 def buy_pro(cNo):
-    print(f"{product[choice-1]['pName']} 을 구매하셨습니다.")
+    session_info["money"] -= product[choice - 1]["price"]
     cNo += 1
     cart.append(
         {
@@ -89,7 +88,7 @@ def buy_pro(cNo):
             "date": today,
         }
     )
-    session_info["money"] -= product[choice - 1]["price"]
+    print(f"{product[choice-1]['pName']} 을 구매하셨습니다.")
     return cNo
 # -----------------------------------------------------------------
 # 구매내역 저장 함수
@@ -98,11 +97,16 @@ def cart_write():
     for s in cart:
         ff.write(f"{s[0]},{s[1]},{s[2]},{s[3]},{s[4]},{s[5]},{s[6]}")
     ff.close()
+    print(" 구매내역 저장이 완료되었습니다. ")
 # ------------------------------------------------------------------
+# 구매내역 확인 함수
+def cart_output():
+    pass
+
+
+
 
 # 프로그램 시작
-
-
 mem_read()
 cart_read()
 session_info = login()
