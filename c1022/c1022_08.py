@@ -22,7 +22,7 @@ pro_lists = []
 for i in range(0,11+1):
     if not os.path.exists("c1022/coopang"):
         os.makedirs("c1022/coopang")
-    with open(f"c1022/coopang/{i}.jpg",'wb') as f:
+    # with open(f"c1022/coopang/{i+1}.jpg",'wb') as f:
         pro_list = []
         product_link = product_lists2[i].select_one("a")['href']
         product_name = product_lists[i].select_one("div.name").text  # 상품명
@@ -30,7 +30,7 @@ for i in range(0,11+1):
         product_star = product_lists[i].select_one("em.rating") # 평점
         if not product_star:
             product_star = "none"
-        else:product_star = int(product_star.text)
+        else:product_star = float(product_star.text)
         product_count = product_lists[i].select_one("span.rating-total-count") #괄호를 없애는 태그 # 평가수
         if not product_count:
             product_count = "none"
