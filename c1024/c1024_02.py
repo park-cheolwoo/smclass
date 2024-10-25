@@ -39,5 +39,4 @@ for i in range(3):
     browser.quit()
 
 for j in range(3):
-    with open(f"c1024/gmarket/g{j+1}.html",'r',encoding='utf8') as f:
-        
+    # with open(f"c1024/gmarket/g{j+1}.html",'r',encoding='utf8') as f:
