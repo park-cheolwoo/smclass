@@ -1,0 +1,65 @@
+# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: 최신 뉴스 모음
+
+# 어떤 조건일 때, 시점으로 실행시킬지 정의
+# 특정시간이 될 때마다 실행
+
+on:
+  # cron표현식 사용
+  #  참조사이트 : https://crontab.guru/
+  # - cron : "0 9 * * *"
+  
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    # 서버 실행 공간 - 깃허브 우분투를 환경 사용
+    runs-on: ubuntu-latest
+
+    # 파일 저장 권한 부여
+    permissions :
+      contents : write
+      
+    # step 별 실행단계를 프로그래밍
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        # 프로그램 업그레이드 실행      
+        python -m pip install --upgrade pip
+    # 필요한 파일 설치
+    - name: library install
+      run: |
+        pip install requests
+        pip install beautifulsoup4
+        pip install pantas
+        pip install lxml
+
+    # 내가 만든 파이썬 파일 실행
+    - name: run my file
+      run: |
+        python3 news.py 
+
+    # 커밋
+    - name: commits
+      run: |
+        git commit --global user.email "bd8860@naver.com"
+        git commit --global user.name "kosmo"
+        # csv, txt 파일 추가
+        git add.news.txt
+        git commit -m "최신뉴스 모음"
+
+    # push 작업 실행
+    - name: push
+      uses: ad-m/github-push-action@master
+      with: 
+        branch: "main"
