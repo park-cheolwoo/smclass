@@ -41,7 +41,7 @@ jobs:
       run: |
         pip install requests
         pip install beautifulsoup4
-        pip install pantas
+        pip install pandas
         pip install lxml
 
     # 내가 만든 파이썬 파일 실행
