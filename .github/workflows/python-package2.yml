@@ -43,8 +43,8 @@ jobs:
     # 커밋
     - name : commits
       run : |
-        git config --global user.email "onulee@naver.com"
-        git config --global user.name "lee"
+        git config --global user.email "bd8860@naver.com"
+        git config --global user.name "kosmo"
         # csv,txt파일 추가
         git add news.txt
         git commit -m "최신뉴스 모음"
