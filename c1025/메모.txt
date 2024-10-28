@@ -1,6 +1,6 @@
 1. writerow 적용법 (리스트 >> 1줄씩) / newline = 
 2. 메일 적용법
 3. 데이터 분석 연습
-
+4. 과제 복습
 
 https://m.jobkorea.co.kr/company/1984401/passassay/views?Job_Epil_No=238417
