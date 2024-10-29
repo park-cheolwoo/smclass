@@ -1,93 +1,58 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.options import Options
-import pyautogui
-import time
 import requests
 from bs4 import BeautifulSoup
-import random
-import csv
-
-# 이메일 발송
+# email 발송관련
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 
-
-# 1. 데이터 불러오기
-# url = "https://news.naver.com/main/ranking/popularDay.naver"
-# headers = {
-#     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
-#     "Accepted-Language" : "ko-KR, ko; q=0.9, en-US; q=0.8, en; q=0.7"
-# }
-# res = requests.get(url)
-# soup = BeautifulSoup(res.text,'lxml')
-# # print(soup.prettify())
-# with open('c1025/news.html','w',encoding='utf8') as f:
-#   f.write(soup.prettify())
-# ----------------------------------------------------------------
-# 2. 언론사, 제목 추출
-# with open("c1025/news.html",'r',encoding='utf8') as f:
-#   soup = BeautifulSoup(f,'lxml')
-# data = soup.select_one("#wrap > div.rankingnews._popularWelBase._persist > div.rankingnews_box_wrap._popularRanking > div")
-# lists = data.select("div.rankingnews_box")
-# with open("c1025/news.csv","a",encoding='utf8',newline="") as ff:
-#     writer = csv.writer(ff)
-#     writer.writerow(
-#         [
-#             "언론사",
-#             "기사1",
-#             "기사2",
-#             "기사3",
-#             "기사4",
-#             "기사5",
-#         ]
-#     )
-#     for idx, i in enumerate(lists):
-#         title = i.select_one("strong.rankingnews_name").text.strip()
-#         conts = i.select("a.list_title")
-#         cont_list = []
-#         for cont in conts:
-#           cont = cont.text.strip().replace(",","")
-#           cont_list.append(cont)
-#         print(cont_list)
-#         writer.writerow([title]+cont_list)
-# -------------------------------------------------------------------------
-# 3. 메일 보내기
-
+url = 'https://news.naver.com/main/ranking/popularDay.naver'
+headers = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"}
+res = requests.get(url,headers=headers)
+res.raise_for_status()
+# html 전체를 가져옴.
+soup = BeautifulSoup(res.text,"lxml")
+# 기준점
+data = soup.select_one("#wrap > div.rankingnews._popularWelBase._persist > div.rankingnews_box_wrap._popularRanking > div")
+ranks = data.select("div.rankingnews_box")
+title = ranks[0].select_one("strong.rankingnews_name").text
+print(title)
+f = open("news.txt","w",encoding='utf-8')
+f.write(title+"\n")
+r_lists = ranks[0].select("ul.rankingnews_list>li")
+for i,r_list in enumerate(r_lists):
+  no = f"{i+1}"
+  print(no)
+  rnews = r_list.select_one("div.list_content>a").text
+  print(rnews)
+  f.write(f"{no},{rnews}\n")
+f.close()
+# 메일보내기
 smtpName = "smtp.naver.com"
 smtpPort = 587
-# 네이버 사이트에서 주는 고정값
-
-sendEmail = "aaaa"
-pw = "1111"
-recvEmail = "aaaa"
-
-title = "제목 : 오늘 기준 기사 정보를 드립니다."
-content = """/
-          파일을 확인해주세요.
-          감사합니다."""
-
+# 자신의 네이버메일주소,pw, 받는사람이메일주소
+sendEmail = "bd8860@naver.com"
+pw = "75FPQ1P73J3E"
+recvEmail = "bd8860@gmail.com"
+title = "랭킹뉴스"
+content = "랭킹뉴스 파일을 첨부합니다."
 msg = MIMEMultipart()
 msg["Subject"] = title
 msg["From"] = sendEmail
 msg["To"] = recvEmail
 msg.attach(MIMEText(content))
-
-with open("c1025/news.csv", "rb") as f:
-    attachment = MIMEApplication(f.read())
-    attachment.add_header("Content-Disposition", "attachment", filename="news.csv")
-    msg.attach(attachment)
-
-
-s = smtplib.SMTP(smtpName, smtpPort)
-s.starttls()
-s.login(sendEmail, pw)
-s.sendmail(sendEmail, recvEmail, msg.as_string(msg))
+# 파일첨부
+with open("news.txt",'rb') as f:
+  attachment = MIMEApplication(f.read()) # 파일첨부
+  attachment.add_header('Content-Disposition','attachment',filename="news.txt")
+  msg.attach(attachment)
+s = smtplib.SMTP(smtpName,smtpPort)
+s.starttls() # 보안인증
+# 2단계 보안설정이 되어 있는 경우는 에러 발생
+# 인증키 발급을 받아야 함.
+s.login(sendEmail,pw)
+s.sendmail(sendEmail,recvEmail,msg.as_string())
+print("msg : ")
+print(msg.as_string())
 s.quit()
-
-print("발송 완료")
+print("메일이 발송되었습니다.!")
