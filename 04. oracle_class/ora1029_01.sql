@@ -412,3 +412,12 @@ select * from employees where emp_name like '%l__';
 
 -- 첫번째 P
 select * from employees where emp_name like 'P%';
+
+
+select * from employees where emp_name like '%a%';
+
+
+select * from employees where employee_no >= 20;
+
+
+select * from employees where salary between 4000 and 8000;
