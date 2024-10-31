@@ -28,6 +28,8 @@ while True:
     # db접속
     conn = connects()
     cursor = conn.cursor()
+
+    #id가 있는지 확인 > 이메일 발송
     sql = "select * from member where id=:id and pw=:pw"
     cursor.execute(sql,id=user_id,pw=user_pw)
     row = cursor.fetchone() # None
