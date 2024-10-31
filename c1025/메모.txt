@@ -6,6 +6,8 @@
 
 let phone_pattern = /^[0-9]{3,4}$/;
 let pw_pattern = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*]){,8}$/
+
+
 https://hamait.tistory.com/342
 
 https://m.jobkorea.co.kr/company/1984401/passassay/views?Job_Epil_No=238417

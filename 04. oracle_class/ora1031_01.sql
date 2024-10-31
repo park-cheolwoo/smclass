@@ -313,3 +313,19 @@ select sum(salary),avg(salary) from employees;
 select sum(eng),avg(eng),max(eng),min(eng) from students;
 -- students 테이블에서 홍길동, 2023년 12월 02일 << 표현 
 select name,to_char(sdate,'"등록일 : "yyyy"년" mm"월" dd"일"') from students;
+
+
+-- nvl,group by, translate, replace, substr(오라클은 0이 아닌 1이 시작), length, trim, pad, lower/upper/initcat
+-- 수학함수 : abs,ceil,floor,round,trunc,mod,power,sqrt
+-- 그룹 함수 : sum(합계), avg(평균), count(개수), min(최소), max(최대), median(중간값)
+-- null값 대체 : nvl(문자를 받기 위해선 0을 문자로 치환해야함)
+
+-- 숫자타입 -> 문자타입으로 변경해서 포맷, 천단위(,) 표시
+-- 9 : 0을 채우지 않음, 0 : 0을 채움
+-- L : 국가 통화기호 표시, $ : 달러 표시
+
+-- select nvl(to_char(department_id),'ceo') from employees;
+-- 날짜 -> 문자 to_char ## 날짜포맷
+-- 문자 -> 날짜 to_date ## 날짜사칙연산
+-- 숫자 -> 문자 to_char ## 천단위, 0과9
+-- 문자 -> 숫자 to_number ## 천단위 표시 삭제 후 계산
