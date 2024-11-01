@@ -1,6 +1,6 @@
 select * from member;
 
-update member set id = 'abc',pw = '1111',name='박철우',email='bd8860@naver.com' where id='Trineman'; 
+update member set id = 'abc',pw = '1111',name='홍길동',email='aaaa' where id='Trineman'; 
 
 commit;
 
