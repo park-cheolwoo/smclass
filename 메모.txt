@@ -11,3 +11,11 @@ let pw_pattern = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*]){,8}$/
 https://hamait.tistory.com/342
 
 https://m.jobkorea.co.kr/company/1984401/passassay/views?Job_Epil_No=238417
+
+
+
+-- 서브쿼리
+-- decode (rank,1,'A',2,'B',...)
+-- case when rank <1 and rank >2 then 'A' when~then~ else end
+-- having
+-- join : cross-join/inner-join(equi-join/non-equi-join)

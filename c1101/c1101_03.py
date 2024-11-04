@@ -29,15 +29,23 @@ def connect():
 # 학생성적입력함수------------------------------------------------------
 def stu_input():
     print("[ 학생 성적 입력 ]")
-    name = input("이름을 입력하세요.")
-    kor = int(input("국어 성적을 입력하세요."))
-    eng = int(input("영어 성적을 입력하세요."))
-    math = int(input("수어 성적을 입력하세요."))
+    conn = connect()
+    cursor = conn.cursor()
+    sql = "select students_seq.currval from dual"
+    cursor.execute(sql)
+    row = cursor.fetchone()
+    conn.close()
+
+    no = row
+    name = input(f"{no}번째 이름을 입력하세요. >> ")
+    kor = int(input("국어 성적을 입력하세요. >> "))
+    eng = int(input("영어 성적을 입력하세요. >> "))
+    math = int(input("수어 성적을 입력하세요. >> "))
     total = int(kor + eng + math)
     avg = float(total / 3)
     rank = 0
     s_list = [name, kor, eng, math, total, avg, rank]
-
+    
     conn = connect()
     cursor = conn.cursor()
     sql = "insert into students values(STUDENTS_SEQ.nextval, :1, :2, :3, :4, :5, :6, :7, sysdate)"
@@ -81,26 +89,31 @@ def stu_update():
     sql = "select * from students where name =:name"
     cursor.execute(sql, name=name)
     row = cursor.fetchone()
+    row = list(row)
     conn.close()
-    if not row:
+    if not row : 
         print(f"{name} 학생을 찾지 못했습니다.")
+        return
     print(f"{name} 학생을 찾았습니다.")
     print("1. 국어 성적 수정")
     print("2. 영어 성적 수정")
     print("3. 수학 성적 수정")
     choice = int(input("원하는 번호를 입력하세요. >> "))
     if choice == 1:
+        print(f"현재 국어 점수 : {row[2]}")
         row[2] = int(input("수정하실 국어 점수를 입력하세요."))
     elif choice == 2:
+        print(f"현재 영어 점수 : {row[3]}")
         row[3] = int(input("수정하실 영어 점수를 입력하세요."))
     elif choice == 3:
+        print(f"현재 수학 점수 : {row[4]}")
         row[4] = int(input("수정하실 수학 점수를 입력하세요."))
     row[5] = row[2] + row[3] + row[4]
     row[6] = row[5] / 3
-    u_list = [row[2], row[3], row[4], row[5], row[6]]
+    u_list = [row[2], row[3], row[4], row[5], row[6], name]
     conn = connect()
     cursor = conn.cursor()
-    sql = "update students set kor=:1, eng=:2, math=:3, total=:4, avg=:5"
+    sql = "update students set kor=:1, eng=:2, math=:3, total=:4, avg=:5 where name = :6"
     try:
         cursor.execute(sql, u_list)
     except Exception as e:
