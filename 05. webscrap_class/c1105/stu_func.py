@@ -58,33 +58,44 @@ def stu_insert():
 
 
 # --------------------------------------------------------------------
-# 학생성적출력함수------------------------------------------------------
-def stu_output():
-    print(" [ 학생 성적 출력 ] ")
+
+
+# 2-1 출력함수 --------------------------------------------------------
+def stu_print(*data):
     conn = connect()
     cursor = conn.cursor()
-    sql = "select no,name,kor,eng,math,total,round(avg,2),rank,to_char(sdate,'yyyy-mm-dd') from students"
-    cursor.execute(sql)
+    # 매개변수 개수
+    if len(data)==1:cursor.execute(data[0])
+    else : cursor.execute(data[0],search=data[1])
     rows = cursor.fetchall()
     cursor.close()
     conn.close()
+    print("\t\t\t[ 학생 성적 출력 ] ")
+    print(f"\t\t\t\t\t\t\t[ 개수 : {len(rows)} ]")
     if len(rows) < 1:
         print("데이터가 없습니다.")
         return
     print(
         f"{s_title[0]}\t{s_title[1]:8s}\t{s_title[2]}\t{s_title[3]}\t{s_title[4]}\t{s_title[5]}\t{(s_title[6])}\t{s_title[7]}\t{s_title[8]}"
     )
-    print("-" * 80)
+    print("-" * 90)
     for row in rows:
         print(
             f"{row[0]}\t{row[1]:8s}\t{row[2]}\t{row[3]}\t{row[4]}\t{row[5]}\t{row[6]}\t{row[7]}\t{row[8]}"
         )
     print()
 
+# --------------------------------------------------------------------
+
+# 학생성적출력함수------------------------------------------------------
+def stu_output():
+    sql = "select no,name,kor,eng,math,total,round(avg,2),rank,to_char(sdate,'yyyy-mm-dd') from students"
+    stu_print(sql)
+
 
 # --------------------------------------------------------------------
 # 학생성적검색함수-----------------------------------------------------
-def stu_search():
+def stu_select():
     conn = connect()
     cursor = conn.cursor()
     print(" [ 학생 성적 검색 ] ")
@@ -102,22 +113,7 @@ def stu_search():
         # search = input("찾고자 하는 이름을 입력하세요. >> ")
         # search = "%" + search + "%"
         # sql = "select no,name,kor,eng,math,total,round(avg,2),rank,to_char(sdate,'yyyy-mm-dd') from students where name like :search"
-    cursor.execute(sql, search=search)
-    rows = cursor.fetchall()
-    cursor.close()
-    conn.close()
-    if len(rows) < 1:
-        print("데이터가 없습니다.")
-        return
-    print(
-        f"{s_title[0]}\t{s_title[1]:8s}\t{s_title[2]}\t{s_title[3]}\t{s_title[4]}\t{s_title[5]}\t{(s_title[6])}\t{s_title[7]}\t{s_title[8]}"
-    )
-    print("-" * 80)
-    for row in rows:
-        print(
-            f"{row[0]}\t{row[1]:8s}\t{row[2]}\t{row[3]}\t{row[4]}\t{row[5]}\t{row[6]}\t{row[7]}\t{row[8]}"
-        )
-    print()
+    stu_print(sql,search)
 
 
 # --------------------------------------------------------------------
@@ -164,8 +160,6 @@ def stu_update():
 
 # 학생성적정렬함수 ---------------------------------------------------
 def stu_sort():
-    conn = connect()
-    cursor = conn.cursor()
     print(" [ 학생 성적 정렬 ] ")
     print("1. 이름순차정렬")
     print("2. 이름역순정렬")
@@ -186,23 +180,7 @@ def stu_sort():
         sql = "select no,name,kor,eng,math,total,round(avg,2),rank,to_char(sdate,'yyyy-mm-dd') from students order by rank"
     elif choice == "6":
         sql = "select no,name,kor,eng,math,total,round(avg,2),rank,to_char(sdate,'yyyy-mm-dd') from students order by rank desc"
-    cursor.execute(sql)
-    rows = cursor.fetchall()
-    cursor.close()
-    conn.close()
-    if len(rows) < 1:
-        print("데이터가 없습니다.")
-        return
-    print(
-        f"{s_title[0]}\t{s_title[1]:8s}\t{s_title[2]}\t{s_title[3]}\t{s_title[4]}\t{s_title[5]}\t{(s_title[6])}\t{s_title[7]}\t{s_title[8]}"
-    )
-    print("-" * 80)
-    for row in rows:
-        print(
-            f"{row[0]}\t{row[1]:8s}\t{row[2]}\t{row[3]}\t{row[4]}\t{row[5]}\t{row[6]}\t{row[7]}\t{row[8]}"
-        )
-    print()
-    print("출력이 완료되었습니다.")
+    stu_print(sql)
 
 
 # -------------------------------------------------------------------
@@ -220,6 +198,7 @@ def stu_rank():
     cursor.close()
     conn.close()
     print("등수처리가 완료되었습니다.")
-
+    sql = "select no,name,kor,eng,math,total,round(avg,2),rank,to_char(sdate,'yyyy-mm-dd') from students"
+    stu_print(sql)
 
 # ---------------------------------------------------------------------
