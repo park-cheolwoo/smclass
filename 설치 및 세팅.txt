@@ -15,6 +15,11 @@
    ## pip install openpyxl
    ## pip install ipykernel
 
+   ## pip install Django
+   ## pip install Django --upgrade
+   # 디장고 위치 확인
+   ## python -c "import django; print(django.__path__)"
+
 3. selenium 설치
    ## chromedriver 크롬 드라이버 다운로드
    ## https://developer.chrome.com/docs/chromedriver/downloads?hl=ko
@@ -24,6 +29,7 @@
 
 5. vscode 확장프로그램 설치
    ## live server, python,open in browser, jupiter 등등
+   ## auto close tag
 
 6. 오라클 설정
 alter session set "_ORACLE_SCRIPT"=true;
@@ -35,5 +41,37 @@ grant connect,resource,dba to ora_user;
 -- cmd 입력
 imp ora_user/1111 file=expall.dmp log=empall.log ignore=y grants=y rows=y indexes=y full=y
 imp ora_user/1111 file=expcust.dmp log=expcust.log ignore=y grants=y rows=y indexes=y full=y
-.
+
 7. 파이썬 인터프리터 경로 확인(>python select ~~)
+
+8. pip 업그레이드
+pip install -- upgrade pip
+
+9. vscode 업그레이드
+https://learn.microsoft.com/en-gb/cpp/windows/latest-supported-vc-redist?view=msvc-170#visual-studio-2015-2017-2019-and-2022
+
+10. 디장고
+# 프로젝트 생성
+django-admin startproject tempPjt
+# 애플리케이션 생성
+python manage.py startapp students
+# 프로젝트 이름 변경
+# project 폴더에서 실행
+move tempPjt tempProject
+
+# 데이터베이스 생성,추가,수정,삭제
+python manage.py migrate 
+# db에 table 설치,변경,추가,삭제 있는지 확인
+python manage.py makemigrations 
+# 관리자 ID 등록
+python manage.py createsuperuser 
+# 서버 구동
+python -u manage.py runserver 0.0.0.0:8000
+# 브라우저 url
+http://127.0.0.1:8000
+# 관리자 페이지
+http://127.0.0.1:8000/admin
+
+# 한국어 설정
+LANGUAGE_CODE = "ko-kr"
+TIME_ZONE = "Asia/Seoul"
