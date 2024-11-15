@@ -30,6 +30,7 @@
 5. vscode 확장프로그램 설치
    ## live server, python,open in browser, jupiter 등등
    ## auto close tag
+   ## django
 
 6. 오라클 설정
 alter session set "_ORACLE_SCRIPT"=true;

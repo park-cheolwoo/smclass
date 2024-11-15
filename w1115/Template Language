@@ -1,0 +1,4 @@
+{% python 문법(for,if) %}
+{{변수}} : 열리는 for 문이 있으면 닫히는 for 문이 있어야함
+
+{% csrf_token %} : CSRF 공격 방지, form 태그에 안 넣으면 입력이 안됨
