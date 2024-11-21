@@ -1,0 +1,40 @@
+{% load static %}
+{% comment %} static 파일(정적 파일)들은 반드시 로딩을 해야함 {% endcomment %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>메인 페이지</title>
+  <link rel='stylesheet' type='text/css' href='{% static 'css/home/style.css'%}'>
+  <script>
+    function logoutBtn(){
+      alert("로그아웃을 진행합니다.");
+      location.href='member/logout/';
+    }
+  </script>
+  <style>
+    img{width:200px;}
+    a{cursor:pointer; text-decoraiton:none; color:inherit;}
+  </style>
+</head>
+<body>
+  <h2>메인 페이지</h2>
+  <img src='{% static 'images/a01.jpg' %}' alt='이탈리아 1'>
+  <img src='/static/images/a02.jpg' alt='이탈리아 2'><br/>
+  <h4>로그인을 하셔야 링크가 나타납니다.</h4>
+  {% if not request.session.session_id %}
+  <ul>
+    <li><a href='/'>HOME</a></li>
+    <li><a href='member/login/'>로그인</a></li>
+  </ul>
+  {% else %}
+  <h4>{{request.session.session_id}} 님 환영합니다.</h4>
+  <ul>  
+    <li><a href='admin/'>관리자 페이지</a></li>
+    <li><a href='member/mlist'>회원 리스트</a></li>
+    <li><a onclick = "logoutBtn()">로그아웃</a></li>
+  </ul>
+  {% endif %}
+</body>
+</html>
