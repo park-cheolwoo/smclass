@@ -60,6 +60,9 @@ python manage.py startapp students
 # project 폴더에서 실행
 move tempPjt tempProject
 
+11. SQLite APP 다운로드 - Window portable
+https://sqlitebrowser.org/dl/
+
 # 데이터베이스 생성,추가,수정,삭제
 python manage.py migrate 
 # db에 table 설치,변경,추가,삭제 있는지 확인
@@ -76,3 +79,7 @@ http://127.0.0.1:8000/admin
 # 한국어 설정
 LANGUAGE_CODE = "ko-kr"
 TIME_ZONE = "Asia/Seoul"
+
+
+12. 모카루
+https://www.mockaroo.com/
