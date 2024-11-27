@@ -10,28 +10,27 @@
   <link rel="stylesheet" href="{% static '/css/write.css' %}">
   <script src ='http://code.jquery.com/jquery-latest.min.js'></script>
   <script>
-      $(function(){ 
-        $(".write").click(function(){ 
-          if($("#btitle").val().length < 2){ 
-            alert("제목은 2글자 이상 입력하셔야 글쓰기가 가능합니다."); 
-            $("#btitle").focus(); 
-            return false; }
-            writeFrm.submit();
-           });
-           });
+    $(function(){
+      $(".write").click(function(){
+        if($("#btitle").val().length<2){
+          alert("제목은 2글자 이상 입력하셔야 합니다.");
+          $("#btitle").focus();
+          return false;
+        }writeFrm.submit();
+      });
+    });
 
-
-      if('{{w_msg}}'=="1"){
-      alert("글쓰기가 저장되었습니다.");
-      location.href='/board/blist/';}
+    if('{{w_msg}}'=="1"){
+      alert("게시글이 작성되었습니다.");
+      location.href='/board/blist/';
+    }
   </script>
 </head>
 <body>
 <section>
-    <h1>글쓰기</h1>
+    <h1>관리자 글쓰기</h1>
     <hr>
-
-    <form action="" name="writeFrm" method="post" enctype='multipart/form-data'>
+    <form action="" name="writeFrm" method="POST" enctype='multipart/form-data'>
       {% csrf_token %}
       <table>
         <colgroup>
@@ -41,13 +40,13 @@
         <tr>
           <th>작성자</th>
           <td>
-            {{request.session.session_id}}
+{{request.session.session_id}}
           </td>
         </tr>
         <tr>
           <th>제목</th>
           <td>
-            <input type="text" name="btitle" id='btitle'>
+            <input type="text" name="btitle" id="btitle">
           </td>
         </tr>
         <tr>
@@ -69,7 +68,7 @@
           </td>
         </tr>
       </table>
-     <script>
+      <script>
         // 그대로 복붙해서 쓸 것
         function readURL(input){
           //alert(input + "이미지가 추가되었습니다.")

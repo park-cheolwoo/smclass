@@ -29,3 +29,19 @@ https://m.jobkorea.co.kr/company/1984401/passassay/views?Job_Epil_No=238417
 -- case when rank <1 and rank >2 then 'A' when~then~ else end
 -- having
 -- join : cross-join/inner-join(equi-join/non-equi-join)
+
+- 참고기사
+https://n.news.naver.com/mnews/hotissue/article/008/0005116475?type=series&cid=2001085
+
+- input / text 가로 정렬
+https://cheolyong.tistory.com/196
+
+- 메뉴바 flex
+https://wackym.tistory.com/18
+
+- 회원 DB 관리
+https://heesotory.tistory.com/entry/%ED%9A%8C%EC%9B%90-DB-%EC%84%A4%EA%B3%84%EC%97%90-%EB%8C%80%ED%95%9C-%EA%B3%A0%EB%AF%BC%EA%B3%BC-API-%EB%A7%8C%EB%93%A4%EA%B8%B0-1
+
+- 디장고 비교함수
+https://velog.io/@combi_jihoon/Django-orm-query-1
+
