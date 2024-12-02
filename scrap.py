@@ -4,9 +4,9 @@ import time
 
 browser = webdriver.Chrome()
 browser.maximize_window()
-url = "https://mkt.naver.com/hiddenarchive?tab=detail&itemId=186"
+url = "https://mkt.naver.com/hiddenarchive?tab=detail&itemId=95"
 browser.get(url)
-time.sleep(3)
+time.sleep(20)
 # # 화면을 스크롤해서 내리기 반복
 prev_height = browser.execute_script("return document.body.scrollHeight")
 while True:
