@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
 
+
 /* 공용 */
 * {
   margin: 0;
@@ -34,8 +35,9 @@ th {
   border-collapse: collapse;
 }
 
-
 /* ▲ 공용 */
+
+
 
 /* header부분 */
 header {
@@ -105,33 +107,116 @@ span {
 
 /* ▲ Header ▲ */
 
+
+
 /* 스크롤 하단메뉴 */
-.navibg{width: 100%; height: 427px; background: rgb(255,255,255,0.7); position: absolute; display: none;}
-.on{display: visible;}
+.navibg {
+  width: 100%;
+  height: 427px;
+  background: rgb(255, 255, 255, 0.7);
+  position: absolute;
+  display: none;
+}
+
+.on {
+  display: visible;
+}
 
 
 /* 배너 */
-.banner{width: 100%; height: 820px; background: url('/static/images/f01.jpg') no-repeat;}
-.banner_txt{width: 100%; height: 500px; margin: 0 auto; padding-top: 250px; text-align: center; color: white;}
-.banner_txt p{font-size: 20px;  font-weight: 500; letter-spacing: 3px;}
-.banner_txt h3{font-size: 48px; font-weight: 500; padding-top: 5px;}
-.banner_txt h4{font-size: 24px; font-weight: 500; letter-spacing: -1px; padding-top: 30px; line-height: 1.5;}
-.banner_txt a{display: inline-block; width: 190px; height: 55px; line-height: 50px; letter-spacing: 0.5px; border: 1px solid white; padding-right: 20px; font-size: 17px; font-weight: 600; background: url(../images/+.png) 85% 50% no-repeat; box-sizing: border-box; margin: 30px 42px 0 0;}
+.banner {
+  width: 100%;
+  height: 820px;
+  background: url('/static/images/f01.jpg') no-repeat;
+}
+
+.banner_txt {
+  width: 100%;
+  height: 500px;
+  margin: 0 auto;
+  padding-top: 250px;
+  text-align: center;
+  color: white;
+}
+
+.banner_txt p {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 3px;
+}
+
+.banner_txt h3 {
+  font-size: 48px;
+  font-weight: 500;
+  padding-top: 5px;
+}
+
+.banner_txt h4 {
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -1px;
+  padding-top: 30px;
+  line-height: 1.5;
+}
+
+.banner_txt a {
+  display: inline-block;
+  width: 190px;
+  height: 55px;
+  line-height: 50px;
+  letter-spacing: 0.5px;
+  border: 1px solid white;
+  padding-right: 20px;
+  font-size: 17px;
+  font-weight: 600;
+  background: url(../images/+.png) 85% 50% no-repeat;
+  box-sizing: border-box;
+  margin: 30px 42px 0 0;
+}
+
 
 /* 본문 양식(틀) */
-.sub_banner{width: 100%; height: 320px; background: url('/static/images/news.jpg') no-repeat;}   /* 서브 이미지 */
+.sub_banner {
+  width: 100%;
+  height: 320px;
+  background: url('/static/images/news.jpg') no-repeat;
+}
 
 
-section{width:1200px; height:1300px; margin:25px auto 0;}
-section .sub_navloc{font-size: 12px; font-weight: 500; color: #777; text-align: right;}   /* home>포레스트>회원가입>회원정보입력 부분*/ 
-section h1{text-align: center; font-size:45px; font-weight: 600; margin: 30px 0; letter-spacing: 2px;}
 
-/* 맨 하단 */ 
+/* 서브 이미지 */
+section {
+  width: 1200px;
+  height: 1300px;
+  margin: 25px auto 0;
+}
+
+section .sub_navloc {
+  font-size: 12px;
+  font-weight: 500;
+  color: #777;
+  text-align: right;
+}
+
+
+
+
+
+/* home>포레스트>회원가입>회원정보입력 부분*/
+section h1 {
+  text-align: center;
+  font-size: 45px;
+  font-weight: 600;
+  margin: 30px 0;
+  letter-spacing: 2px;
+}
+
+/* 맨 하단 */
 footer {
-    width: 100%;
-    height: 265px;
-    background: #1d1d1d;
-    margin-top: auto;
+  width: 100%;
+  height: 265px;
+  background: #1d1d1d;
+  margin-top: auto;
 }
 
 .footer {
