@@ -2,8 +2,34 @@
 {% load static %}
 
 
+
+
 {% block container-block %}
 <script>
+  $(document).on("click",".listLikeOn",function(){
+    alert("클릭");
+    $(this).css({"display":"none"});
+    $(this).next().css({'display':"block"});
+    var cnt = $(this).next().next().text();
+    $(this).next().next().text(cnt-1);
+  });
+  $(document).on("click",".listLikeOff",function(){
+    alert("클릭");
+    $(this).css({"display":"none"});
+    $(this).prev().css({'display':"block"});
+    var cnt = $(this).next().text();
+    $(this).next().text(Number(cnt)+1);
+  });
+  $(document).on("click",".liststarOff",function(){
+    alert('클릭');
+    $(this).css({"display":"none"})
+    $(this).prev().css({"display":"block"})
+   });
+  $(document).on("click",".liststarOn",function(){
+    alert('클릭');
+    $(this).css({"display":"none"})
+    $(this).next().css({"display":"block"})
+   });
 </script>
   <!-- 지역 배너 -->
   <div id="foodboard2">
@@ -36,10 +62,11 @@
                 <img class="listImg2" src="{{f.bFile1.url}}">
               </a>
               <button class="listLikeOn"></button>
-              <!-- <button class="listLikeOff"></button> -->
+              <button class="listLikeOff"></button>
               <span class="LikeCnt">111</span>
               <button class="listLoc"></button>
-              <button class="liststar"></button>
+              <button class="liststarOn"></button>
+              <button class="liststarOff"></button>
               <div class="item_title">
                 <a href="#" class="item_title1">{{f.bTitle}}</a><span class="item_title2">00구</span>
               </div>

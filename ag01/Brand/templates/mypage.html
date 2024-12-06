@@ -31,9 +31,50 @@
     </div>
    </div>
    <div class="content">
-    <h2>본문 내용</h2>
-    <p>여기에 본문 내용을 작성하세요. 이 영역은 사이드바 옆에 위치하며, 본문이 길어질 경우 스크롤할 수 있습니다.</p>
-   </div>
+    <h2 class="">회원정보수정</h2>
+    <form method="POST" name="memUpdateFrm">
+      {% csrf_token %}
+       <table>
+          <tr>
+             <th>아이디</th>
+             <td>aaa</td>
+            </tr>
+         <tr>
+            <th>이름</th>
+            <td><input type='text' name='name'></td>
+         </tr>
+      <tr>
+         <th>닉네임</th>
+         <td><input type='text' name='nicName'></td>
+      </tr>
+      <tr>
+         <th>생년월일</th>
+         <td><input type='text' name='birth'></td>
+      </tr>
+      <tr>
+         <th>이메일</th>
+         <td><input type='text' name='email'></td>
+      </tr>
+      <tr>
+         <th>전화번호</th>
+         <td><input type='text' name='tel'></td>
+      </tr>
+      <tr>
+         <th>마일리지</th>
+         <td>1000<span>P</span></td>
+      </tr>
+      <tr>
+         <th>필수동의 동의일</th>
+         <td>24-12-06</td>
+      </tr>
+      <tr>
+         <th>선택동의 동의일</th>
+         <td>24-12-06</td>
+      </tr>
+   </table>
+   <button type='button'>저장하기</button>
+</form>
+</div>
 </div>
 
 

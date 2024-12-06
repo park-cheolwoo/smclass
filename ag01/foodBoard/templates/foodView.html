@@ -1,8 +1,36 @@
 {% extends 'main.html' %}
 {% load static %}
-<head>
-</head>
+
 {% block container-block %}
+<script>
+  $(document).on("click",".listLikeOn2",function(){
+    alert("클릭");
+    $(this).css({"display":"none"});
+    $(this).next().css({'display':"block"});
+    var cnt = $(this).next().next().text();
+    $(this).next().next().text(cnt-1);
+  });
+  $(document).on("click",".listLikeOff2",function(){
+    alert("클릭");
+    $(this).css({"display":"none"});
+    $(this).prev().css({'display':"block"});
+    var cnt = $(this).next().text();
+    $(this).next().text(Number(cnt)+1);
+  });
+  $(document).on("click",".liststarOn2",function(){
+    alert('클릭');
+    alert("별을 지웁니다.")
+    $(this).css({"display":"none"})
+    $(this).next().css({"display":"block"})
+   });
+   $(document).on("click",".liststarOff2",function(){
+    alert('클릭');
+    alert('별을 채웁니다.')
+    $(this).css({"display":"none"})
+    $(this).prev().css({"display":"block"})
+   });
+  
+</script>
 <main>
   <div id="foodboard1">  
     <div class="info_more">
@@ -38,10 +66,11 @@
         </div>
       </div>
       <button class="listLikeOn2"></button>
-              <!-- <button class="listLikeOff2"></button> -->
+      <button class="listLikeOff2"></button>
               <span class="LikeCnt2">111</span>
               <button class="listLoc2"></button>
-              <button class="liststar2"></button>
+              <button class="liststarOn2"></button>
+              <button class="liststarOff2"></button>
       <br/>
       <div class="bottom_content">
             <strong>{{flist.bSubtitle}}</strong>
@@ -50,16 +79,22 @@
           </div>
           <button class="cancelBtn1" onclick="location.href='/foodBoard/foodList/'">목록으로</button>
           <br/>
+
         <div class="comment_Wrap">
           <h4 class="comment_Title">댓글(0)</h4>
           <textarea class="comment_Write"></textarea>
           <button type='button' class="comment_btn">등록</button>
         </div>
-          <hr class="comment_seperator"></hr>
+        <hr class="comment_seperator"></hr>
           <br/>
           <div class="comment_list">
-            <h4 class="comment_nicName">길동스 <span class="comment_date">2024.12.05</span> </h4>
+            <h4 class="comment_nicName">길동스
+               <span class="comment_date">2024.12.05</span>
+               <button type="button" class="comment_btn2">수정</button>
+               <button type="button" class="comment_btn2">삭제</button>
+            </h4>
             <h5 class="comment_content">여기 너무 좋은 것 같아요!</h5>
+            
           </div>
           <div class="comment_list">
             <h4 class="comment_nicName">길동스 <span class="comment_date">2024.12.05</span> </h4>
