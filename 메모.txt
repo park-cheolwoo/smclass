@@ -10,8 +10,9 @@ writerow 적용법 (리스트 >> 1줄씩) / newline =
 5. 정규표현식
 6. 오라클 쿼리적용 순서
 7. MVC 패턴 / Django framework flow
+8. 엑셀 주요 함수
 
-box-sizing: content-box
+box-sizing: content-box / border-box
 
 
 let phone_pattern = /^[0-9]{3,4}$/;
