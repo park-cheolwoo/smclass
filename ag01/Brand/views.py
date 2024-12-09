@@ -5,5 +5,17 @@ from django.shortcuts import render
 def brand(request):
   return render(request,'brand.html')
 
-def mypage(request):
-  return render(request,'mypage.html')
+def update(request):
+    return render(request,'mypage_update.html')
+
+def rvwCheck(request):
+    return render(request, "mypage_rvwCheck.html")
+
+def resCheck(request):
+    return render(request, "mypage_resCheck.html")
+
+def starCheck(request):
+    return render(request, "mypage_starCheck.html")
+
+def boardCheck(request):
+    return render(request, "mypage_boardCheck.html")

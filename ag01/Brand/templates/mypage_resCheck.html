@@ -30,51 +30,57 @@
        <img width="20" height="20" src="https://img.icons8.com/sf-regular/48/sort-right.png" alt="sort-right"/ class="sdb_right">
     </div>
    </div>
-   <div class="content">
-    <h2 class="">회원정보수정</h2>
-    <form method="POST" name="memUpdateFrm">
-      {% csrf_token %}
-       <table>
-          <tr>
-             <th>아이디</th>
-             <td>aaa</td>
-            </tr>
-         <tr>
-            <th>이름</th>
-            <td><input type='text' name='name'></td>
-         </tr>
-      <tr>
-         <th>닉네임</th>
-         <td><input type='text' name='nicName'></td>
+   <h2 class="">예약 확인</h2>
+   <div class="rvw_content">
+   <table class="rvw_table">
+      <colgroup>
+         <col width='5%'>
+         <col width='25%'>
+         <col width='40%'>
+         <col width='15%'>
+         <col width='20%'>
+         <col width='20%'>
+      </colgroup>
+      <tr class="rvw_tabtitle">
+         <th>번호</th>
+         <th>예약한 식당</th>
+         <th>예약 인원</th>
+         <th>예약일</th>
+         <th>수정/취소</th>
+      </tr>
+      <tr class="rvw_tabcontent">
+         <td>1</td>
+         <td>안지</td>
+         <td>2</td>
+         <td>2024.12.09</td>
+         <td>
+            <button type='button'>수정</button>
+            <button type='button'>삭제</button>
+         </td>
+      </tr>
+      <tr class="rvw_tabcontent">
+         <td>1</td>
+         <td>일일 출석체크 이벤트</td>
+         <td>+20</td>
+         <td>2024.12.09</td>
+      </tr>
+      <tr class="rvw_tabcontent">
+         <td>1</td>
+         <td>일일 출석체크 이벤트</td>
+         <td>+20</td>
+         <td>2024.12.09</td>
+      </tr>
+      <tr class="rvw_tabcontent">
+         <td>1</td>
+         <td>일일 출석체크 이벤트</td>
+         <td>+20</td>
+         <td>2024.12.09</td>
       </tr>
       <tr>
-         <th>생년월일</th>
-         <td><input type='text' name='birth'></td>
-      </tr>
-      <tr>
-         <th>이메일</th>
-         <td><input type='text' name='email'></td>
-      </tr>
-      <tr>
-         <th>전화번호</th>
-         <td><input type='text' name='tel'></td>
-      </tr>
-      <tr>
-         <th>마일리지</th>
-         <td>1000<span>P</span></td>
-      </tr>
-      <tr>
-         <th>필수동의 동의일</th>
-         <td>24-12-06</td>
-      </tr>
-      <tr>
-         <th>선택동의 동의일</th>
-         <td>24-12-06</td>
+         <td colspan='5' class="rvw_footer">총 예약건 : 3건</td>
       </tr>
    </table>
-   <button type='button'>저장하기</button>
-</form>
-</div>
+   </div>
 </div>
 
 

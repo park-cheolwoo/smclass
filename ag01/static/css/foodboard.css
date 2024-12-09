@@ -469,6 +469,7 @@ body {
 
 .comment_icon {
   margin:3px; float:left; vertical-align: middle; display:inline;
+  width:30px;
 }
 
 .comment_content {
@@ -487,6 +488,12 @@ body {
   display:flex;
   align-items: center;
 }
+
+.comment_effective{
+  background: #83f999;
+}
+
+
 /* foodboard-bview */
 
 
@@ -519,7 +526,6 @@ body {
 table {
   width: 700px;
   height: 550px;
-  border: 1px solid;
   margin: 0 auto;
 }
 
@@ -689,10 +695,10 @@ select {
 /* Brand*/
 
 
-/* mypage */
+/* mypage - update */
 #foodboard4 {
   width: 80%;
-  height: 3000px;
+  height: auto;
   margin: 15px auto;
   text-align: center;
   font-size: 20px;
@@ -721,11 +727,10 @@ select {
   display: block;
 }
 
-.content {
+.updateContent {
   float:left;
-  width:70%;
-  border:1px solid;
-  margin-left: 20px;
+  width:50%;
+  margin-left: 70px;
 }
 
 .sdb_items{
@@ -739,4 +744,78 @@ select {
 
 .sdb_right{
   margin-right:10px;
+}
+
+.memUpadte_title{
+  width:5%;
+  vertical-align: middle;
+  text-align: left;
+  padding-left:20px;
+}
+
+.memUpadte_content{
+    width: 5%;
+    vertical-align: middle;
+    text-align: left;
+    padding-left: 20px;
+}
+
+.memUpadte_content>input{
+  font-size:15px;
+  padding-left:5px;
+}
+
+.updateBtn {
+  display:block;
+  margin:20px auto;
+  text-align: center;
+  width: 131px;
+  height: 32px;
+  font-size: 15px;
+  border: 0;
+  border-radius: 15px;
+  outline: none;
+  background-color: rgb(164, 199, 255);
+}
+/* mypage - update */
+
+/* mypage - rvwCheck */
+.rvw_subtitle{
+float:left;
+margin-left:5%;
+margin-bottom:40px;
+}
+
+.rvw_table{
+  width:70%;
+  height:auto;
+}
+
+.rvw_tabtitle{
+  height:50px;
+  padding:20px auto;
+  border-bottom:1px solid #efefef;
+}
+
+.rvw_tabcontent{
+  height:50px;
+  font-size:16px;
+}
+
+.rvw_footer{
+  border-top:1px solid #efefef;
+  text-align:right;
+  padding-right: 50px;
+  padding-top:20px;
+}
+
+.rvw_subtitle2 {
+  float: left;
+  margin: 40px 0 40px 29%;
+}
+
+.rvw_table2{
+    width: 70%;
+    height: auto;
+    margin-left: 27%;
 }

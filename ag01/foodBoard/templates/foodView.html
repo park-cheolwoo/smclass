@@ -29,7 +29,10 @@
     $(this).css({"display":"none"})
     $(this).prev().css({"display":"block"})
    });
-  
+  $(document).on("click",".comment_list",function(){
+      alert("클릭")
+      $(this).toggleClass('comment_effective');
+  })
 </script>
 <main>
   <div id="foodboard1">  
@@ -85,53 +88,42 @@
 
           <div class="comment_div">
             <button type='button' class="comment_list">
-              <h4 class="comment_content"><span class="comment_icon">😋</span>음식이 맛있어요!</h4>              
+              <h4 class="comment_content"><span class="comment_icon">😋</span>음식이 맛있어요</h4>              
               <h4 class="comment_cnt">13명</h4>
             </button>
             <button type='button' class="comment_list">
-              <h4 class="comment_content"><span class="comment_icon">😋</span>음식이 맛있어요!</h4>              
+              <h4 class="comment_content"><span class="comment_icon">🍚</span>양이 많아요</h4>              
               <h4 class="comment_cnt">13명</h4>
             </button>
             <button type='button' class="comment_list">
-              <h4 class="comment_content"><span class="comment_icon">😋</span>음식이 맛있어요!</h4>              
+              <h4 class="comment_content"><span class="comment_icon">👀</span>매장이 넓어요</h4>              
               <h4 class="comment_cnt">13명</h4>
             </button>
             <button type='button' class="comment_list">
-              <h4 class="comment_content"><span class="comment_icon">😋</span>음식이 맛있어요!</h4>              
+              <h4 class="comment_content"><span class="comment_icon">💸</span>가성비가 좋아요</h4>              
               <h4 class="comment_cnt">13명</h4>
             </button>
             <button type='button' class="comment_list">
-              <h4 class="comment_content"><span class="comment_icon">😋</span>음식이 맛있어요!</h4>              
+              <h4 class="comment_content"><span class="comment_icon">💖</span>친절해요</h4>              
               <h4 class="comment_cnt">13명</h4>
             </button>
             <button type='button' class="comment_list">
-              <h4 class="comment_content"><span class="comment_icon">😋</span>음식이 맛있어요!</h4>              
+              <h4 class="comment_content"><span class="comment_icon">🌱</span>재료가 신선해요</h4>              
               <h4 class="comment_cnt">13명</h4>
             </button>
             <button type='button' class="comment_list">
-              <h4 class="comment_content"><span class="comment_icon">😋</span>음식이 맛있어요!</h4>              
+              <h4 class="comment_content"><span class="comment_icon">⛰️</span>뷰가 좋아요</h4>              
               <h4 class="comment_cnt">13명</h4>
             </button>
             <button type='button' class="comment_list">
-              <h4 class="comment_content"><span class="comment_icon">😋</span>음식이 맛있어요!</h4>              
+              <h4 class="comment_content"><span class="comment_icon">✨</span>매장이 청결해요</h4>              
               <h4 class="comment_cnt">13명</h4>
             </button>
             <button type='button' class="comment_list">
-              <h4 class="comment_content"><span class="comment_icon">😋</span>음식이 맛있어요!</h4>              
+              <h4 class="comment_content"><span class="comment_icon">🚘</span>주차장이 넓어요</h4>              
               <h4 class="comment_cnt">13명</h4>
             </button>
-            <button type='button' class="comment_list">
-              <h4 class="comment_content"><span class="comment_icon">😋</span>음식이 맛있어요!</h4>              
-              <h4 class="comment_cnt">13명</h4>
-            </button>
-            <button type='button' class="comment_list">
-              <h4 class="comment_content"><span class="comment_icon">😋</span>음식이 맛있어요!</h4>              
-              <h4 class="comment_cnt">13명</h4>
-            </button>
-            
           </div>
-
-          
         </div>
       </div>
     </main>
