@@ -11,6 +11,8 @@ writerow 적용법 (리스트 >> 1줄씩) / newline =
 6. 오라클 쿼리적용 순서
 7. MVC 패턴 / Django framework flow
 8. 엑셀 주요 함수
+9. API 호출/받아오기 연습(XML/JSON)
+
 
 box-sizing: content-box / border-box
 
@@ -46,3 +48,58 @@ https://heesotory.tistory.com/entry/%ED%9A%8C%EC%9B%90-DB-%EC%84%A4%EA%B3%84%EC%
 - 디장고 비교함수
 https://velog.io/@combi_jihoon/Django-orm-query-1
 
+- 포트폴리오 참고
+https://yoohyeok.github.io/u-it/
+
+Chart.js 생성하기
+https://www.chartjs.org/docs/latest/charts/bar.html
+
+https://byul91oh.tistory.com/492
+
+https://velog.io/@paori/chart.js-%EA%B7%B8%EB%9E%98%ED%94%84-%EB%A7%8C%EB%93%A4%EA%B8%B0
+
+파이썬으로 달력 생성하기
+https://velog.io/@rlaensk/Python-%EB%8B%AC%EB%A0%A5%EB%A7%8C%EB%93%A4%EA%B8%B0
+
+자바스크립트로 달력 생성하기
+https://velog.io/@kmeeziv/JavaScript-%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%EB%A19C-%EB%8B%AC%EB%A0%A5-%E
+
+django 변수는 html 내부에 넣어야함
+django 보안 정책으로 안됨
+
+
+서울시 실시간 혼잡도 API
+https://data.seoul.go.kr/SeoulRtd/?hotspotNm=%EA%B4%91%ED%99%94%EB%AC%B8%EA%B4%91%EC%9E%A5
+서울시 주차장 안내 API
+https://parking.seoul.go.kr/
+
+전국주차장정보표준데이터
+https://www.data.go.kr/data/15012896/standard.do
+
+
+서울시 지역 혼잡도 API
+https://data.seoul.go.kr/SeoulRtd/map
+서울시 실시간 지하철 API
+https://smss.seoulmetro.co.kr/traininfo/traininfoUserView.do
+서울시 실시간 버스 API
+https://topis.seoul.go.kr/map/openBusMap.do
+https://bus.go.kr/app/#
+서울시 실시간 단기예보
+https://www.weather.go.kr/w/weather/forecast/short-term.do?stnId=109
+네이버 실시간 날씨지도
+https://weather.naver.com/map
+기상청 실시간 날씨지도
+https://www.weather.go.kr/wgis-nuri/html/map.html
+
+
+초단기실황
+https://data.kma.go.kr/data/rmt/rmtList.do?code=400&pgmNo=570
+
+서울시 
+https://data.seoul.go.kr/dataList/OA-13291/A/1/datasetView.do
+
+전국 주차장 분석
+https://milkyspace.tistory.com/95
+
+python+xml+pandas
+https://wonhwa.tistory.com/16
