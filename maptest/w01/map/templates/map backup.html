@@ -43,6 +43,7 @@
       navigator.geolocation.getCurrentPosition(function (position) {
         var lat = position.coords.latitude;
         var lon = position.coords.longitude;
+
         marker = new Tmapv2.Marker({
           position: new Tmapv2.LatLng(lat, lon),
           map: map,
@@ -57,10 +58,6 @@
     measureDistance();
   }
 
-
-    /// 수정완료      
-
-
   // 클릭 시 위도경도 출력
   function onClick(e) {
      const clickLat = e.latLng.lat();
@@ -71,50 +68,21 @@
            dataType: 'text',
            beforeSend: function(xhr){ xhr.overrideMimeType('text/plain; charset=euc-kr'); },
            success: function (data) {
-            const { nearestLocation_s2, locX, locY } = processCSVData(data, clickLat, clickLon);
-              if (nearestLocation_s2) {
-                // console.log(nearestLocation_s2)
-                alert("데이터 로딩중")
-                const xhr = new XMLHttpRequest();
-                const apiUrl = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst';
-                const serviceKey = 'EPhM94JT5WuG2cnWrA7xBy4Ip1zeWGD%2Fc9StwgvLEua3LPV6Qgp9%2Bu%2Fq5hyyC9%2FtVA%2BL4WipZChsLpNs4obZ%2Bw%3D%3D';
-                const queryParams = '?' + encodeURIComponent('serviceKey') + '=' + serviceKey +
-                                    '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1') +
-                                    '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('8') +
-                                    '&' + encodeURIComponent('dataType') + '=' + encodeURIComponent('Json') +
-                                    '&' + encodeURIComponent('base_date') + '=' + encodeURIComponent('20241210')+
-                                    '&' + encodeURIComponent('base_time') + '=' + encodeURIComponent('1930') +
-                                    '&' + encodeURIComponent('nx') + '='+ encodeURIComponent(locX) +
-                                    '&' + encodeURIComponent('ny') + '=' + encodeURIComponent(locY);
-                xhr.open('GET', apiUrl + queryParams);
-                xhr.onreadystatechange = function() {
-                   if (this.readyState == 4) {
-                     // console.log('Status: ' + this.status);
-                     // console.log('Headers: ' + JSON.stringify(this.getAllResponseHeaders()));
-                     console.log('Body: ' + this.responseText);
-                     const {temperature, humidity, weather,  wdDirection, wdStrength} = findSource(this.responseText);
-                     console.log("temp : "+temperature)
-                     console.log("humidity : "+humidity)
-                     console.log("weather : "+weather)
-                     console.log("wdDirection : "+wdDirection)
-                     console.log("wdStrength : "+wdStrength)
-                    } };
-                    xhr.send(''); 
-                  } },
+            const nearestLocation = processCSVData(data, clickLat, clickLon);
+              if (nearestLocation) {
+                const [시도, 시군구] = nearestLocation.split(" ");
+                console.log(nearestLocation)
+                
+
+               } },
             error: function () {
                 alert('CSV 파일을 읽는 데 실패했습니다.'); 
               } }); } 
               
-          
-              
   function processCSVData(data, clickLat, clickLon) {
      const lines = data.split("\n");
      let minDistance = Infinity;
-     let nearestLocation_s2 = '';
-     var locX;
-     var locY;
-
-
+     let nearestLocation = '';
      for (let i = 1; i < lines.length; i++) {
        const line = lines[i].trim();
        if (line) {
@@ -126,23 +94,11 @@
          const 경도 = parseFloat(columns[4]);
          const distance = getDistance(clickLat, clickLon, 위도, 경도);
          if (distance < minDistance) {
-           minDistance = distance;
-           nearestLocation_s2 = 읍면동; } } }
-
-          for (let i = 1; i < lines.length; i++) {
-             const line = lines[i].trim();
-             if (line) {
-              const columns = line.split(",");
-              const 읍면동 = columns[2];
-              if (읍면동 === nearestLocation_s2) {
-                console.log(읍면동)
-                locX = columns[5]; // 6번째 열의 값
-                locY = columns[6]; // 7번째 열의 값
-                if (locX !== undefined && locY !== undefined) {
-                  console.log("locX : " + locX); console.log("locY : " + locY); }
-                  break; // 일치하는 행을 찾았으면 반복문 종료
-              } } } return { nearestLocation_s2, locX, locY }; }
-
+          minDistance = distance;
+          nearestLocation = `${시도} ${시군구}`;
+          nearestLocation_s = `${시군구}`;
+         } } }
+         return nearestLocation; }
   function getDistance(lat1, lon1, lat2, lon2) {
      const radius = 6371; // 지구 반지름 (km)
      const toRad = (value) => (value * Math.PI) / 180;
@@ -151,44 +107,6 @@
      const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
      return radius * c; }
-
-  function findMinDistance(locations, targetLat, targetLon) {
-    let minDistance = Infinity;
-    let minLocation = null;
-    for (const location of locations) {
-      const distance = getDistance(targetLat, targetLon, location.lat, location.lon);
-      if (distance < minDistance) {
-        minDistance = distance; minLocation = location;// 가장 가까운 위치 업데이트 
-         } }
-         return { minDistance, minLocation }; }
-
-  function findSource(responseText){
-    const data = JSON.parse(responseText)
-    let items = data.response.body.items.item;
-    let temperature = '';
-    let humidity = '';
-    let weather = '';
-    let wdDirection = '';
-    let wdStrength = '';
-    // console.log("data : "+data)
-    for(i=0;i<items.length;i++){
-      console.log(items[i].category+" "+items[i].obsrValue)
-      if(items[i].category == "T1H"){
-        temperature = items[i].obsrValue;
-      } else if(items[i].category == "REH"){
-        humidity = items[i].obsrValue;
-      } else if(items[i].category == "PTY"){
-        weather  = items[i].obsrValue;
-      } else if(items[i].category == "VEC"){
-        wdDirection  = items[i].obsrValue;
-      } else if(items[i].category == "WSD"){
-        wdStrength  = items[i].obsrValue;
-      } return {temperature, humidity, weather,  wdDirection, wdStrength}
-    } }
-
-
-  /// 수정완료       
-
 
   // 모든 부가 정보를 제거하는 함수
   function resetActiveStates() {
