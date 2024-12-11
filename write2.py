@@ -22,6 +22,8 @@ with open("도로명주소.txt", "r", encoding="utf8") as f:
 
 # 최신 크롬 드라이버 설치 및 웹 드라이버 생성
 browser = webdriver.Chrome(options=options)
+browser.minimize_window()
+
 
 # 파일을 한 번만 열고 데이터를 씀
 with open("test123.txt", "w", encoding="utf8") as f:
@@ -53,4 +55,3 @@ print("프로그램 종료")
 
 
 # Created TensorFlow Lite XNNPACK delegate for CPU : 정보로그 (에러 아님)
-
