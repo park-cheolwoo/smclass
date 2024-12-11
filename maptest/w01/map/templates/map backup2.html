@@ -24,9 +24,6 @@
     let isAutoTrafficActive = false;
     let isMeasureDistanceActive = false; // 플래그 변수 추가
 	  let csrfToken = $('meta[name="csrf_token"]').attr('content')
-    let lastclicktime = 0;
-    let lastclickx,lastclicky = 0;
-    let currentDate = 0;
 
   // 페이지가 로딩이 된 후 호출하는 함수입니다.
   function initTmap() {
@@ -83,8 +80,8 @@ function readCSV(url, callback) {
 //클릭 시점의 현재 시간을 호출하는 함수
 function findnow() {
     const currentDate = new Date();
-    
-    // 포맷된 날짜 (YYMMDD)
+
+    // 포맷된 날짜 (YYYYMMDD)
     const year = String(currentDate.getFullYear());
     const month = String(currentDate.getMonth() + 1).padStart(2, '0');
     const day = String(currentDate.getDate()).padStart(2, '0');
@@ -98,7 +95,7 @@ function findnow() {
         hours = String(currentDate.getHours() - 1).padStart(2, '0'); // 한 시간 전
     }
     const formattedTime = `${hours}${String(minutes).padStart(2, '0')}`;
-    
+
     console.log(formattedDate); // 예: 20241210
     console.log(formattedTime); // 예: 1930
     return {formattedDate, formattedTime};
@@ -109,20 +106,16 @@ function onClick(e) {
     const clickLat = e.latLng.lat();
     const clickLon = e.latLng.lng();
     console.log("클릭한 위치의 위도:", clickLat, "경도:", clickLon);
+
+    // 현재 시간 확인
+    const {formattedDate, formattedTime} = findnow();
+
     // CSV 파일 읽기 및 거리 계산
     readCSV('/static/기상청_격자위경도.csv', function(data) {
         const { nearestLocation_s2, locX, locY } = processCSVData(data, clickLat, clickLon);
-        const {formattedDate, formattedTime} = findnow();
-        // 위치와 시간 조건 모두 충족 시 실행 중
-        if (locX === lastclickx && locY === lastclicky && (currentDate - lastclicktime) / 1000 <= 10) {
-           alert("같은 위치를 10초 이내에 조회하였습니다. 다시 시도해주세요");
-           return false; }
-        // 마지막 위치 업데이트
-        lastclickx = locX; 
-        lastclicky = locY;
-        lastClickTime = currentDate;
+
         if (nearestLocation_s2) {
-        alert("데이터 로딩중");
+            alert("데이터 로딩중");
 
             const xhr = new XMLHttpRequest();
             const apiUrl = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst';
@@ -178,7 +171,7 @@ function processCSVData(data, clickLat, clickLon) {
         line = line.trim();
         if (line) {
             const [ , , 읍면동, , , x, y] = line.split(",");
-            if (읍면동 === nearestLocation_s2 && x && y) {            
+            if (읍면동 === nearestLocation_s2 && x && y) {
                 locX = x;
                 locY = y;
                 console.log("locX: " + locX);
@@ -206,7 +199,6 @@ function getDistance(lat1, lon1, lat2, lon2) {
 function findSource(responseText) {
     const data = JSON.parse(responseText);
     const items = data.response.body.items.item;
-    if(!items){alert("기상청 데이터를 조회하는데 실패했습니다."); return false;}
 
     // 변수 선언 및 초기화
     let temperature = '';

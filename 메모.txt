@@ -26,6 +26,9 @@ https://hamait.tistory.com/342
 https://m.jobkorea.co.kr/company/1984401/passassay/views?Job_Epil_No=238417
 
 
+https://blog.naver.com/lagnieu/223157326504
+
+
 
 -- 서브쿼리
 -- decode (rank,1,'A',2,'B',...)
