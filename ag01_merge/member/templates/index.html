@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
+  <title>ANG-GGO</title>
+  <style>
+    *{margin: 0; padding: 0;}
+    header{height: 100px;}
+    .inner{margin: 50px;}
+    ul, li, span {display: inline-block; text-align: center;}
+    ul{margin: 0 auto;}
+    li{margin-right: 20px;}
+    .main_logo {font-size: 40px; margin-right: 500px;}
+    .ag_my {margin-left: 800px;}
+    .search_m>form>p{margin: 10px 500px;}
+    #mapping{width: 1000px; height: 50px; margin: 100px 10px 0px 500px;}
+    img{width: 2100px; height: 600px; margin-top: 100px;}
+    .notice{width: 200px; height: 200px;}
+    .notice>p{font-size: 25px; margin-top: 50px; margin-left: 50px;}
+    .notice>table{margin: 5px 50px; width: 1800px; height: 20px;}
+    table, tr, td{border: 1px solid black; border-collapse: collapse;}
+    h4{margin: 50px; font-size: 25px;}
+    .slide{width: 1800px; margin: 0 auto; }
+    .hotPl{width: 400px; height: 450px; position: relative; margin: 0 auto; display: inline-block;}
+    .hotPl>.h_img{position: absolute; width: 307px; height: 387px; padding: 0px 20px;}
+    .hotPl>.h_img>img{width: 307px; height: 387px; position: absolute; bottom: 2px;}
+    #inBtn{width: 50px; height: 50px;}
+  </style>
+</head>
+<body>
+  <!-- 헤더 부분 -->
+  <header>
+    <div class="inner">
+      <a href="/"><span class="main_logo">로고</span></a>
+      <ul>
+        <a href="/map/mview/"><li>지도</li></a>
+        <a href="/foodBoard/blist/"><li>맛집추천</li></a>
+        <a href="/board/nboard/"><li>게시판</li></a>
+        <li>예약</li>
+        <li>이벤트</li>
+        <li>브랜드 소개</li>
+      </ul>
+      <span>
+        <button type="button" class="ag_my">로그인/회원가입</button>
+      </span>
+    </div>
+  </header>
+  <!-- 메인부분 -->
+  <main>
+    <!-- 검색창(지도로 연결) -->
+    <div class="search_m">
+      <form action="#" name="mapping" method="post">
+        {% csrf_token %}
+        <input type="search" id="mapping" placeholder="검색어를 입력해주세요." >
+        <button id="inBtn">검색</button>
+        <br>
+        <p>인기검색어 | 크리스마스   2025   비건식당   </p>
+      </form>
+    </div>
+
+    <!-- 공지사항 -->
+    <div class="notice">
+      <p>공지사항</p>
+      <table>
+        <tr>
+          <td>앙꼬 사용 안내</td>
+        </tr>
+        <tr>
+          <td>마일리지 사용안내</td>
+        </tr>
+        <tr>
+          <td>어쩌구저쩌구</td>
+        </tr>
+      </table>
+    </div>
+    <!-- 이벤트창(클릭 시 url로 연결) -->
+    <div>
+      <img src="/static/images/이벤트창.png">
+    </div>
+
+    <!-- 추천 식당 배너 -->
+    <div>
+      <h4>요즘 인기있는 식당</h4>
+      <div class="slide">
+        <div class="hotPl">
+          <div class="h_img">
+            <img src="/static/images/예시1.jpg">
+          </div>
+        </div>
+        <div class="hotPl">
+          <div class="h_img">
+            <img src="/static/images/예시2.jpg">
+          </div>
+        </div>
+        <div class="hotPl">
+          <div class="h_img">
+            <img src="/static/images/예시3.jpg">
+          </div>
+        </div>
+        <div class="hotPl">
+          <div class="h_img">
+            <img src="/static/images/예시4.jpg">
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </main>
+  <!-- 하단 부분 -->
+  <footer>
+    <div class="footer">
+      <div class="ftnavi">
+        <ul>
+          <li><a href="">회사소개</a></li>
+          <li><a href="">오시는길</a></li>
+          <li><a href="">개인정보처리방침</a></li>
+          <li><a href="">영상정보처리기기운영관리방침</a></li>
+          <li><a href="">이용약관</a></li>
+          <li><a href="">이메일무단수집거부</a></li>
+        </ul>
+        <div class="addr">
+          <p>포레스트 리솜<span>|</span>충청북도 제천시 백운면 금봉로 365</p>
+          <p class="tel">대표번호 : 043-649-6000&nbsp;&nbsp;
+          <span>예약문의 : 1600-0060</span>
+          <span>단체문의 : 02-6177-5999</span>
+          <span>분양문의 : 02-567-5555</span>
+          <span>통신판매업신고 : 2011-충북제천-0016호</span>
+          </p>
+          <p>메리츠화재와 개인정보 배상책임보험 계약을 체결하여 회원 개인정보를 보호하고 있습니다.</p>
+          <p class="copy">COPYRIGHT(C) HOBAN HOTEL & RESORT. ALL RIGHTS RESERVED.</p>
+        </div>
+      </div>
+      <div class="right">
+        <div class="sns">
+          <a href="#"><img src="/static/images/insta_btn_fnew.png"></a>
+          <a href="#"><img src="/static/images/youtube_btn_fnew.png"></a>
+          <a href="#"><img src="/static/images/facebook_btn_fnew.png"></a>
+          <a href="#"><img src="/static/images/kakao_ch_btn_fnew.png"></a>
+        </div>
+        <div class="group">
+          <select name="site_go" id="site_go" class="sel_box">
+            <option value="#">패밀리사이트</option>
+            <option value="https://www.ihoban.co.kr/web">호반건설</option>
+            <option value="https://www.hobanapt.co.kr/web">호반베르디움</option>
+          </select>
+          <button type="button">GO</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

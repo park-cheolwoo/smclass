@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
+
+*{margin: 0; padding: 0;
+  font-family: "Noto Sans KR", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;}
+ul, ol{list-style: none;}
+a{text-decoration: none; color: inherit;}
+header{width: 100%; height: 121px; border-bottom: 1px solid #e8e8e8;}
+nav{width: 1290px; height: 120px; margin: 0 auto; display: flex;}
+.logo{width: 132px; height: 120px; box-sizing: border-box; padding-top: 45.5px;}
+.nav_wrap{width: 1168px; height: 120px; box-sizing: border-box;}
+
+/* 상단 퀵 메뉴 */
+.quick_menu{width: 100%; height: 50px;}
+.quick_menu ul{display: flex; justify-content: right; box-sizing: border-box; height: 50px; align-items: center;}
+.quick_menu li{width: 93px; height: 20px; text-align: right;}
+.quick_menu li:nth-child(2){width: 85px;}
+.quick_menu li:nth-child(4){width: 70px;}
+.quick_menu li:nth-child(5){width: 60px;}
+.quick_menu li a{height: 50px; font-size: 12px; font-weight: 500; color: #8a8d8f; margin-left: 3px;}
+.quick_menu li a:after{display: inline-block; content: ""; width: 1px; height: 11px; background: #d3d3d3; margin-left: 13px; vertical-align: middle;}
+
+/* 중앙 메뉴 */
+.menu{width: 100%; height: 70px; box-sizing: border-box;}
+.menu ul{display: flex; justify-content: right; height: 55px; box-sizing: border-box; align-items: center;}
+.menu li{width: 180px; height: 20px; text-align: right; }
+.menu li:nth-child(3){width: 110px;}
+.menu li:nth-child(4){width: 170px;}
+.menu li:nth-child(5){width: 190px;}
+.menu li:nth-child(6){width: 170px;}
+.menu li a{font-size: 19px; font-weight: 600; color: #1d1d1d; letter-spacing: -0.5px;}
+.menu li a:hover{border-bottom: 3px solid #718929; height: 52px; display: inline-block; color: #718929;}
+
+/* 스크롤 하단메뉴 */
+.navibg{width: 100%; height: 427px; background: rgb(255,255,255,0.7); position: absolute; display: none;}
+.on{display: visible;}
+
+
+/* 배너 */
+.banner{width: 100%; height: 820px; background: url(../images/f01.jpg) no-repeat;}
+.banner_txt{width: 100%; height: 500px; margin: 0 auto; padding-top: 250px; text-align: center; color: white;}
+.banner_txt p{font-size: 20px;  font-weight: 500; letter-spacing: 3px;}
+.banner_txt h3{font-size: 48px; font-weight: 500; padding-top: 5px;}
+.banner_txt h4{font-size: 24px; font-weight: 500; letter-spacing: -1px; padding-top: 30px; line-height: 1.5;}
+.banner_txt a{display: inline-block; width: 190px; height: 55px; line-height: 50px; letter-spacing: 0.5px; border: 1px solid white; padding-right: 20px; font-size: 17px; font-weight: 600; background: url(../images/+.png) 85% 50% no-repeat; box-sizing: border-box; margin: 30px 42px 0 0;}
+
+/* 본문 양식(틀) */
+.sub_banner{width: 100%; height: 320px; background: url(../images/news.jpg) no-repeat;}   /* 서브 이미지 */
+
+
+section{width:1200px; height:1300px; margin:25px auto 0;}
+section .sub_navloc{font-size: 12px; font-weight: 500; color: #777; text-align: right;}   /* home>포레스트>회원가입>회원정보입력 부분*/ 
+section h1{text-align: center; font-size:45px; font-weight: 600; margin: 30px 0; letter-spacing: 2px;}
+
+/* 맨 하단 */
+footer{width: 100%; height: 265px; margin-top: 315px; background: #1d1d1d;}
+.footer{width: 1290px; height: 265px; margin: 0 auto; display: flex;}
+.footer .ftnavi{width: 1042px; height: 265px; box-sizing: border-box;}
+.footer .ftnavi ul{display: flex; color: white; box-sizing: border-box; padding-top: 52px;}
+.footer .ftnavi li a{font-size: 14px; font-weight: 300; letter-spacing: -0.03em; margin: 0 34px 10px 0;}
+.footer .ftnavi li:nth-child(3) a, .footer .ftnavi li:nth-child(4) a{font-size: 14.28px; font-weight: 600;}
+.footer .ftnavi .addr{padding-top: 32px; color: #767676; font-size: 14px; font-weight: 400; letter-spacing: -0.05em;}
+.footer .ftnavi .addr p{margin-bottom: 8px;}
+.footer .ftnavi .addr span{margin: 0 10px;}
+.footer .ftnavi .tel span{margin: 0 7px;}
+.footer .ftnavi .addr .copy{padding-top: 25px; font-size: 11px; font-weight: 300; letter-spacing: 0.08em;}
+.footer .right{width: 248px; height: 265px; box-sizing: border-box;}
+.footer .right .sns{float: right; margin-top: 120px;}
+.footer .right .sns a{margin-left: 5px;}
+.footer .right .group{float: right;}
+.footer .right .group select{appearance: none; border: none; background: none;}
+.footer .right .group select:focus{outline: 0;}
+.footer .right .group .sel_box{margin-top: 20px; padding-left: 20px; width: 158px; height: 40px; border: 1px solid #666; font-size: 12px; color: white; background: url(../images/f05.png) 90% 50% no-repeat; box-sizing: border-box;}
+.footer .right .group button{width: 50px; height: 40px; color: #666; text-align: center; background: none; border: 1px solid #666; box-sizing: border-box;}
+
+
+/* 고정 스크롤 */
+#right_fixed{width: 115px; height: 297px; border: 1px solid black; position: fixed; right: 0; top: 169px; background-color: white;}
+#right_fixed .chatting{width: 115px; height: 84px; border-bottom: 1px solid black; box-sizing: border-box;}
+#right_fixed .chatting div:nth-child(1){width: 38px; height: 40px; background: url(../images/mol.svg) no-repeat; background-size: cover; margin: 26px auto 0;}
+#right_fixed .chatting div:nth-child(2){width: 100%; text-align: center; font-size: 12px; margin-top: 5px;}
+#right_fixed .ai_chatting{width: 115px; height: 84px; border-bottom: 1px solid black;}
+#right_fixed .ai_chatting div:nth-child(1){width: 38px; height: 40px; background: url(../images/cute.svg) no-repeat; background-size: cover; margin: 26px auto 0;}
+#right_fixed .ai_chatting div:nth-child(2){width: 100%; text-align: center; font-size: 12px; margin-top: 5px;}
+#right_fixed .items{width: 115px; height: 45px; border-bottom: 1px solid #ddd; font-size: 12px; text-align: center; line-height: 45px; background: #f3f3f3; letter-spacing: -1.5px;}
+#right_fixed .items span{width: 12px; height: 8px; content: ''; background: url(../images/spr_com.png) no-repeat; background-position: -80px -68px; display: inline-block;}
+#right_fixed .top{width: 115px; height: 30px; border-bottom: 1px solid black; font-size: 13px; text-align: center; line-height: 30px; background: #f3f3f3;}
+

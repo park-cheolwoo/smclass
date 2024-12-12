@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
+
+/* 공용 */
+*{margin: 0; padding: 0;
+  font-family: "Noto Sans KR", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;}
+ul, ol{list-style: none;}
+a{text-decoration: none; color: inherit; cursor: pointer;}
+main{width: 100%; box-sizing: border-box;}
+
+/* header부분 */
+*{margin: 0; padding: 0;}
+header{height: 100px;}
+.inner{margin: 50px; box-sizing: border-box;}
+ul, li, span {display: inline-block; text-align: center;}
+ul{margin: 0 auto;}
+li{margin-right: 20px;}
+.main_logo {font-size: 40px; margin-right: 500px;}
+.ag_my {margin-left: 800px;}
+.search_m>form>p{margin: 10px 500px;}
+#mapping{width: 1000px; height: 50px; margin: 100px 10px 0px 500px;}
+img{width: 2100px; height: 600px; margin-top: 100px;}
+.notice{width: 200px; height: 200px;}
+.notice>p{font-size: 25px; margin-top: 50px; margin-left: 50px;}
+.notice>table{margin: 5px 50px; width: 1800px; height: 20px;}
+table, tr, td{border: 1px solid black; border-collapse: collapse;}
+h4{margin: 50px; font-size: 25px;}
+.slide{width: 1800px; margin: 0 auto; }
+.hotPl{width: 400px; height: 450px; position: relative; margin: 0 auto; display: inline-block;}
+.hotPl>.h_img{position: absolute; width: 307px; height: 387px; padding: 0px 20px;}
+.hotPl>.h_img>img{width: 307px; height: 387px; position: absolute; bottom: 2px;}
+#inBtn{width: 50px; height: 50px;}
+
+
+/* 게시판 커뮤니티 */
+.bmodify{width: 100%; height: 1000px; position: relative; top: 50px; box-sizing: border-box;}
+#modifyFrm{width: 80%; height: 900px; margin: 0 auto; box-sizing: border-box;}
+
+.here{width: 90%; height: 35px; position: relative; top: 25px; margin-left: 50px; margin-top: 60px;}
+.here>div{color: #767676;}
+.here>i{color: black;}
+.here>i, strong{color: black;}
+.here>h2{font-size: 30px; margin: 10px auto;}
+
+#modifyFrm>table{width: 80%; height: 800px; border: 1px solid red; margin: 0 auto;}
+#modifyFrm{font-size: 20px;}
+#modifyFrm .summer{padding-left: 20px;}
+#modifyFrm .star{padding-left: 20px;}
+#modifyFrm  .star::after{
+  content: " *";
+  color: red;
+}
+input[type=text]{border: 0; width: 80%; height: 100%; font-size: 20px; padding-left: 20px;}
+#summernote {
+  padding-left: 20px;
+  resize: none;
+  border: none;
+  outline: none;
+  font-size: 20px;
+}
+#community{width: 20%; font-size: 20px; border: none; position: relative; left: 10px; padding-left: 10px;}
+.button-wrapper{width: 80%;height: 50px; text-align: center; margin: 10px auto;}
+.button-wrapper>button{width: 100px; height: 50px; font-size: 20px; border:none;
+  box-shadow: none; cursor: pointer; margin: 10px 20px;}
+
+input[type=file]{font-size: 15px; padding-left: 20px;}
+
+/* 맨 하단 */
+footer{width: 100%; height: 265px; margin-top: 50px; background: #1d1d1d;}
+.footer{width: 1290px; height: 265px; margin: 0 auto; display: flex;}
+.footer .ftnavi{width: 1042px; height: 265px; box-sizing: border-box;}
+.footer .ftnavi ul{display: flex; color: white; box-sizing: border-box; padding-top: 52px;}
+.footer .ftnavi li a{font-size: 14px; font-weight: 300; letter-spacing: -0.03em; margin: 0 34px 10px 0;}
+.footer .ftnavi li:nth-child(3) a, .footer .ftnavi li:nth-child(4) a{font-size: 14.28px; font-weight: 600;}
+.footer .ftnavi .addr{padding-top: 32px; color: #767676; font-size: 14px; font-weight: 400; letter-spacing: -0.05em;}
+.footer .ftnavi .addr p{margin-bottom: 8px;}
+.footer .ftnavi .addr span{margin: 0 10px;}
+.footer .ftnavi .tel span{margin: 0 7px;}
+.footer .ftnavi .addr .copy{padding-top: 25px; font-size: 11px; font-weight: 300; letter-spacing: 0.08em;}
+.footer .right{width: 248px; height: 265px; box-sizing: border-box;}
+.footer .right .sns{float: right; margin-top: 120px;}
+.footer .right .sns a{margin-left: 5px;}
+.footer .right .group{float: right;}
+.footer .right .group select{appearance: none; border: none; background: none;}
+.footer .right .group select:focus{outline: 0;}
+.footer .right .group .sel_box{margin-top: 20px; padding-left: 20px; width: 158px; height: 40px; border: 1px solid #666; font-size: 12px; color: white; background: url(../images/f05.png) 90% 50% no-repeat; box-sizing: border-box;}
+.footer .right .group button{width: 50px; height: 40px; color: #666; text-align: center; background: none; border: 1px solid #666; box-sizing: border-box;}
+

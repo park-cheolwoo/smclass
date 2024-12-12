@@ -20,7 +20,10 @@ box-sizing: content-box / border-box
 let phone_pattern = /^[0-9]{3,4}$/;
 let pw_pattern = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*]){,8}$/
 
+-- django migrate가 안될 때 해결방안
+https://velog.io/@ssu-uky/django-migrations-%EA%B0%80-%EC%95%88%EB%90%98%EB%8A%94-%EC%9D%B4%EC%9C%A0
 
+-- 정규표현식
 https://hamait.tistory.com/342
 
 https://m.jobkorea.co.kr/company/1984401/passassay/views?Job_Epil_No=238417

@@ -3,7 +3,7 @@ from django.http.response import JsonResponse
 
 # Create your views here.
 def map(request):
-  return render(request,'map.html')
+  return render(request,'map_merge2.html')
 
 def locCheck(request):
     lat = request.GET.get("clickLat")

@@ -1,0 +1,180 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <title>아이디 • 비밀번호 찾기</title>
+  <meta charset="UTF-8">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="description" content="ANGGGO" />
+  <meta name="keywords" content="ANGGGO" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{% static '/css/login.css' %}">
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      const csrfToken = $("meta[name='csrf-token']").attr("content");
+      let signin = $(".links").find("li").find("#signin"); // 아이디 찾기
+      let signup = $(".links").find("li").find("#signup"); // 비밀번호 찾기
+      let loginPage = $(".links").find("li").find("#loginPage"); // 로그인페이지로 이동하는 그 부분
+  
+      let first_input = $("form").find(".first-input"); // 이름 텍스트박스
+      let hidden_input = $("form").find(".input__block").find("#repeat__password"); // 인증번호 입력값
+  
+      let sendEmailBtn = $("form").find(".sendEmailBtn"); // 인증메일 발송 버튼
+      let find_btn = $("form").find(".find_btn"); // 핑크버튼
+  
+      let verificationCode = ''; // 랜덤 인증번호 저장 변수
+  
+      //----------- 비밀번호 찾기 화면 ---------------------
+      signup.on("click", function(e) {
+        e.preventDefault();  // 페이지 새로고침 방지
+        
+        // 비밀번호 찾기 화면으로 변경
+        $(this).parent().parent().siblings("h1").text("비밀번호 찾기");
+        $(this).parent().css("opacity", "1");
+        $(this).parent().siblings().css("opacity", ".6");
+
+        // 이름 텍스트박스를 비밀번호 찾기 화면에 맞게 변환
+        first_input.removeClass("first-input__block").addClass("signup-input__block");
+
+        // 인증번호 입력 부분 보이기
+        hidden_input.css({
+            "opacity": "1",  // 인증번호 입력부분 나타내기
+            "display": "block"
+        });
+
+        // 인증메일 발송 버튼 보이기
+        sendEmailBtn.css("display", "inline-block");
+
+        // 버튼 텍스트를 "인증번호 확인"으로 변경
+        find_btn.text("인증번호 확인");
+      });
+  
+      //----------- 아이디 찾기 화면 ---------------------
+      signin.on("click", function(e) {
+        e.preventDefault();  // 페이지 새로고침 방지
+        
+        // 아이디 찾기 화면으로 변경
+        $(this).parent().parent().siblings("h1").text("아이디 찾기");
+        $(this).parent().css("opacity", "1");
+        $(this).parent().siblings().css("opacity", ".6");
+
+        // 이름 텍스트박스를 아이디 찾기 화면에 맞게 변환
+        first_input.addClass("first-input__block").removeClass("signup-input__block");
+
+        // 인증번호 입력 부분 숨기기
+        hidden_input.css({
+          "opacity": "0",  
+          "display": "none"
+        });
+
+        // 인증메일 발송 버튼 숨기기
+        sendEmailBtn.css("display", "none");
+
+        // 버튼 텍스트를 "아이디 찾기"로 변경
+        find_btn.text("아이디 찾기");
+      });
+  
+      // 인증메일 발송 버튼 클릭 시 랜덤 숫자 전송
+      sendEmailBtn.on("click", function() {
+        const name = $("#name").val(); // 입력된 이름 가져오기
+        const email = $("#email").val(); // 입력된 이메일 주소 가져오기
+
+        // 랜덤 6자리 숫자 생성
+        verificationCode = Math.floor(100000 + Math.random() * 900000);  // 6자리 랜덤 숫자
+
+        // 이메일로 랜덤 숫자 전송 (여기선 AJAX로 서버에 요청한다고 가정)
+        $.ajax({
+          url: '/member/send_verification_code/', // 서버에서 처리할 URL
+          type: 'POST',
+          headers : {"X-CSRFToken" : csrfToken},
+          data: {
+            name: name,
+            email: email,
+            verification_code: verificationCode
+          },
+          success: function(response) {
+            if (response.result == 'success') {
+              alert("인증번호가 이메일로 전송되었습니다.");
+            } else {
+              alert("이메일 전송 실패. " + response.message);
+            }
+          },
+          error: function() {
+            alert("서버 오류. 다시 시도해주세요.");
+          }
+        });
+      });
+  
+      // 인증번호 확인 버튼 클릭 시
+      find_btn.on("click", function() {
+        const enteredCode = $("#repeat__password").val(); // 사용자가 입력한 인증번호
+    
+        $.ajax({
+          url: '/member/verify_code/',  // 인증번호 확인을 위한 URL
+          type: 'POST',
+          headers : {"X-CSRFToken" : csrfToken},
+          data: {
+            verification_code: enteredCode
+          },
+          success: function(response) {
+            if (response.result === 'success') {
+              alert("인증번호가 일치합니다.");
+              sendEmailBtn.text("비밀번호 찾기");  // 인증번호 확인 후 버튼 텍스트 변경
+            } else {
+              alert("인증번호가 일치하지 않습니다. 다시 시도해주세요.");
+            }
+          },
+          error: function() {
+            alert("서버 오류. 다시 시도해주세요.");
+          }
+        });
+      });
+  
+      // 로그인 누르면 로그인화면으로 이동
+      loginPage.on("click", function() {
+        location.href = "/member/login/";
+      });
+    });
+  </script>
+</head>
+<body>
+<div class="container">
+  <h1>아이디 찾기</h1>
+  <h4>회원정보에 등록한 이름과 이메일 주소를 입력하세요.</h4>
+  <ul class="links">
+    <li>
+      <a href="#" id="signin" class="findId">아이디 찾기</a>
+    </li>
+    <li>
+      <a href="#" id="signup" class="findPw">비밀번호 찾기</a>
+    </li>
+    <li>
+      <a href="/member/login/" id="loginPage">로그인</a>
+    </li>
+  </ul>
+
+  <form method="post" action="/member/send_verification/">
+    {% csrf_token %}
+    <div class="first-input input__block first-input__block">
+      <input type="text" placeholder="이름" class="input" id="name" name="name" />
+    </div>
+    <div class="input__block">
+      <input type="email" placeholder="이메일 주소" class="input" id="email" name="email" />
+    </div>
+    <div class="input__block">
+      <input type="text" placeholder="인증번호를 입력하세요" class="input repeat__password" id="repeat__password" />
+      <button type="button" class="sendEmailBtn">인증메일 발송</button>
+    </div>
+    <button type="button" class="signin__btn find_btn">아이디 찾기</button>
+  </form>
+
+  {% if user %}
+    <div class="result">
+      <p>아이디 : {{ user.id }}</p> <!-- 인증 후 아이디 반환 -->
+    </div>
+  {% endif %}
+</body>
+</html>

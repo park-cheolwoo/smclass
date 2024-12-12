@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <title>아이디 • 비밀번호 찾기</title>
+  <meta charset="UTF-8">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="description" content="ANGGGO" />
+  <meta name="keywords" content="ANGGGO" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scaleable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{% static '/css/login.css' %} ">
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>아이디 찾기</h1>
+    <h4>회원정보에 등록한 이름과 이메일 주소를 입력하세요.</h4>
+
+    <ul class="links">
+      <li>
+        <a href="#" id="signin" class="findId">아이디 찾기</a>
+      </li>
+      <li>
+        <a href="#" id="signup" class="findPw">비밀번호 찾기</a>
+      </li>
+      <li>
+        <a href="/member/login/" id="loginPage">로그인</a>
+      </li>
+    </ul>
+
+    <form method="post" action="/member/findInfo/">
+      {% csrf_token %}
+      {% comment %} css유지위해 다른 클래스 냅두고 클래스 추가 {% endcomment %}
+      <div class="first-input input__block first-input__block nameChk">
+        <input type="text" placeholder="이름" class="input" id="name" name="name" />
+      </div>
+      <div class="input__block emailChk">
+        <input type="email" placeholder="이메일 주소" class="input" id="email" name="email" />
+      </div>
+      <button type="button" class="signin__btn find_btn">아이디 찾기</button>
+    </form>
+
+  </div>
+</body>
+</html>

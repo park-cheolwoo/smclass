@@ -17,6 +17,7 @@ hr {
 
 table {
   width: 100%;
+  height:50%;
 }
 
 tr {
@@ -27,12 +28,14 @@ th {
   font-weight: normal;
   font-size: 20px;
 }
+th,td{height:20%;}
 
 select,
 input,
 textarea {
   width: 100%;
   border: 2px solid #ccc;
+  margin:0;
 }
 
 .category-wrapper {
@@ -61,6 +64,9 @@ input {
 
 textarea {
   resize: none;
+  width:100%;
+  height:400px;
+  margin:0;
 }
 
 #file {

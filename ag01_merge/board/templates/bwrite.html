@@ -1,0 +1,293 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" type="text/css" href="{% static '/css/bwrite.css' %}">
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <!-- include libraries(jQuery, bootstrap) -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <!-- include summernote css/js -->
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script>
+  <title>ANG-GGO</title>
+  <script>
+    // 1. 사이트 GPS 출력
+    $(function() {
+        const radius = 6371; // 지구 반지름 (단위: km)
+
+        // 두 지점 간의 거리 계산 함수 (Haversine 공식)
+        function getDistance(lat1, lon1, lat2, lon2) {
+            const toRad = (value) => (value * Math.PI) / 180;
+            const dLat = toRad(lat2 - lat1);
+            const dLon = toRad(lon2 - lon1);
+            const a = Math.sin(dLat / 2) ** 2 +
+                      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * 
+                      Math.sin(dLon / 2) ** 2;
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return radius * c; // 단위: km
+        }
+
+        // Geolocation API로 현재 위치를 가져옴
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(pos) {
+                const userLat = pos.coords.latitude;
+                const userLon = pos.coords.longitude;
+
+                $('#latitude').html(userLat); // 위도
+                $('#longitude').html(userLon); // 경도
+
+                // CSV 파일 읽기
+                $.ajax({
+                    url: '/static/좌표데이터.csv', // static 폴더에 있는 파일
+                    dataType: 'text',
+                    success: function(data) {
+                        processCSVData(data, userLat, userLon);
+                    },
+                    error: function() {
+                        alert('CSV 파일을 읽는 데 실패했습니다.');
+                    }
+                });
+            });
+        } else {
+            alert("이 브라우저에서는 Geolocation이 지원되지 않습니다.");
+        }
+
+        // CSV 데이터를 처리하는 함수
+        function processCSVData(data, userLat, userLon) {
+            const lines = data.split("\n"); // 줄 단위로 나눔
+            let nearestLocation = null; // 가장 가까운 위치
+            let minDistance = Infinity; // 최소 거리
+
+            for (let i = 1; i < lines.length; i++) { // 첫 번째 줄은 헤더
+                const line = lines[i].trim();
+                if (line) {
+                    const columns = line.split(",");
+                    const 시도 = columns[0];
+                    const 시군구 = columns[1];
+                    const 위도 = parseFloat(columns[4]);
+                    const 경도 = parseFloat(columns[5]);
+
+                    // 사용자 위치와의 거리 계산
+                    const distance = getDistance(userLat, userLon, 위도, 경도);
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        nearestLocation = `${시도} ${시군구}`;
+                    }
+                }
+            }
+
+            // 가장 가까운 위치 출력
+            if (nearestLocation) {
+                $("#bgps").val(nearestLocation);
+            } else {
+                $("#blocation").html("<p>근처에 데이터가 없습니다.</p>");
+            }
+        }
+    });// 1번 끝
+
+  // 2. 글쓰기 유효성 검사
+  if("{{wmsg}}"=='1'){
+    alert('게시글이 작성되었습니다.');
+    location.href='/board/nboard/'
+  }
+
+  $(function(){
+      $('.write').click(function(){
+          if($('#btitle').val().length<2){
+              alert('게시글 제목은 두 자리 이상 입력해야 합니다.');
+              $('#btitle').focus()
+              return false();
+          }
+          if($('#summernote').val().length<2){
+              alert('게시글 내용은 두 자리 이상 입력해야 합니다.');
+              $('#summernote').focus()
+              return false();
+          }
+          if($('#bgps').val().length<2){
+              alert('위치를 입력해야 게시글 작성이 가능합니다.');
+              $('#bgps').focus()
+              return false();
+          }
+          writeFrm.submit();
+      });
+  });// 2번 끝
+
+  // 3. 썸머노트 삽입
+  $(function(){
+
+      $('#summernote').summernote({
+          focus:true,  width:"100%",
+          minHeight: 400,           // 에디터 최소 높이
+          maxHeight: 500,          // 에디터 최대 높이
+          lang : 'ko-KR',
+          placeholder: '글자를 입력하시면 됩니다.' ,
+          disableResizeEditor: true,
+          //  추가 부분
+          toolbar: [
+          // [groupName, [list of button]]
+          ['fontname', ['fontname']],
+          ['fontsize', ['fontsize']],
+          ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+          ['color', ['forecolor','color']],
+          ['table', ['table']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['height', ['height']],
+          ['insert',['picture','link','video']],
+          ['view', ['fullscreen', 'help']]
+          ],
+        fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+        fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
+        //이미지 업로드 시 width 적용
+        callbacks: {
+          onImageUpload: function(image) {
+            console.log('in');
+            const file = image[0];
+            const reader = new FileReader();
+            reader.onloadend = function() {
+              const image = $('<img>').attr('src',  reader.result);
+              image.attr('width','100 %');
+              $('#summernote').summernote("insertNode", image[0]);
+            }
+                reader.readAsDataURL(file);
+            }
+          }
+        });
+      });
+  </script>
+</script>
+</head>
+<body>
+  <!-- 헤더 부분 -->
+  <header>
+    <div class="inner">
+      <a href="/"><span class="main_logo">로고</span></a>
+      <ul>
+        <a href="/map/mview/"><li>지도</li></a>
+        <a href="/foodBoard/foodList/"><li>맛집추천</li></a>
+        <a href="/board/nboard/"><li>게시판</li></a>
+        <li>예약</li>
+        <li>이벤트</li>
+        <a href="/Brand/"><li>브랜드 소개</li></a>
+      </ul>
+      <span>
+        <button type="button" class="ag_my"><a href="/member/login/">로그인/회원가입</a></button>
+        <button type="button" class="ag_my"><a href="/member/logout/">로그아웃</a></button>
+      </span>
+    </div>
+    <hr>
+  </header>
+
+  <!-- 메인 실행 -->
+
+  <main>
+    <div class="here">
+      <div class="sub_navloc">HOME&nbsp;&nbsp; <i class="fa-solid fa-chevron-right"></i>&nbsp;&nbsp; 게시판&nbsp;&nbsp; <strong><i class="fa-solid fa-chevron-right"></i>&nbsp;&nbsp; 게시글 작성</strong></div>
+    </div>
+    <div class="bwrite">
+      <form action="" name="writeFrm" id="writeFrm" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table>
+          <colgroup>
+            <col width="15%">
+            <col width="85%">
+          </colgroup>
+          <tr>
+            <th class="summer">작성자</th>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;{{request.session.session_nickname}}</td>
+          </tr>
+          <tr>
+            <th class="star">제목</th>
+            <td><input type="text" name="btitle" id="btitle" placeholder="제목을 입력해주세요."></td>
+          </tr>
+          <tr>
+            <th class="star">위치</th>
+            <td id="blocation"><input type="text" name="bgps" id="bgps" value=""></td>
+          </tr>
+          <tr>
+            <th class="star">커뮤니티 선택</th>
+            <td>
+              <select name="bselect" id="community">
+                <option value="추천맛집" id="yum">추천맛집😋</option>
+                <option value="감성카페" id="cafe">감성카페☕</option>
+                <option value="취미" id="hobby">취미🎮</option>
+                <option value="웨이팅" id="waiting">웨이팅👥</option>
+                <option value="실시간공유" id="live">실시간공유🗫</option>
+                <option value="생활/편의" id="life">생활/편의🧼</option>
+                <option value="교통" id="traffic">교통🚗</option>
+                <option value="풍경" id="scene">풍경🌴</option>
+                <option value="사건사고" id="accident">사건사고😈</option>
+                <option value="기타" id="etc">기타🔍</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th class="star">내용</th>
+            <td class="sumcontent">
+              <textarea name="bcontent" id="summernote" cols="50" rows="10"></textarea>
+            </td>
+          </tr>
+          <tr>
+            <th class="summer">이미지 표시</th>
+            <td>
+              <input type="file" onchange="readURL(this);" name="bfile" id="file">
+            </td>
+          </tr>
+          
+          <!-- <tr>
+            <th>이미지 확인</th>
+            <td id="txt"><img id="preview" src="" style="width: 200px;"></td>
+          </tr> -->
+        </table>
+        <div class="button-wrapper">
+          <button type="button" class="write">작성완료</button>
+          <button type="button" class="cancel" onclick="javascript:location.href='/board/nboard/'">취소</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <!-- 하단 부분 -->
+  <footer>
+    <div class="footer">
+      <div class="ftnavi">
+        <ul>
+          <li><a href="">회사소개</a></li>
+          <li><a href="">오시는길</a></li>
+          <li><a href="">개인정보처리방침</a></li>
+          <li><a href="">영상정보처리기기운영관리방침</a></li>
+          <li><a href="">이용약관</a></li>
+          <li><a href="">이메일무단수집거부</a></li>
+        </ul>
+        <div class="addr">
+          <p>포레스트 리솜<span>|</span>충청북도 제천시 백운면 금봉로 365</p>
+          <p class="tel">대표번호 : 043-649-6000&nbsp;&nbsp;
+          <span>예약문의 : 1600-0060</span>
+          <span>단체문의 : 02-6177-5999</span>
+          <span>분양문의 : 02-567-5555</span>
+          <span>통신판매업신고 : 2011-충북제천-0016호</span>
+          </p>
+          <p>메리츠화재와 개인정보 배상책임보험 계약을 체결하여 회원 개인정보를 보호하고 있습니다.</p>
+          <p class="copy">COPYRIGHT(C) HOBAN HOTEL & RESORT. ALL RIGHTS RESERVED.</p>
+        </div>
+      </div>
+      <div class="right">
+        <div class="sns">
+        </div>
+        <div class="group">
+          <select name="site_go" id="site_go" class="sel_box">
+            <option value="#">패밀리사이트</option>
+            <option value="https://www.ihoban.co.kr/web">호반건설</option>
+            <option value="https://www.hobanapt.co.kr/web">호반베르디움</option>
+          </select>
+          <button type="button">GO</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

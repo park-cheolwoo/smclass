@@ -21,9 +21,34 @@
 <script type="text/javascript" src="{% static '/js/idangerous.swiper-2.1.min.js'%}"></script>
 <script type="text/javascript" src="{% static '/js/jquery.anchor.js'%}"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script>
 <style>a{cursor: pointer;}</style>
 
 <script type="text/javascript">
+		
+
+
+
+
+			//이미지 업로드 시 width 적용
+      callbacks: {
+          onImageUpload: function(image) {
+              console.log('in');
+              const file = image[0];
+              const reader = new FileReader();
+              reader.onloadend = function() {
+                  const image = $('<img>').attr('src',  reader.result);
+                  image.attr('width','100%');
+                  $('#summernote').summernote("insertNode", image[0]);
+              }
+              reader.readAsDataURL(file);
+          }
+      }
+
+
 $(document).ready(function() {
 	
 	var mySwiper = new Swiper('#mainRoll',{

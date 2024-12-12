@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
+
+/* 공용 */
+*{margin: 0; padding: 0;
+  font-family: "Noto Sans KR", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;}
+ul, ol{list-style: none;}
+a{text-decoration: none; color: inherit; cursor: pointer;}
+
+/* header부분 */
+*{margin: 0; padding: 0;}
+header{width: 100%; height: 100px;}
+.inner{width: 100%; height: 50px;}
+ul, li, span {display: inline-block; text-align: center;}
+ul{margin: 0 auto;}
+li{margin-right: 20px;}
+.main_logo {font-size: 40px; margin-right: 500px;}
+.ag_my {margin-left: 800px;}
+.search_m>form>p{margin: 10px 500px;}
+h4{margin: 50px; font-size: 25px;}
+.slide{width: 1800px; margin: 0 auto; }
+.hotPl{width: 400px; height: 450px; position: relative; margin: 0 auto; display: inline-block;}
+.hotPl>.h_img{position: absolute; width: 307px; height: 387px; padding: 0px 20px;}
+.hotPl>.h_img>img{width: 307px; height: 387px; position: absolute; bottom: 2px;}
+#inBtn{width: 50px; height: 50px;}
+
+/* 현재위치점 */
+.here{width: 100%; height: 40px; position: relative; top: 25px; margin-left: 50px; margin-top: 10px;}
+.here>div{color: #767676;}
+.here>i{color: black;}
+.here>i, strong{color: black;}
+.here>h2{font-size: 30px; margin: 10px auto;}
+
+/* 지도 */
+#map_div{position: absolute; right: 0; display: inline;}
+#map_div>.map_act_btn_wrap{position: relative; left:90%;}
+#map_div>.map_act_btn_wrap>button{width: 100px; height: 50px;}
+#mapping{width: 750px; height: 50px; margin: 10px; position: relative;}
+.f_category{margin: 0 auto; position: relative;}
+.f_category>span{margin: 18px; }
+.m_info{width: 100%; height: 200px; box-sizing: border-box; margin: 0 auto; text-align: center;}
+#map_wrap{position: absolute; top: 500px;}
+#selectLevel{position: absolute; top: 100px;}
+
+table, tr, td{border: 1px solid black;}
+
+
+/* 맨 하단 */
+footer{width: 100%; height: 265px; margin-top: 2000px; background: #1d1d1d;}
+.footer{width: 1290px; height: 265px; margin: 0 auto; display: flex;}
+.footer .ftnavi{width: 1042px; height: 265px; box-sizing: border-box;}
+.footer .ftnavi ul{display: flex; color: white; box-sizing: border-box; padding-top: 52px;}
+.footer .ftnavi li a{font-size: 14px; font-weight: 300; letter-spacing: -0.03em; margin: 0 34px 10px 0;}
+.footer .ftnavi li:nth-child(3) a, .footer .ftnavi li:nth-child(4) a{font-size: 14.28px; font-weight: 600;}
+.footer .ftnavi .addr{padding-top: 32px; color: #767676; font-size: 14px; font-weight: 400; letter-spacing: -0.05em;}
+.footer .ftnavi .addr p{margin-bottom: 8px;}
+.footer .ftnavi .addr span{margin: 0 10px;}
+.footer .ftnavi .tel span{margin: 0 7px;}
+.footer .ftnavi .addr .copy{padding-top: 25px; font-size: 11px; font-weight: 300; letter-spacing: 0.08em;}
+.footer .right{width: 248px; height: 265px; box-sizing: border-box;}
+.footer .right .sns{float: right; margin-top: 120px;}
+.footer .right .sns a{margin-left: 5px;}
+.footer .right .group{float: right;}
+.footer .right .group select{appearance: none; border: none; background: none;}
+.footer .right .group select:focus{outline: 0;}
+.footer .right .group .sel_box{margin-top: 20px; padding-left: 20px; width: 158px; height: 40px; border: 1px solid #666; font-size: 12px; color: white; background: url(../images/f05.png) 90% 50% no-repeat; box-sizing: border-box;}
+.footer .right .group button{width: 50px; height: 40px; color: #666; text-align: center; background: none; border: 1px solid #666; box-sizing: border-box;}
+

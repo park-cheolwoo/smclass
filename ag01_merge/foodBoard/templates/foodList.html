@@ -1,0 +1,113 @@
+{% extends 'main.html'%}
+{% load static %}
+
+
+
+
+{% block container-block %}
+<script>
+  $(document).on("click",".listLikeOn",function(){
+    alert("클릭");
+    $(this).css({"display":"none"});
+    $(this).next().css({'display':"block"});
+    var cnt = $(this).next().next().text();
+    $(this).next().next().text(cnt-1);
+  });
+  $(document).on("click",".listLikeOff",function(){
+    alert("클릭");
+    $(this).css({"display":"none"});
+    $(this).prev().css({'display':"block"});
+    var cnt = $(this).next().text();
+    $(this).next().text(Number(cnt)+1);
+  });
+  $(document).on("click",".liststarOff",function(){
+    alert('클릭');
+    $(this).css({"display":"none"})
+    $(this).prev().css({"display":"block"})
+   });
+  $(document).on("click",".liststarOn",function(){
+    alert('클릭');
+    $(this).css({"display":"none"})
+    $(this).next().css({"display":"block"})
+   });
+</script>
+  <!-- 지역 배너 -->
+  <div id="foodboard2">
+    <div class="tablist">
+          <span><a>전국</a></span>
+          <span><a>서울</a></span>
+          <span><a>경기</a></span>
+          <span><a>강원</a></span>
+          <span><a>인천</a></span>
+          <span><a>충북</a></span>
+          <span><a>충남</a></span>
+          <span><a>대전</a></span>
+          <span><a>전북</a></span>
+          <span><a>전남</a></span>
+          <span><a>광주</a></span>
+          <span><a>경북</a></span>
+          <span><a>경남</a></span>
+          <span><a>대구</a></span>
+          <span><a>울산</a></span>
+          <span><a>부산</a></span>
+          <span><a>제주</a></span>
+          <!-- 카테고리 -->
+        </div>
+        <div>
+          <div class="content_list2">
+            {% if flist %}
+            {% for f in flist %}
+            <div class="item_wrap2">
+              <a href="/foodBoard/foodView/{{f.bNo}}">      
+                <img class="listImg2" src="{{f.bFile1.url}}">
+              </a>
+              <button class="listLikeOn"></button>
+              <button class="listLikeOff"></button>
+              <span class="LikeCnt">111</span>
+              <button class="listLoc"></button>
+              <button class="liststarOn"></button>
+              <button class="liststarOff"></button>
+              <div class="item_title">
+                <a href="#" class="item_title1">{{f.bTitle}}</a><span class="item_title2">00구</span>
+              </div>
+          <div class="item_content">
+            <h4>
+              {{f.bSubtitle}}
+            </h4>
+          </div>
+        </div>
+        {% endfor %}
+        {% endif %}      
+      </div>
+        <div class="btnAreaList">
+          <!-- 페이징이동1 -->
+          <div class="allPageMoving1">
+            <ul class="page-num">
+              {% if flist.has_previous %}
+              <a href='/foodBoard/foodList/?npage=1'><li class="first"><div></div></li></a>
+              <a href='/foodBoard/foodList/?npage={{flist.previous_page_number}}'><li class="prev"><div></div></li></a>
+              {% endif %}
+              {% for page in flist.paginator.page_range %}
+              {% if page != npage %}
+              <a href='/foodBoard/foodList/?npage={{page}}'><li class="num"><div>{{page}}</div></li></a>
+              {% else %}
+              <li class="num on"><div>{{page}}</div></li>
+              {% endif %}
+              {% endfor %}
+              {% if flist.has_next %}
+              <a href ='/foodBoard/foodList/?npage={{flist.next_page_number}}'><li class="next"><div></div></li></a>
+              <a href='/foodBoard/foodList/?npage={{ flist.paginator.num_pages }}'><li class="last"><div></div></li></a>
+              {% endif %}
+            </ul>		
+          </div>
+          <!-- //페이징이동1 -->
+        </div>
+      </div>
+      <!-- 로그인한 사람만 글쓰기 가능 -->
+      {%if request.session.session_id%}
+      <a id="add" href="/foodBoard/foodWrite/"><i class="fa-solid fa-plus"></i></a>
+      {% else %}
+      {% endif %}
+    </div>
+  </div>
+    {% endblock container-block %}
