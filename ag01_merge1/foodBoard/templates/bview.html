@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{% static '/css/foodboard.css' %}">
+  <title>ANG-GGO</title>
+</head>
+<body>
+  <!-- 헤더 부분 -->
+  <header>
+    <div class="inner">
+      <a href="/"><span class="main_logo">로고</span></a>
+      <ul>
+        <li>지도</li>
+        <a href="/foodBoard/blist/"><li>맛집추천</li></a>
+        <a href="/board/nboard/"><li>게시판</li></a>
+        <li>예약</li>
+        <li>이벤트</li>
+        <li>브랜드 소개</li>
+      </ul>
+      <span>
+        <button type="button" class="ag_my">로그인/회원가입</button>
+      </span>
+    </div>
+    <hr>
+  </header>
+  
+  <!-- 메인페이지 -->
+  <main>
+    <div id="foodboard">
+      <div class="info_more">
+        <div class="info_img">
+          <img src= "/static/images/예시1.jpg">
+          <img src= "/static/images/예시11.jpg">
+          <img src= "/static/images/예시111.jpg">
+        </div>
+        <div class="info_text">
+          <div class="bottom_slide">
+            <strong>힐스오브북스</strong>
+            <p>마포구 · 북카페</p>
+          </div>
+          <div class="bottom_content">
+            <strong>시간 순삭 당하는 서점 겸 카페</strong>
+            <p>왁자지껄한 망원시장 입구 부근에 고요한 북 카페 ‘힐스오브북스’가 문을 열었어요. 이곳은 포근한 분위기가 인상적인 서점 겸 책 카페예요. 10명 안팎의 인원이 들어가면 내부가 꽉 찬답니다. 규모는 작지만 만화책부터 사진집까지 다양한 장르의 책을 보유하고 있어요.</p><br>
+            <p>작은 건물 4층에 자리하고 있는데 승강기가 없어 계단으로 올라가야 해요. 카페까지 올라가는 계단 곳곳에 붙어있는 조그마한 그림을 찾는 재미가 있어요. 실내는 일명 ‘오타쿠 감성’을 자극하는 아기자기한 소품이 즐비해요. 일부 책과 소품은 판매하고 있어요.</p><br>
+            <p>이곳에서는 책에 집중하다 배꼽시계가 울려도 걱정 없어요. ‘명란 감자 팬케이크’와 ‘나루토 컵라면’ 등 일본 애니메이션 속에서나 볼 법한 다양한 요리를 맛볼 수 있어요. 카페 주인 분께서 직접 그린 어딘가 어설프지만 그래서 더 정감 가는 메뉴판이 이곳을 설명해 주죠.</p><br>
+            <p>덕후 심쿵하게 하는 재미난 메뉴와 위치가 궁금하다구요? 아래 버튼을 눌러 더 자세한 정보를 알아보세요!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 하단 부분 -->
+  <footer>
+    <div class="footer">
+      <div class="ftnavi">
+        <ul>
+          <li><a href="">회사소개</a></li>
+          <li><a href="">오시는길</a></li>
+          <li><a href="">개인정보처리방침</a></li>
+          <li><a href="">영상정보처리기기운영관리방침</a></li>
+          <li><a href="">이용약관</a></li>
+          <li><a href="">이메일무단수집거부</a></li>
+        </ul>
+        <div class="addr">
+          <p>포레스트 리솜<span>|</span>충청북도 제천시 백운면 금봉로 365</p>
+          <p class="tel">대표번호 : 043-649-6000&nbsp;&nbsp;
+          <span>예약문의 : 1600-0060</span>
+          <span>단체문의 : 02-6177-5999</span>
+          <span>분양문의 : 02-567-5555</span>
+          <span>통신판매업신고 : 2011-충북제천-0016호</span>
+          </p>
+          <p>메리츠화재와 개인정보 배상책임보험 계약을 체결하여 회원 개인정보를 보호하고 있습니다.</p>
+          <p class="copy">COPYRIGHT(C) HOBAN HOTEL & RESORT. ALL RIGHTS RESERVED.</p>
+        </div>
+      </div>
+      <div class="right">
+        <div class="sns">
+          <a href="#"><img src="images/insta_btn_fnew.png"></a>
+          <a href="#"><img src="images/youtube_btn_fnew.png"></a>
+          <a href="#"><img src="images/facebook_btn_fnew.png"></a>
+          <a href="#"><img src="images/kakao_ch_btn_fnew.png"></a>
+        </div>
+        <div class="group">
+          <select name="site_go" id="site_go" class="sel_box">
+            <option value="#">패밀리사이트</option>
+            <option value="https://www.ihoban.co.kr/web">호반건설</option>
+            <option value="https://www.hobanapt.co.kr/web">호반베르디움</option>
+          </select>
+          <button type="button">GO</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

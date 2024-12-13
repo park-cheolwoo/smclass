@@ -1,0 +1,419 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <title>회원가입</title>
+  <meta charset="UTF-8">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="description" content="ANGGGO" />
+  <meta name="keywords" content="ANGGGO" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scaleable=no"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{% static '/css/signup.css' %} ">
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <script src="{% static '/js/signup.js' %}"></script>
+  
+  <script type="text/javascript">
+    $(function(){
+      const csrfToken = $("meta[name='csrf-token']").attr("content");
+
+      const id = $("#id");
+      const pw = $("#pw");
+      const repeat__password = $("#repeat__password");
+      const name = $("#name");
+      const nickname = $("#nickname");
+      const tel = $("#tel");
+
+      var email_id = $("#email_id");
+      var email_domain = $("#email_domain").val();
+      var email = "";
+
+      // 정규표현식
+      const expIdText = /^[A-Za-z]{3,20}$/;
+      const expPwText = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+      const expNameText = /^[가-힣a-zA-Z]+$/ // 한글, 영문만 가능
+      const expNicknameText = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/;
+      const expTelText = /^\d{3}-\d{3,4}-\d{4}$/;
+      const expEmailText = /^[a-z0-9\.\-_]+@([a-z0-9\-]+\.)+[a-z]{2,6}$/;
+
+      // 유효성 검사 / 중복 확인 //
+      /* --------------------- id --------------------- */
+      id.on("blur", function(){
+        const userId = id.val();
+
+        if(userId){
+          $.ajax({
+            headers : {"X-CSRFToken":csrfToken},
+            url : "/member/idDupChk/",
+            type : "post",
+            data : {"id":userId},
+  
+            success : function(response){
+              // 유효성 검사
+              if(!expIdText.test(userId)){ 
+                $("#expIdError").css("display", "block");
+              } else if(response.result == "error"){ 
+                $("#idDupError").text(response.message).css("display", "block");
+                $("#expIdError").css("display", "none");
+              } else{ 
+                $("#expIdError").css("display", "none");
+                $("#idDupError").css("display", "none");
+                console.log("아이디 : " + userId);
+              }
+            },
+            error : function(){
+              alert("서버 오류");
+            }
+          }); // ajax - 아이디 중복 확인
+        }
+      }); // id
+  
+      pw.on("blur", function(){
+        if(!expPwText.test(pw.val())){
+          $("#expPwError").css("display", "block");
+        } 
+      }); // pw
+
+      name.on("blur", function(){
+        if(!expNameText.test(name.val())){
+          $("#expNameError").css("display", "block");
+        } 
+      }); // name
+
+      /* --------------------- nickname --------------------- */
+      nickname.on("blur", function(){
+        const userNickname = nickname.val();
+
+        if(userNickname){
+          $.ajax({
+            headers : {"X-CSRFToken":csrfToken},
+            url : "/member/nicknameDupChk/",
+            type : "post",
+            data : {"nickname":userNickname},
+  
+            success : function(response){
+              // 유효성 검사
+              if(!expNicknameText.test(userNickname)){
+                $("#expNicknameError").css("display", "block");
+              }else if(response.result == "error"){
+                $("#nicknameDupError").text(response.message).css("display", "block");
+                $("#expNicknameError").css("display", "none");
+              } else{
+                $("#expNicknameError").css("display", "none");
+                $("#nicknameDupError").css("display", "none");
+                console.log("닉네임 : " + userNickname);
+              }
+            },
+            error : function(){
+              alert("서버 오류");
+            }
+          }); // ajax
+        }
+      }); // nickname
+
+      /* --------------------- tel --------------------- */
+      // 하이픈(-) 자동 추가
+      function autoHypenPhone(str){
+        str = str.replace(/[^0-9]/g, '');
+        var tmp = '';
+        if( str.length < 4){
+          return str;
+        }else if(str.length < 7){
+          tmp += str.substr(0, 3);
+          tmp += '-';
+          tmp += str.substr(3);
+          return tmp;
+        }else if(str.length < 11){
+          tmp += str.substr(0, 3);
+          tmp += '-';
+          tmp += str.substr(3, 3);
+          tmp += '-';
+          tmp += str.substr(6);
+          return tmp;
+        }else{              
+          tmp += str.substr(0, 3);
+          tmp += '-';
+          tmp += str.substr(3, 4);
+          tmp += '-';
+          tmp += str.substr(7);
+          return tmp;
+        }
+        return str;
+      }
+
+      // autoHypenPhone 함수 적용
+      tel.on('keyup', function() {
+        var _val = $(this).val().trim();
+        $(this).val(autoHypenPhone(_val));
+      });
+
+
+      tel.on("blur", function(){
+        const userTel = tel.val();
+
+        if(userTel){
+          $.ajax({
+            headers : {"X-CSRFToken":csrfToken},
+            url : "/member/telDupChk/",
+            type : "post",
+            data : {"tel":userTel},
+    
+            success : function(response){
+              // 유효성 검사
+              if(!expTelText.test(userTel)){
+                $("#expTelError").css("display", "block");
+              }else if(response.result == "error"){
+                $("#telDupError").text(response.message).css("display", "block");
+                $("#expTelError").css("display", "none");
+              } else if (response.result == "success") {
+                $("#expTelError").css("display", "none");
+                $("#telDupError").css("display", "none");
+                console.log("전화번호 : " + userTel);
+              }
+            },
+            error : function(){
+              alert("서버 오류");
+            }
+          }); // ajax
+        }
+      }); // tel
+
+      /* --------------------- email --------------------- */
+      $("#emailAddrs").on("change", function(){
+        var emailAddr = $(this).val();
+
+        if(emailAddr != "") {
+          $("#email_domain").prop("readonly", true);  // readonly 속성 설정
+          $("#email_domain").val(emailAddr);  // email_domain 값 설정
+        } else {
+          $("#email_domain").prop("readonly", false);  // readonly 속성 제거
+          $("#email_domain").val("");  // email_domain 값을 비움
+        }
+      });
+      
+      email = email_id.val() + "@" + email_domain
+      if((email_id.val() != "") && (email_domain != "")){
+        $.ajax({
+          headers : {"X-CSRFToken":csrfToken},
+          url : "/member/emailDupChk/",
+          type : "post",
+          data : {"email":email},
+  
+          success : function(response){
+            if(!expEmailText.test(email)){
+              $("#expEmailError").css("display", "block");
+            } else if(response.result == "error"){
+              $("#emailDupError").text(response.message).css("display", "block");
+              $("#expEmailError").css("display", "none");
+            } else if (response.result == "success") {
+              $("#expEmailError").css("display", "none");
+              $("#emailDupError").css("display", "none");
+              console.log("이메일 : " + email);
+            }
+          },
+          error : function(){
+            alert("서버 오류");
+          }
+        }); // ajax
+      }
+
+      /* --------------------- repeat__password --------------------- */
+      repeat__password.on("blur", function(){
+        if (pw.val() !== repeat__password.val()) {
+          $("#repeatPwError").css("display", "block");
+        } else{
+          $("#repeatPwError").css("display", "none");
+        }
+      });
+
+
+      /* --------------------- #signupBtn - 회원가입 버튼 --------------------- */
+      // 나중에 alert 뜨는 거 대신 입력창테두리 빨갛게 변경할 것
+      $("#signupBtn").on("click", function(){
+        if(!(id.val())){
+          alert("사용하실 아이디를 입력하세요.");
+          id.focus();
+          return false;
+        } else if(!(pw.val())){
+          alert("사용하실 비밀번호를 입력하세요.");
+          pw.focus();
+          return false;
+        } else if(!(repeat__password.val())){
+          alert("비밀번호 확인란을 입력하세요.");
+          repeat__password.focus();
+          return false;
+        } else if(!(name.val())){
+          alert("이름을 입력하세요.");
+          name.focus();
+          return false;
+        } else if(!(nickname.val())){
+          alert("닉네임을 입력하세요.");
+          nickname.focus();
+          return false;
+        } else if(!(tel.val())){
+          alert("전화번호를 입력하세요.");
+          tel.focus();
+          return false;
+        } else if(!(email_id.val())){
+          alert("이메일 아이디를 입력하세요.");
+          email_id.focus();
+          return false;
+        } else if($("#email_domain").val() == ""){
+          alert("이메일 도메인을 입력 / 선택하세요."); 
+          $("#email_domain").focus();
+          return false;
+        } else if(!($("#sample6_postcode").val()) || !($("#sample6_address").val())){
+          alert("주소를 입력 / 선택하세요.");
+          return false;
+        } 
+
+
+        // 모든 조건 충족, 서버에 데이터 전송
+        $.ajax({
+          headers : {"X-CSRFToken":csrfToken},
+          url : "/member/signup/",
+          type : "post",
+          data : {
+            "id": 
+            "email":email
+          },
+  
+          success : function(response){
+            if(!expEmailText.test(email)){
+              $("#expEmailError").css("display", "block");
+            } else if(response.result == "error"){
+              $("#emailDupError").text(response.message).css("display", "block");
+              $("#expEmailError").css("display", "none");
+            } else if (response.result == "success") {
+              $("#expEmailError").css("display", "none");
+              $("#emailDupError").css("display", "none");
+              console.log("이메일 : " + email);
+            }
+          },
+          error : function(){
+            alert("서버 오류");
+          }
+        }); // ajax
+
+
+      }); // signupBtn - 회원가입 버튼
+    }); // jquery
+  </script>
+
+</head>
+<body>
+<div class="container">
+  <!-- Heading -->
+  <h1>회원가입</h1>
+  
+  <!-- Links -->
+  <ul class="links">
+    <li>
+      <a id="signup">회원가입</a>
+    </li>
+    <li></li>
+    <li>
+      <a href="/member/login/" id="signin">로그인</a>
+    </li>
+  </ul>
+
+  <!-- Form -->
+  <form action="/member/signup/" method="post">
+    {% csrf_token %}
+    <!-- id input -->
+    <div class="first-input input__block first-input__block">
+      <input type="text" placeholder="아이디" class="input" id="id" name="id"/>
+    </div>
+    <div class="errorTexts"> <!-- 숨겨놨다가 하나씩 보이게 -->
+      <div class="chk_no" id="expIdError" style="display: none;">5~20자의 영문 대소문자만 사용 가능합니다.</div>
+      <div class="chk_no" id="idDupError" style="display: none;"></div> <!-- 서버 측 에러 메시지 -->
+      {% comment %} <div class="chk_ok">사용 가능한 아이디입니다.</div> {% endcomment %}
+    </div>
+
+    <!-- pw input -->
+    <div class="input__block">
+      <input type="password" placeholder="비밀번호" class="input" id="pw" name="pw"/>
+    </div>
+    <div class="errorTexts">
+      <div class="chk_no" id="expPwError" style="display: none;">8자 이상 / 소문자, 대문자, 특수문자를 각각 최소 1개씩 포함해야 합니다.</div>
+    </div>
+
+    <!-- repeat__password input -->
+    <div class="input__block">
+      <input type="password" placeholder="비밀번호 확인" class="input repeat__password" id="repeat__password" name="repeat__password"/>
+    </div>
+    <div class="errorTexts">
+      <div class="chk_no" id="repeatPwError" style="display: none;">비밀번호가 일치하지 않습니다.</div>
+      {% comment %} <div class="chk_ok">비밀번호가 일치합니다.</div> {% endcomment %}
+    </div>
+
+    <!-- name input -->
+    <div class="input__block">
+       <input type="text" placeholder="이름" class="input" id="name" name="name"/>
+    </div>
+    <div class="errorTexts">
+      <div class="chk_no" id="expNameError" style="display: none;">한글 / 영문만 입력 가능합니다.</div>
+    </div>
+    
+    <!-- nickname input -->
+    <div class="input__block">
+      <input type="text" placeholder="닉네임" class="input" id="nickname" name="nickname"/>
+    </div>
+    <div class="errorTexts">
+      <div class="chk_no" id="expNicknameError" style="display: none;">2~16자의 영어 또는 숫자 또는 한글만 사용 가능합니다.</div>
+      <div class="chk_no" id="nicknameDupError" style="display: none;"></div> <!-- 서버 측 에러 메시지 -->
+      {% comment %} <div class="chk_ok">사용 가능한 닉네임입니다.</div> {% endcomment %}
+    </div>
+
+    <!-- tel input -->
+    {% comment %} <div class="input__block" placeholder="전화번호"> {% endcomment %}
+    <div>
+      <input type="text" name="tel" id="tel" placeholder="전화번호 입력" maxlength="13"/>
+      {% comment %} <input type="tel" placeholder="전화번호" class="input" id="tel" name="tel"/> {% endcomment %}
+    </div>
+    <div class="errorTexts">
+      <div class="chk_no" id="expTelError" style="display: none;">휴대폰 번호 형식을 확인하세요. 하이픈(-)을 포함해야 합니다.</div>
+      <div class="chk_no" id="telDupError" style="display: none;"></div> <!-- 서버 측 에러 메시지 -->
+    </div>
+
+    <!-- email input -->
+    <div>
+      <input type="text" placeholder="이메일 아이디 입력" id="email_id" name="email_id"/>
+      <span>@</span>
+      <input type="text" id="email_domain" name="email_domain" readonly="true"/> 
+      <select name="emailAddrs" id="emailAddrs">
+        <option value="이메일을 선택하세요.">-선택-</option>
+        <option value="naver.com" id="naver.com">naver.com</option>
+        <option value="gmail.com" id="gmail.com">gmail.com</option>
+        <option value="daum.net" id="daum.net">daum.net</option>
+        <option value="nate.com" id="nate.com">nate.com</option>
+        <option value="hanmail.net" id="hanmail.net">hanmail.net</option>
+        <option value="" id="typeEmailAddr">직접입력</option>
+      </select>
+    </div>
+    <div class="errorTexts">
+      <div class="chk_no" id="expEmailError" style="display: none;">영문, 숫자, 사용 가능한 특수문자 : .-_ </div>
+      <div class="chk_no" id="emailDupError" style="display: none;"></div> <!-- 서버 측 에러 메시지 -->
+      {% comment %} <div class="chk_ok">사용 가능한 이메일입니다.</div> {% endcomment %}
+    </div>
+
+    <!-- 카카오 주소 찾기 api -->
+    <div id="findAddr">
+      <input type="text" id="sample6_postcode" class="addrTexts" placeholder="우편번호">
+      <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+      <input type="text" id="sample6_address" placeholder="주소" class="addrTexts"><br>
+      <input type="text" id="sample6_detailAddress" placeholder="[선택] 상세주소">
+      <input type="text" id="sample6_extraAddress" placeholder="[선택] 참고항목">
+    </div>
+
+    <!-- 로그인 button -->
+    <button type="button" class="signin__btn" id="signupBtn">회원가입</button>
+  </form>
+  <div class="find_info">
+    <a href="/member/findInfo/">아이디 • 비밀번호 찾기</a>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,145 @@
+{% extends 'main.html'%}
+{% load static %}
+
+{% block container-block %}
+<script>
+  let session_id = "{{request.session.session_id}}"
+  $(document).on("click",".listLikeOn",function(){
+    alert("클릭");
+    $(this).css({"display":"none"});
+    $(this).next().css({'display':"block"});
+    var cnt = $(this).next().next().text();
+    $(this).next().next().text(cnt-1);
+  });
+  $(document).on("click",".listLikeOff",function(){
+    alert("클릭");
+    if(session_id ==""){
+      alert("로그인을 하셔야 좋아요가 가능합니다.")
+      return false
+    }
+    $(this).css({"display":"none"});
+    $(this).prev().css({'display':"block"});
+    var cnt = $(this).next().text();
+    $(this).next().text(Number(cnt)+1);
+  });
+  $(document).on("click",".liststarOff",function(){
+    alert('클릭');
+    if(session_id ==""){
+      alert("로그인을 하셔야 즐겨찾기가 가능합니다.")
+      return false
+    }
+    $(this).css({"display":"none"})
+    $(this).prev().css({"display":"block"})
+   });
+  $(document).on("click",".liststarOn",function(){
+    alert('클릭');
+    
+    $(this).css({"display":"none"})
+    $(this).next().css({"display":"block"})
+   });
+  $(document).on("click","#foodSearchBtn",function(){
+    let foodKeyword = $("#food_search").val()
+    let foodKeyword_pattern = /^[0-9a-zA-Z가-힣]+$/
+    if(foodKeyword.length == 0){
+      alert("검색어를 입력하세요.")
+      return false;
+    }else if(!foodKeyword_pattern.test(foodKeyword)){
+      alert("검색어는 영어,숫자,한글만 가능합니다.")
+      return false;
+    } foodFrm.submit();
+  })
+</script>
+  <!-- 지역 배너 -->
+  <div id="foodboard2">
+    <div class="tablist">
+          <span><a>전국</a></span>
+          <span><a>서울</a></span>
+          <span><a>경기</a></span>
+          <span><a>강원</a></span>
+          <span><a>인천</a></span>
+          <span><a>충북</a></span>
+          <span><a>충남</a></span>
+          <span><a>대전</a></span>
+          <span><a>전북</a></span>
+          <span><a>전남</a></span>
+          <span><a>광주</a></span>
+          <span><a>경북</a></span>
+          <span><a>경남</a></span>
+          <span><a>대구</a></span>
+          <span><a>울산</a></span>
+          <span><a>부산</a></span>
+          <span><a>제주</a></span>
+          <!-- 카테고리 -->
+        </div>
+        <div>
+          <div class="content_list2">
+            {% if flist %}
+            {% for f in flist %}
+            <div class="item_wrap2">
+              <a href="/foodBoard/foodView/{{f.bNo}}">      
+                <img class="listImg2" src="{{f.bFile1.url}}">
+              </a>
+              {% if request.session_session_id %}
+              <button class="listLikeOn"></button>
+              {% else %}
+              <button class="listLikeOff"></button>
+              {% endif %}
+              <span class="LikeCnt">{{flist.like_members.count}}</span>
+              <button class="listLoc"></button>
+              {% if request.session_session_id %}
+              <button class="liststarOn"></button>
+              {% else %}
+              <button class="liststarOff"></button>
+              {% endif %}
+              <div class="item_title">
+                <a href="#" class="item_title1">{{f.bTitle}}</a><span class="item_title2">00구</span>
+              </div>
+          <div class="item_content">
+            <h4>
+              {{f.bSubtitle}}
+            </h4>
+          </div>
+        </div>
+        {% endfor %}
+        {% endif %}      
+      </div>
+        <div class="btnAreaList">
+          <!-- 페이징이동1 -->
+          <div class="allPageMoving1">
+            <ul class="page-num">
+              {% if flist.has_previous %}
+              <a href='/foodBoard/foodList/?npage=1'><li class="first"><div></div></li></a>
+              <a href='/foodBoard/foodList/?npage={{flist.previous_page_number}}'><li class="prev"><div></div></li></a>
+              {% endif %}
+              {% for page in flist.paginator.page_range %}
+              {% if page != npage %}
+              <a href='/foodBoard/foodList/?npage={{page}}'><li class="num"><div>{{page}}</div></li></a>
+              {% else %}
+              <li class="num on"><div>{{page}}</div></li>
+              {% endif %}
+              {% endfor %}
+              {% if flist.has_next %}
+              <a href ='/foodBoard/foodList/?npage={{flist.next_page_number}}'><li class="next"><div></div></li></a>
+              <a href='/foodBoard/foodList/?npage={{ flist.paginator.num_pages }}'><li class="last"><div></div></li></a>
+              {% endif %}
+            </ul>		
+          </div>
+          <!-- //페이징이동1 -->
+        </div>
+      </div>
+      <!-- 로그인한 사람만 글쓰기 가능 -->
+      {%if request.session.session_id%}
+      <a id="add" href="/foodBoard/foodWrite/"><i class="fa-solid fa-plus"></i></a>
+      {% else %}
+      {% endif %}
+    </div>
+    <div class="foodSearch">
+      <form name="foodFrm" method="POST">
+        {% csrf_token %}
+        <input type="search" id="food_search" name="foodKeyword"placeholder="검색어를 입력해주세요." >
+        <button id="foodSearchBtn"><img width="30" height="30" src="https://img.icons8.com/ios-filled/50/search--v1.png" alt="search--v1"/></button>
+      </form>
+    </div>
+
+  </div>
+    {% endblock container-block %}

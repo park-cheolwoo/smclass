@@ -12,7 +12,7 @@ writerow 적용법 (리스트 >> 1줄씩) / newline =
 7. MVC 패턴 / Django framework flow
 8. 엑셀 주요 함수
 9. API 호출/받아오기 연습(XML/JSON)
-
+10. 슬라이더 html 코딩 연습
 
 box-sizing: content-box / border-box
 

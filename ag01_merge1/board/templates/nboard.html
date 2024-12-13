@@ -1,0 +1,465 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" type="text/css" href="{% static '/css/nboard.css' %}">
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <title>ANG-GGO</title>
+  <script>
+    // 1. 모달창 위치정보 수집 동의
+    let userLat = null;
+    let userLon = null;
+    let nearestLocation = null;
+    let nearestLocation_s = null;
+
+  function updateLocation(lat, lon) {
+    userLat = lat;
+    userLon = lon;
+
+    // 위치 데이터를 sessionStorage에 저장
+    sessionStorage.setItem("userLat", lat);
+    sessionStorage.setItem("userLon", lon);
+
+    // CSV 데이터와 비교하여 가장 가까운 위치 업데이트
+    $.ajax({
+      url: '/static/좌표데이터.csv',
+      dataType: 'text',
+      success: function (data) {
+        const nearestLocation = processCSVData(data, lat, lon);
+      if (nearestLocation) {
+        const [시도, 시군구] = nearestLocation.split(" ");
+      }
+    },
+      error: function () {
+        alert('CSV 파일을 읽는 데 실패했습니다.');
+      },
+    });
+  }
+
+  // 가장 가까운 위치를 찾고 DOM 업데이트
+  function processCSVData(data, lat, lon) {
+    const lines = data.split("\n");
+    let minDistance = Infinity;
+
+    for (let i = 1; i < lines.length; i++) {
+      const line = lines[i].trim();
+      if (line) {
+        const columns = line.split(",");
+        const 시도 = columns[0];
+        const 시군구 = columns[1];
+        const 위도 = parseFloat(columns[4]);
+        const 경도 = parseFloat(columns[5]);
+
+        const distance = getDistance(lat, lon, 위도, 경도);
+        if (distance < minDistance) {
+          minDistance = distance;
+          nearestLocation = `${시도} ${시군구}`;
+          nearestLocation_s = `${시군구}`;
+        }
+      }
+    }
+
+    // DOM 업데이트
+    if (nearestLocation) $("#gps").html(`<h2>${nearestLocation}</h2>`);
+    if (nearestLocation_s) $("#gps_s").html(`<h2>${nearestLocation_s} <i class="fa-solid fa-location-dot"></i></h2>`);
+    
+
+    // 위치 데이터를 sessionStorage에 저장
+    sessionStorage.setItem("nearestLocation", nearestLocation);
+    sessionStorage.setItem("nearestLocation_s", nearestLocation_s);
+  }
+
+  // Haversine 공식으로 거리 계산
+  function getDistance(lat1, lon1, lat2, lon2) {
+    const radius = 6371; // 지구 반지름 (km)
+    const toRad = (value) => (value * Math.PI) / 180;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a =
+      Math.sin(dLat / 2) ** 2 +
+      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return radius * c;
+  }
+
+  // 위치 권한 요청 및 업데이트
+  function requestLocationPermission() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          let lat = position.coords.latitude;
+          let lon = position.coords.longitude;
+          updateLocation(lat, lon);
+          alert("위치 권한이 허용되었습니다.");
+          setTimeout(() => {
+          let nearestLocation = sessionStorage.getItem("nearestLocation")
+          let newUrl = `/board/nboard/?bgps=${nearestLocation}`;
+          window.location.href = newUrl;
+          }, 500); // AJAX 요청이 완료될 시간을 고려하여 약간의 지연 추가
+        },
+        (error) => {
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              alert("위치 권한이 거부되었습니다.");
+              resetLocation(); // 위치 초기화 함수 호출
+              break;
+            case error.POSITION_UNAVAILABLE:
+              alert("위치 정보를 사용할 수 없습니다.");
+              resetLocation();
+              break;
+            case error.TIMEOUT:
+              alert("위치 요청이 시간 초과되었습니다.");
+              resetLocation();
+              break;
+            default:
+              alert("알 수 없는 오류가 발생했습니다.");
+              resetLocation();
+          }
+        }
+      );
+    } else {
+      alert("이 브라우저는 위치 서비스를 지원하지 않습니다.");
+      resetLocation();
+    }
+  }
+  
+  function resetLocation() {
+    sessionStorage.removeItem("userLat");
+    sessionStorage.removeItem("userLon");
+    sessionStorage.removeItem("nearestLocation");
+    sessionStorage.removeItem("nearestLocation_s");
+  
+    // 기본 위치 초기화
+    const default_bgps = "서울특별시 강남구";
+    const default_bgps_s = "강남구";
+  
+    // DOM 초기화
+    $("#gps").html(`<h2>${default_bgps}</h2>`);
+    $("#gps_s").html(`<h2>${default_bgps_s} <i class="fa-solid fa-location-dot"></i></h2>`);
+  }
+  
+  // URL에서 bgps_s 파라미터를 직접 처리
+  $(document).ready(function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const current_bgps = urlParams.get("bgps") || "서울특별시 강남구";
+    const current_bgps_s = current_bgps.split(" ").pop(); // 마지막 단어 추출
+  
+    // DOM 업데이트
+    $("#gps").html(`<h2>${current_bgps}</h2>`);
+    $("#gps_s").html(`<h2>${current_bgps_s} <i class="fa-solid fa-location-dot"></i></h2>`);
+  });// 1번 끝
+//--------------------------------------------------------------------------------------------
+    // 2. 비로그인 시 사용 제한
+    $(function() {
+      $(document).on("click","#no_mem",function(){
+        if("{{request.session.session_id}}" == ""){
+          alert("로그인을 해야 게시글 상세보기가 가능합니다.")
+          location.href="/member/login/"
+          return;
+        }
+      });
+    });// 2번 끝
+//--------------------------------------------------------------------------------------------
+    // 3. 게시글 삭제
+    if ("{{dmsg}}" != ""){
+      if(confirm("{{dmsg}}번 게시글을 삭제하겠습니까?")){
+        location.href="/board/nboard/"
+      }else{
+        location.href="/board/nboard/"
+      }
+    }// 3번 끝
+//--------------------------------------------------------------------------------------------
+  // 4. 모달창에 주소 입력 시
+$(document).on("click", "#chgBtn", function() {
+  const searchQuery = $("#chg").val(); // 검색어 입력받기
+  if (searchQuery === "") {
+    alert("검색어를 입력해주세요.");
+    return;
+  }
+
+  // CSV 파일 읽기
+  $.ajax({
+    url: '/static/좌표데이터.csv', // CSV 파일 경로
+    dataType: 'text',
+    success: function(data) {
+      const lines = data.split("\n");
+      const uniqueResults = new Set();  // 중복 제거를 위한 Set
+
+      // CSV 데이터를 파싱하여 시도, 시군구 필터링
+      for (let i = 1; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (line) {
+          const columns = line.split(",");
+          const 시도 = columns[0].trim();
+          const 시군구 = columns[1].trim();
+
+          // 검색어가 포함된 시도 및 시군구만 결과에 추가
+          if (시도.includes(searchQuery) || 시군구.includes(searchQuery)) {
+            const location = `${시도} ${시군구}`;
+            uniqueResults.add(location);  // 중복 제거
+          }
+        }
+      }
+
+      // 결과 출력하기
+      const ul = $(".modal_body ul");
+      ul.empty(); // 기존 목록 초기화
+
+      // Set에서 최대 8개까지 출력
+      let counter = 0;
+      if (uniqueResults.size > 0) {
+        uniqueResults.forEach(function(item) {
+          if (counter < 8) {  // 최대 8개 항목만 출력
+            ul.append(`<li><a href="#">${item}</a></li>`);
+            counter++;
+          }
+        });
+
+        // 링크 클릭 시 nearestLocation과 nearestLocation_s 갱신
+        $(document).on("click", ".modal_body ul a", function(e) {
+          e.preventDefault();
+          const selectedLocation = $(this).text();
+          const [시도, 시군구] = selectedLocation.split(" ");
+          
+          // DOM 및 sessionStorage 업데이트
+          $("#gps").html(`<h2>${selectedLocation}</h2>`);
+          $("#gps_s").html(`<h2>${시군구} <i class="fa-solid fa-location-dot"></i></h2>`);
+          sessionStorage.setItem("nearestLocation", selectedLocation);
+          sessionStorage.setItem("nearestLocation_s", 시군구);
+          
+          // 모달 창 닫기
+          $(".modal").hide();
+          $("body").removeClass("modal-open");
+          
+          // URL 업데이트 및 페이지 새로고침
+          const newUrl = `/board/nboard/?bgps=${encodeURIComponent(selectedLocation)}&bgps_s=${encodeURIComponent(시군구)}`;
+          window.location.href = newUrl;
+      });
+      
+      } else {
+        ul.append("<li>검색 결과가 없습니다.</li>");
+      }
+    },
+    error: function() {
+      alert("CSV 파일을 읽는 데 실패했습니다.");
+    }
+  });
+});// 4번 끝
+//--------------------------------------------------------------------------------------------
+// 5. 페이지 로드 시 데이터 유지
+$(document).ready(function () {
+  let savedNearestLocation = sessionStorage.getItem("nearestLocation") || "서울특별시 강남구";
+  let savedNearestLocation_s = sessionStorage.getItem("nearestLocation_s") || "강남구";
+  let boardbgps = "{{board.bgps}}";
+  // DOM 업데이트
+  if(boardbgps!=sessionStorage.getItem("nearestLocation")){
+    sessionStorage.setItem("nearestLocation") = boardbgps
+    $("#gps").html(`<h2>${boardbgps}</h2>`);
+  }
+  $("#gps").html(`<h2>${savedNearestLocation}</h2>`);
+  $("#gps_s").html(`<h2>${savedNearestLocation_s} <i class="fa-solid fa-location-dot"></i></h2>`);
+});// 5번 끝
+//--------------------------------------------------------------------------------------------
+</script>
+</head>
+<body>
+  <!-- 헤더 부분 -->
+  <header>
+    <div class="inner">
+      <a href="/"><span class="main_logo">로고</span></a>
+      <ul>
+        <a href="/map/mview/"><li>지도</li></a>
+        <a href="/foodBoard/foodList/"><li>맛집추천</li></a>
+        <a href="/board/nboard/"><li>게시판</li></a>
+        <li>예약</li>
+        <li>이벤트</li>
+        <a href="/Brand/"><li>브랜드 소개</li></a>
+      </ul>
+      <span>
+        <button type="button" class="ag_my"><a href="/member/login/">로그인/회원가입</a></button>
+        <button type="button" class="ag_my"><a href="/member/logout/">로그아웃</a></button>
+      </span>
+    </div>
+    <hr>
+  </header>
+  <!-- 헤더 끝 -->
+  <!-- 메인 실행 -->
+  <main>
+    <form action="#" name="mapping" method="post">
+      {% csrf_token %}
+      <button type="button" id="gps_s"><h2>  <i class="fa-solid fa-location-dot"></i></h2></button>
+      <input type="search" id="list_search" placeholder="검색어를 입력해주세요." >
+      <button id="seBtn">검색</button>
+
+      <!-- 위치 모달창 -->
+      <div class="modal">
+        <div class="modal_body">
+            <h2>지역 변경</h2>
+            <hr>
+            <input type="text" name="chg" id="chg">
+            <button type="button" id="chgBtn">검색</button><br>
+            <button type="button" onclick="requestLocationPermission()" class="now">현재 내 위치 사용하기</button>
+            <p>추천</p>
+            <ul>
+                {% for area in areas %}
+                    <li><a href="?bgps={{ area }}">{{ area }}</a></li><br>
+                {% endfor %}
+            </ul>
+            <br>
+            <button type="button" id="closeBtn">닫기</button>
+        </div>
+      </div>
+    </form>
+    <div class="here">
+      <div class="sub_navloc">HOME&nbsp;&nbsp; <strong><i class="fa-solid fa-chevron-right"></i>&nbsp;&nbsp; 게시판</strong></div>
+      <div id="gps"><h2>{{current_bgps}}</h2></div>
+    </div>
+    <div class="board">
+      <!-- 카테고리 -->
+      <div class="b_category">
+        <ul>
+          <li><a href="/board/nboard/?bselect=인기글&bgps={{ current_bgps }}">인기글 <img src="/static/images/star.png" id="heart"></a></li><br>
+          <li><a href="/board/nboard/?bgps={{current_bgps}}">전체</a></li><br>
+          <li><a href="/board/nboard/?bselect=추천맛집&bgps={{ current_bgps }}">추천맛집</a></li><br>
+          <li><a href="/board/nboard/?bselect=감성카페&bgps={{ current_bgps }}">감성카페</a></li><br>
+          <li><a href="/board/nboard/?bselect=취미&bgps={{ current_bgps }}">취미</a></li><br>
+          <li><a href="/board/nboard/?bselect=웨이팅&bgps={{ current_bgps }}">웨이팅</a></li><br>
+          <li><a href="/board/nboard/?bselect=실시간공유&bgps={{ current_bgps }}">실시간공유</a></li><br>
+          <li><a href="/board/nboard/?bselect=생활/편의&bgps={{ current_bgps }}">생활/편의</a></li><br>
+          <li><a href="/board/nboard/?bselect=교통&bgps={{ current_bgps }}">교통</a></li><br>
+          <li><a href="/board/nboard/?bselect=풍경&bgps={{ current_bgps }}">풍경</a></li><br>
+          <li><a href="/board/nboard/?bselect=사건사고&bgps={{ current_bgps }}">사건사고</a></li><br>
+          <li><a href="/board/nboard/?bselect=기타&bgps={{ current_bgps }}">기타</a></li><br>
+        </ul>
+      </div>
+      <!-- 게시판 -->
+      <div class="nlist">
+        {% if blist %}
+          {% for board in blist %}
+          <ul>
+            {% if request.session.session_id%}
+              <a href="/board/bbview/{{board.bno}}/"><li>
+                <h3>{{board.btitle}}</h3>
+                <p>{{board.bcontent|striptags}}</p>
+                <span>{{board.bgps}}&nbsp;&nbsp;|&nbsp;&nbsp;{{board.bselect}}&nbsp;&nbsp;|&nbsp;&nbsp;{{board.bdate|date:'Y-m-d'}}</span><br>
+                <span><i class="fa-regular fa-thumbs-up"></i>&nbsp;{{board.like_member.count}}&nbsp;&nbsp;<i class="fa-regular fa-comment"></i>&nbsp;{{board.comment_count}}</span><br>
+                  {% if board.bfile %}
+                  <img id="viewimg" src="{{board.bfile.url}}">
+                  {% else %}
+                  {% endif %}
+              </li></a>
+            {% else %}
+              <a><li id="no_mem">
+                <h3>{{board.btitle}}</h3>
+                <p>{{board.bcontent|striptags}}</p>
+                <span>{{board.bgps}}&nbsp;&nbsp;|&nbsp;&nbsp;{{board.bselect}}&nbsp;&nbsp;|&nbsp;&nbsp;{{board.bdate|date:'Y-m-d'}}</span><br>
+                <span><i class="fa-regular fa-thumbs-up"></i>&nbsp;{{board.like_member.count}}&nbsp;&nbsp;<i class="fa-regular fa-comment"></i>&nbsp;{{board.comment_count }}</span><br>
+                  {% if board.bfile %}
+                  <img id="viewimg" src="{{board.bfile.url}}">
+                  {% else %}
+                  {% endif %}
+              </li></a>
+            {% endif %}
+          </ul>
+          {% endfor %}
+          {% else %}
+          <ul>
+            <li style="font-size: 20px">게시글이 없습니다. 첫 게시글을 작성해주세요!! 🤩</li>
+          </ul>
+          {% endif %}
+      </div>
+      <!-- 로그인한 사람만 글쓰기 가능 -->
+      {%if request.session.session_id%}
+      <a id="add" href="/board/bwrite/"><i class="fa-solid fa-plus"></i></a>
+      {% else %}
+      {% endif %}
+    </div>
+    <div class="bottom">
+      <ul class="page-num">
+        <!-- 이전페이지 확인 -->
+        {% if blist.has_previous %}
+          <a class="plz" href="/board/nboard/?npage=1"><li class="first"></li></a>
+          <a class="plz" href="/board/nboard/?npage={{blist.previous_page_number}}"><li class="prev"></li></a>
+        {% else %}
+          <a class="plz"><li class="first"></li></a>
+          <a class="plz"><li class="prev"></li></a>
+        {% endif %}
+        <!-- 순차페이지 넘버링 -->
+        {% for page in blist.paginator.page_range %}
+        {% if page != npage %}
+          <a href="/board/nboard/?npage={{page}}"><li class="num"><div>{{page}}</div></li></a>
+        {% else %}
+          <li class="num on"><div>{{page}}</div></li>
+        {% endif %}
+        {% endfor %}
+        <!-- 다음페이지 확인 -->
+        {% if blist.has_next %}
+          <a class="plz" href="/board/nboard/?npage={{blist.next_page_number}}"><li class="next"></li></a>
+          <a class="plz" href="/board/nboard/?npage={{blist.paginator.num_pages}}"><li class="last"></li></a>
+        {% else %}
+          <a class="plz"><li class="next"></li></a>
+          <a class="plz"><li class="last"></li></a>
+        {% endif %}
+      </ul>
+    </div>
+  </main>
+  <!-- 메인 끝 -->
+  <!-- 하단 부분 -->
+  <footer>
+    <div class="footer">
+      <div class="ftnavi">
+        <ul>
+          <li><a href="">회사소개</a></li>
+          <li><a href="">오시는길</a></li>
+          <li><a href="">개인정보처리방침</a></li>
+          <li><a href="">영상정보처리기기운영관리방침</a></li>
+          <li><a href="">이용약관</a></li>
+          <li><a href="">이메일무단수집거부</a></li>
+        </ul>
+        <div class="addr">
+          <p>포레스트 리솜<span>|</span>충청북도 제천시 백운면 금봉로 365</p>
+          <p class="tel">대표번호 : 043-649-6000&nbsp;&nbsp;
+          <span>예약문의 : 1600-0060</span>
+          <span>단체문의 : 02-6177-5999</span>
+          <span>분양문의 : 02-567-5555</span>
+          <span>통신판매업신고 : 2011-충북제천-0016호</span>
+          </p>
+          <p>메리츠화재와 개인정보 배상책임보험 계약을 체결하여 회원 개인정보를 보호하고 있습니다.</p>
+          <p class="copy">COPYRIGHT(C) HOBAN HOTEL & RESORT. ALL RIGHTS RESERVED.</p>
+        </div>
+      </div>
+      <div class="right">
+        <div class="sns">
+        </div>
+        <div class="group">
+          <select name="site_go" id="site_go" class="sel_box">
+            <option value="#">패밀리사이트</option>
+            <option value="https://www.ihoban.co.kr/web">호반건설</option>
+            <option value="https://www.hobanapt.co.kr/web">호반베르디움</option>
+          </select>
+          <button type="button">GO</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // 6. 모달창 클릭
+    const modal = document.querySelector('.modal');
+    const btnOpenModal=document.querySelector('#gps_s');
+    const btnCloseModal=document.querySelector('#closeBtn');
+
+    btnOpenModal.addEventListener("click", ()=>{
+        modal.style.display="flex";
+        $("body").addClass("modal-open");
+    });
+    btnCloseModal.addEventListener("click", ()=>{
+        modal.style.display="none";
+        $("body").removeClass("modal-open");
+    });//6번 끝
+  </script>
+</body>
+</html>

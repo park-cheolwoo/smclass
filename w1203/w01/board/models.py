@@ -6,6 +6,7 @@ class Board(models.Model):
   # id = models.CharField(max_length=100)
   member = models.ForeignKey(Member,on_delete=models.DO_NOTHING, null=True)
   # Board 객체 좋아요 체크 - bno,member
+  food = models.ForeignKey()
   like_members = models.ManyToManyField(Member,default='',related_name="like_member")
   #ManyToMany >> bno(여러개) + member(여러개) 조합할 수 있는 구조(유사)
   btitle = models.CharField(max_length=1000)
