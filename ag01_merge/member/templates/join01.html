@@ -37,7 +37,7 @@ $(document).ready(function() {
 			var agree1 = 1;
 			if($("#agree2").prop("checked")){
 			var agree2 = 1;
-			}
+			}else{var agree2= 0;}
 		}
 
 		$.ajax({
@@ -49,7 +49,7 @@ $(document).ready(function() {
 			success : function(data){
 				if(data.result == "success"){
 					console.log("약관동의 1 : " + agree1 + " / 약관동의2 : " + agree2);
-					alert("회원약관에 동의하셨습니다. 아여기에오늘날짜적으면좋겠는데");
+					alert(data.today + "자 회원약관에 동의하셨습니다. ");
 					location.href = "/member/join02/";
 				}else{
 					alert("필수항목을 체크하셔야 회원가입이 가능합니다.");

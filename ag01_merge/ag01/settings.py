@@ -27,8 +27,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home',     # h
-    # 'event',     # h
-    # 'coupon',     # h
+    'event',     # h
+    'coupon',     # h
     'foodBoard',    # c
     'Brand',    # c
     'map',    # w

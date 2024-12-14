@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google fonts-->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{% static '/css/coupon.css'%}" />
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <script type="text/javascript" src="{% static '/js/event.js'%}"></script>
+  
+  <title>출석체크</title>
+</head>
+<body>
+  <h2><a class="navbar-brand" href="/">앙꼬</a></h2>
+  <ul class='tempMenu'>
+    <li><a href="/admin/">admin</a></li>
+    {% if not request.session.session_id %}
+    <li><a href="/member/login/">로그인</a></li>
+    {% else %}
+    <li><a href="/member/logout/">로그아웃</a></li>
+    {% endif %}
+  </ul>
+   
+  <!-- container -->
+  <section id="container">
+    <div id="memberBenefit">
+      <input type="hidden" id="focusarea" value="">
+      <div class="sub_title_wrap">
+        <h2 class="sub_title">
+          <span>MEMBER BENEFIT</span>
+        </h2>
+      </div> 
+
+      <ul class="tab tab_item5"> <!-- 이벤트창 소메뉴 -->
+        <li><button type="button" class="cpnList" onclick="javascript:location.href='/event/coupon/'">쿠폰</button></li>
+        <li><button type="button" onclick="javascript:location.href='/event/point/'">앙포인트</button></li>
+        <li><button type="button" class="attChk" onclick="javascript:location.href='/event/calendar/'">출석체크</button></li>
+        <li><button type="button" class="eventThisMonth" onclick="javascript:location.href='/event/calendar/#event_of_this_month'">이달의 이벤트</button></li>
+      </ul>
+
+      <script>
+        // 임시니까 여기다가 스크립트 쓰겠음
+        $(document).ready(function(){
+          const csrfToken = $("meta[name='csrf-token']").attr("content"); // csrfToken을 가져옵니다.
+          // 얘도 임시니까 일단 이렇게 쓰겠음
+          const aId = "{{request.session.session_id}}"; // 세션 ID를 확인함
+          console.log("aId: " + aId);
+
+                // 출석체크 Ajax 요청
+          $.ajax({ 
+            headers:{"X-CSRFToken":csrfToken},
+            url:"/event/point/",
+            type:"post",
+            data:{
+              "aId":aId,
+            },
+            success:function(data){
+              console.log("data.result: "+data.result);
+              if(data.result == "success"){
+                // alert("출석체크 완료");
+                $(".amount_of_points").text(data.point); // 출석 횟수를 화면에 업데이트
+              }else if(data.result == "notLogin"){
+                alert("미로그인");
+                $(".amount_of_points").text(data.point); // 출석 횟수를 화면에 업데이트
+              }else{
+                alert("에러");
+              }
+            },
+            error:function(){
+              alert("에러 발생.");
+            }
+          }); //ajax */
+                
+
+        }) // jquery
+
+      </script>
+
+      <div id="pajx_container"> 
+        <input id="pajxActive" name="pajxActive" type="hidden" value="3">
+    
+
+        <div class="content1 tab_content active">
+          <!-- 출석체크 -->
+          <form action="/event/point/" method="post" name="pntFrm">
+            {% csrf_token %}
+
+          <!-- 임시 포인트 띄우기 -->
+           <!-- 미로그인이랑 포인트가 0일 때 다르게 띄워야할 거같은데 뭔가 오류...?-->
+            <div class="section special_coupon_section">
+              <h3 class="section_tit">ANG POINT TEMP</h3>
+              <div class="ang_point">
+                <p class="how_many_point">포인트 임시 뷰</p>
+                  {% if point != 0 %}
+                  <p class="amount_of_points"><!--포인트 있을 때-->{{point}}</p>
+                  {% comment %} {% elif not request.session.session_id %}
+                  <p class="not_login"><!--포인트 없을 때-->미로그인</p> {% endcomment %}
+                  {% else %}
+                  {% comment %} {% elif point == 0 %} {% endcomment %}
+                  <p class="no_point"><!--포인트 없을 때-->0</p>
+                  {% endif %}
+              </div>
+              
+            </div> <!-- // 임시 포인트 띄우기 -->
+
+
+           
+          </form>
+        </div> <!-- //content1 tab_content active-->
+      </div> <!-- //pajx_container -->
+
+    </div> <!-- //memberBenefit -->
+  </section> <!-- //container -->
+  
+  
+</body>
+</html>

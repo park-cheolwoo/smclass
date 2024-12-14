@@ -1,0 +1,296 @@
+body {
+  font-family: "Montserrat", sans-serif;
+  background: white;
+}
+
+.container {
+  display: block;
+  max-width: 680px;
+  width: 80%;
+  margin: 120px auto;
+}
+
+h1 {
+  color: #e91e63;
+  font-size: 48px;
+  letter-spacing: -3px;
+  text-align: center;
+  margin: 120px 0 80px 0;
+  transition: 0.2s linear;
+}
+
+h4{
+  margin-top: -60px;
+  margin-bottom: 40px;
+  text-align: center;
+  color: #1b1f38;
+}
+
+.links {
+  list-style-type: none;
+}
+.links li {
+  display: inline-block;
+  margin: 0 20px 0 0;
+  transition: 0.2s linear;
+}
+.links li:nth-child(2) {
+  opacity: 0.6;
+}
+.links li:nth-child(2):hover {
+  opacity: 1;
+}
+.links li:nth-child(3) {
+  opacity: 0.6;
+  float: right;
+}
+.links li:nth-child(3):hover {
+  opacity: 1;
+}
+.links li a {
+  text-decoration: none;
+  color: #0f132a;
+  font-weight: bolder;
+  text-align: center;
+}
+
+form {
+  width: 100%;
+  max-width: 680px;
+  margin: 40px auto 10px;
+}
+form .input__block {
+  margin: 20px auto;
+  display: block;
+  position: relative;
+}
+form .input__block.first-input__block::before {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: 50px;
+  display: block;
+  width: 0;
+  height: 0;
+  background: transparent;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 15px solid rgba(15, 19, 42, 0.1);
+  transition: 0.2s linear;
+}
+form .input__block.signup-input__block::before {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: 150px;
+  display: block;
+  width: 0;
+  height: 0;
+  background: transparent;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 15px solid rgba(15, 19, 42, 0.1);
+  transition: 0.2s linear;
+}
+form .input__block input {
+  display: block;
+  width: 90%;
+  max-width: 680px;
+  height: 50px;
+  margin: 0 auto;
+  border-radius: 8px;
+  border: none;
+  background: rgba(15, 19, 42, 0.1);
+  color: rgba(15, 19, 42, 0.3);
+  padding: 0 0 0 15px;
+  font-size: 14px;
+  font-family: "Montserrat", sans-serif;
+}
+form .input__block input:focus, form .input__block input:active {
+  outline: none;
+  border: none;
+  color: #0f132a;
+}
+
+form .signin__btn {
+  background: #e91e63;
+  color: white;
+  display: block;
+  width: 92.5%;
+  max-width: 680px;
+  height: 50px;
+  border-radius: 8px;
+  margin: 0 auto;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: "Montserrat", sans-serif;
+  box-shadow: 0 15px 30px rgba(233, 30, 99, 0.36);
+  transition: 0.2s linear;
+}
+form .signin__btn:hover {
+  box-shadow: 0 0 0 rgba(233, 30, 99, 0);
+}
+
+.find_info>a{
+  float: right;
+  margin-right: 25px;
+  margin-top: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #1b1f38;
+}
+
+.sendEmailBtn, .resendEmailBtn {
+  position: absolute;
+  right: 40px; /* 오른쪽에 위치시키기 */
+  top: 50%; /* 입력 필드 중앙에 수직 위치시키기 */
+  transform: translateY(-50%);
+  padding: 6px 12px;
+  background-color: #e91e63; /* 버튼 색상 */
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: none; /* 기본적으로 숨김 */
+  border-radius: 5px;
+}
+
+.sendEmailBtn.show {
+  display: inline-block; /* show 클래스 추가 시 보이도록 */
+}
+
+.sendEmailBtn, .resendEmailBtn:hover {
+  background-color: #e080a3;
+}
+
+/* 인증번호 확인 버튼 */
+#chkEmailCodeBtn{
+  position: absolute;
+  right: 40px; /* 오른쪽에 위치시키기 */
+  top: 50%; /* 입력 필드 중앙에 수직 위치시키기 */
+  transform: translateY(-50%);
+  padding: 6px 12px;
+  background-color: #f4a7c3; /* 버튼 색상 */
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: none; /* 기본적으로 숨김 */
+  border-radius: 5px;
+}
+#chkEmailCodeBtn.show {
+  display: inline-block; /* show 클래스 추가 시 보이도록 */
+}
+
+#idChk{display: block;}
+
+#findAddr{
+  margin-left: 40px;
+  margin-bottom: 20px;
+}
+
+
+/* 
+.separator {
+  display: block;
+  margin: 30px auto 10px;
+  text-align: center;
+  height: 40px;
+  position: relative;
+  background: transparent;
+  color: rgba(15, 19, 42, 0.4);
+  font-size: 13px;
+  width: 90%;
+  max-width: 680px;
+}
+.separator::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 0;
+  background: rgba(15, 19, 42, 0.2);
+  height: 1px;
+  width: 45%;
+}
+.separator::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  right: 0;
+  background: rgba(15, 19, 42, 0.2);
+  height: 1px;
+  width: 45%;
+}
+
+.google__btn,
+.github__btn {
+  display: block;
+  width: 90%;
+  max-width: 680px;
+  margin: 20px auto;
+  height: 50px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: "Montserrat", sans-serif;
+  border-radius: 8px;
+  border: none;
+  line-height: 40px;
+}
+.google__btn.google__btn,
+.github__btn.google__btn {
+  background: #5b90f0;
+  color: white;
+  box-shadow: 0 15px 30px rgba(91, 144, 240, 0.36);
+  transition: 0.2s linear;
+}
+.google__btn.google__btn .fa,
+.github__btn.google__btn .fa {
+  font-size: 20px;
+  padding: 0 5px 0 0;
+}
+.google__btn.google__btn:hover,
+.github__btn.google__btn:hover {
+  box-shadow: 0 0 0 rgba(91, 144, 240, 0);
+}
+.google__btn.github__btn,
+.github__btn.github__btn {
+  background: #25282d;
+  color: white;
+  box-shadow: 0 15px 30px rgba(37, 40, 45, 0.36);
+  transition: 0.2s linear;
+}
+.google__btn.github__btn .fa,
+.github__btn.github__btn .fa {
+  font-size: 20px;
+  padding: 0 5px 0 0;
+}
+.google__btn.github__btn:hover,
+.github__btn.github__btn:hover {
+  box-shadow: 0 0 0 rgba(37, 40, 45, 0);
+} */
+/* 
+footer p {
+  text-align: center;
+}
+footer p .fa {
+  color: #e91e63;
+}
+footer p a {
+  text-decoration: none;
+  font-size: 17px;
+  margin: 0 5px;
+}
+footer p a .fa-facebook {
+  color: #3b5998;
+}
+footer p a .fa-twitter {
+  color: #1da1f2;
+}
+footer p a .fa-instagram {
+  color: #f77737;
+}
+footer p a .fa-linkedin {
+  color: #0077b5;
+}
+footer p a .fa-behance {
+  color: #1769ff;
+} */

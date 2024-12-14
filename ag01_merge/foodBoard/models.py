@@ -6,7 +6,7 @@ class fBoard(models.Model):
     bTitle = models.CharField(max_length=200, null=False)
     bSubtitle = models.CharField(max_length=200, null=False)
     bContent = models.TextField(max_length=2000, null=False)
-    bFile1 = models.ImageField(null=True, upload_to="fBoard")
+    bFile1 = models.ImageField(null=False, upload_to="fBoard")
     bFile2 = models.ImageField(null=True, upload_to="fBoard")
     bFile3 = models.ImageField(null=True, upload_to="fBoard")
     bHit = models.IntegerField(default=0)

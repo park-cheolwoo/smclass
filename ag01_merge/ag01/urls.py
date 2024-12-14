@@ -12,6 +12,7 @@ urlpatterns = [
     path('board/', include('board.urls')),    # w
     path('comment/', include('comment.urls')),    # w
     path('member/', include('member.urls')),    # s
+    path('event/',include('event.urls')), #h
 ]
 
 
