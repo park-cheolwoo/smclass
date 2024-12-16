@@ -1,5 +1,0 @@
-1. admin.py 연습하기
-2. save에서 index 연결할 때 url app name 잘 보기
-3. models __str__ 함수 추가
-4. csrf_token 은 폼 시작 아래에 추가
-5. views import 함수 추가 연습

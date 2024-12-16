@@ -26,8 +26,13 @@
       const nickname = $("#nickname");
       const tel = $("#tel");
 
+<<<<<<< HEAD:ag01_merge1/member/templates/signup.html
       let email_id = "";
       let email_domain = "";
+=======
+      let email_id = $("#email_id");
+      let email_domain = $("#email_domain").val();
+>>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/member/templates/signup.html
       let email = "";
 
       let postcode = $("#sample6_postcode").val(); // 우편번호
@@ -38,7 +43,11 @@
 
        
       // 정규표현식
+<<<<<<< HEAD:ag01_merge1/member/templates/signup.html
       const expIdText =  /^[a-zA-Z][0-9a-zA-Z]{4,7}$/;
+=======
+      const expIdText = /^[A-Za-z]{3,20}$/;
+>>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/member/templates/signup.html
       const expPwText = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
       const expNameText = /^[가-힣a-zA-Z]+$/ // 한글, 영문만 가능
       const expNicknameText = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/;
@@ -46,7 +55,12 @@
       const expEmailText = /^[a-z0-9\.\-_]+@([a-z0-9\-]+\.)+[a-z]{2,6}$/;
 
 
+<<<<<<< HEAD:ag01_merge1/member/templates/signup.html
       /* --------------------- id 유효성 검사 / 중복 확인 --------------------- */
+=======
+      // 유효성 검사 / 중복 확인 //
+      /* --------------------- id --------------------- */
+>>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/member/templates/signup.html
       id.on("blur", function(){
         const userId = id.val();
 
@@ -77,7 +91,10 @@
         }
       }); // id
   
+<<<<<<< HEAD:ag01_merge1/member/templates/signup.html
       /* --------------------- pw 유효성 검사 --------------------- */
+=======
+>>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/member/templates/signup.html
       pw.on("blur", function(){
         if(!expPwText.test(pw.val())){
           $("#expPwError").css("display", "block");
@@ -86,6 +103,7 @@
         }
       }); // pw
 
+<<<<<<< HEAD:ag01_merge1/member/templates/signup.html
       /* --------------------- repeat__password == pw 확인 --------------------- */
       repeat__password.on("blur", function(){
         if (pw.val() !== repeat__password.val()) {
@@ -97,6 +115,8 @@
       
 
       /* --------------------- name 유효성 검사 --------------------- */
+=======
+>>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/member/templates/signup.html
       name.on("blur", function(){
         if(!expNameText.test(name.val())){
           $("#expNameError").css("display", "block");
@@ -105,7 +125,11 @@
         }
       }); // name
 
+<<<<<<< HEAD:ag01_merge1/member/templates/signup.html
       /* --------------------- nickname 유효성 검사 / 중복 확인 --------------------- */
+=======
+      /* --------------------- nickname --------------------- */
+>>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/member/templates/signup.html
       nickname.on("blur", function(){
         const userNickname = nickname.val();
 
@@ -172,7 +196,11 @@
         $(this).val(autoHypenPhone(_val));
       });
 
+<<<<<<< HEAD:ag01_merge1/member/templates/signup.html
       // 유효성 검사 / 중복 확인
+=======
+
+>>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/member/templates/signup.html
       tel.on("blur", function(){
         const userTel = tel.val();
 
@@ -204,6 +232,7 @@
       }); // tel
 
       /* --------------------- email --------------------- */
+<<<<<<< HEAD:ag01_merge1/member/templates/signup.html
       // select(#emailAddrs) - option 변경될 때
       $("#emailAddrs").on("change", function(){
         let emailAddr = $(this).val();
@@ -272,6 +301,61 @@
         detailAddress = $("#sample6_detailAddress").val(); // 상세주소
         extraAddress = $("#sample6_extraAddress").val(); // 참고항목
         fullAddress = (postcode + " " + address + " " + (detailAddress + extraAddress).trim());
+=======
+      $("#emailAddrs").on("change", function(){
+        let emailAddr = $(this).val();
+
+        if(emailAddr != "") {
+          $("#email_domain").prop("readonly", true);  // readonly 속성 설정
+          $("#email_domain").val(emailAddr);  // email_domain 값 설정
+        } else {
+          $("#email_domain").prop("readonly", false);  // readonly 속성 제거
+          $("#email_domain").val("");  // email_domain 값을 비움
+        }
+      });
+      
+      if((email_id.val() != "") && (email_domain != "")){
+        email = email_id.val() + "@" + email_domain;
+
+        $.ajax({
+          headers : {"X-CSRFToken":csrfToken},
+          url : "/member/emailDupChk/",
+          type : "post",
+          data : {"email":email},
+  
+          success : function(response){
+            if(!expEmailText.test(email)){
+              $("#expEmailError").css("display", "block");
+            } else if(response.result == "error"){
+              $("#emailDupError").text(response.message).css("display", "block");
+              $("#expEmailError").css("display", "none");
+            } else if (response.result == "success") {
+              $("#expEmailError").css("display", "none");
+              $("#emailDupError").css("display", "none");
+              console.log("이메일 : " + email);
+            }
+          },
+          error : function(){
+            alert("서버 오류");
+          }
+        }); // ajax
+      }
+
+      /* --------------------- repeat__password --------------------- */
+      repeat__password.on("blur", function(){
+        if (pw.val() !== repeat__password.val()) {
+          $("#repeatPwError").css("display", "block");
+        } else{
+          $("#repeatPwError").css("display", "none");
+        }
+      });
+
+
+      /* --------------------- #signupBtn - 회원가입 버튼 --------------------- */
+      // alert 대신 입력창테두리 빨갛게 변경할 것 <이거하다가 x될뻔 나중에하자
+      $("#signupBtn").on("click", function(){
+        fullAddress = postcode + " " + address + " " + detailAddress + " " + extraAddress;
+>>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/member/templates/signup.html
 
         if(!(id.val())){
           alert("사용하실 아이디를 입력하세요.");
@@ -315,7 +399,11 @@
           alert("이메일 도메인을 입력 / 선택하세요."); 
           $("#email_domain").focus();
           return false;
+<<<<<<< HEAD:ag01_merge1/member/templates/signup.html
         } else if(!(postcode) || !(address)){
+=======
+        } else if(!($("#sample6_postcode").val()) || !($("#sample6_address").val())){
+>>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/member/templates/signup.html
           alert("주소를 입력 / 선택하세요.");
           return false;
         } 
@@ -377,7 +465,11 @@
       <input type="text" placeholder="아이디" class="input" id="id" name="id"/>
     </div>
     <div class="errorTexts"> <!-- 숨겨놨다가 하나씩 보이게 -->
+<<<<<<< HEAD:ag01_merge1/member/templates/signup.html
       <div class="chk_no" id="expIdError" style="display: none;">5~20자 영문자 / 숫자만 입력 가능합니다.</div>
+=======
+      <div class="chk_no" id="expIdError" style="display: none;">5~20자의 영문 대소문자만 사용 가능합니다.</div>
+>>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/member/templates/signup.html
       <div class="chk_no" id="idDupError" style="display: none;"></div> <!-- 서버 측 에러 메시지 -->
       {% comment %} <div class="chk_ok">사용 가능한 아이디입니다.</div> {% endcomment %}
     </div>
@@ -432,7 +524,11 @@
     <div>
       <input type="text" placeholder="이메일 아이디 입력" id="email_id" name="email_id"/>
       <span>@</span>
+<<<<<<< HEAD:ag01_merge1/member/templates/signup.html
       <input type="text" id="email_domain" name="email_domain"/> 
+=======
+      <input type="text" id="email_domain" name="email_domain" readonly="true"/> 
+>>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/member/templates/signup.html
       <select name="emailAddrs" id="emailAddrs">
         <option value="이메일을 선택하세요.">-선택-</option>
         <option value="naver.com" id="naver.com">naver.com</option>
