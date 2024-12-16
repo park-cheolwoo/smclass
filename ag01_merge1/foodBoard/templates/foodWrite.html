@@ -101,7 +101,6 @@
     location.href='/board/nboard/'
   }
 
-<<<<<<< HEAD:ag01_merge1/foodBoard/templates/foodWrite.html
   $(function() {
         $('.write').click(function() {
             
@@ -172,8 +171,6 @@
     }
 
   // 3. 썸머노트 삽입
-=======
->>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/foodBoard/templates/foodWrite.html
   $(function(){
       $('#summernote').summernote({
           focus:true,  width:"100%",
@@ -213,52 +210,6 @@
           }
         });
       });
-<<<<<<< HEAD:ag01_merge1/foodBoard/templates/foodWrite.html
-=======
-  });// 2번 끝
-
-  // 3. 썸머노트 삽입
-  $(function(){
-
-      $('#summernote').summernote({
-          focus:true,  width:"100%",
-          minHeight: 400,           // 에디터 최소 높이
-          maxHeight: 500,          // 에디터 최대 높이
-          lang : 'ko-KR',
-          placeholder: '글자를 입력하시면 됩니다.' ,
-          disableResizeEditor: true,
-          //  추가 부분
-          toolbar: [
-          // [groupName, [list of button]]
-          ['fontname', ['fontname']],
-          ['fontsize', ['fontsize']],
-          ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
-          ['color', ['forecolor','color']],
-          ['table', ['table']],
-          ['para', ['ul', 'ol', 'paragraph']],
-          ['height', ['height']],
-          ['insert',['picture','link','video']],
-          ['view', ['fullscreen', 'help']]
-          ],
-        fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
-        fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
-        //이미지 업로드 시 width 적용
-        callbacks: {
-          onImageUpload: function(image) {
-            console.log('in');
-            const file = image[0];
-            const reader = new FileReader();
-            reader.onloadend = function() {
-              const image = $('<img>').attr('src',  reader.result);
-              image.attr('width','100 %');
-              $('#summernote').summernote("insertNode", image[0]);
-            }
-                reader.readAsDataURL(file);
-            }
-          }
-        });
-      });
->>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/foodBoard/templates/foodWrite.html
   </script>
 </script>
 </head>
@@ -303,15 +254,11 @@
           </tr>
           <tr>
             <th class="star">제목</th>
-            <td><input type="text" name="btitle" id="btitle" placeholder="제목을 입력해주세요."></td>
+            <td><input type="text" name="bTitle" id="bTitle" placeholder="제목을 입력해주세요."></td>
           </tr>
           <tr>
             <th class="star">부제목</th>
-            <td><input type="text" name="bsubtitle" id="bsubtitle" placeholder="부제목을 입력해주세요."></td>
-          </tr>
-          <tr>
-            <th class="star">위치</th>
-            <td id="blocation"><input type="text" name="bgps" id="bgps" value=""></td>
+            <td><input type="text" name="bSubtitle" id="bSubtitle" placeholder="부제목을 입력해주세요."></td>
           </tr>
           <tr>
             <th class="star">식당 위치</th>
@@ -320,7 +267,6 @@
           <tr>
             <th class="star">내용</th>
             <td class="sumcontent">
-<<<<<<< HEAD:ag01_merge1/foodBoard/templates/foodWrite.html
               <div id="temp" style="display: none"></div>
               <textarea name="bContent" id="summernote" cols="50" rows="10"></textarea>
             </td>
@@ -341,27 +287,6 @@
             <th class="summer star">이미지3</th>
             <td>
               <input type="file" name="bFile3" id="bfile3">
-=======
-              <textarea name="bcontent" id="summernote" cols="50" rows="10"></textarea>
-            </td>
-          </tr>
-          <tr>
-            <th class="summer">이미지1</th>
-            <td>
-              <input type="file" onchange="readURL(this);" name="bfile" id="file">
-            </td>
-          </tr>
-          <tr>
-            <th class="summer">이미지2</th>
-            <td>
-              <input type="file" onchange="readURL(this);" name="bfile" id="file">
-            </td>
-          </tr>
-          <tr>
-            <th class="summer">이미지3</th>
-            <td>
-              <input type="file" onchange="readURL(this);" name="bfile" id="file">
->>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/foodBoard/templates/foodWrite.html
             </td>
           </tr>
           

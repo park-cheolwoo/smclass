@@ -11,11 +11,7 @@ body {
 }
 
 h1 {
-<<<<<<< HEAD:ag01_merge1/static/css/login.css
   color: #FF9E44;
-=======
-  color: #e91e63;
->>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/static/css/login.css
   font-size: 48px;
   letter-spacing: -3px;
   text-align: center;
@@ -122,11 +118,7 @@ form .input__block input.repeat__password {
   transition: 0.2s linear;
 }
 form .signin__btn {
-<<<<<<< HEAD:ag01_merge1/static/css/login.css
   background: #FF9E44;
-=======
-  background: #e91e63;
->>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/static/css/login.css
   color: white;
   display: block;
   width: 92.5%;
@@ -138,11 +130,7 @@ form .signin__btn {
   cursor: pointer;
   font-size: 14px;
   font-family: "Montserrat", sans-serif;
-<<<<<<< HEAD:ag01_merge1/static/css/login.css
   box-shadow: 0 15px 30px #f4c69b;
-=======
-  box-shadow: 0 15px 30px rgba(233, 30, 99, 0.36);
->>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/static/css/login.css
   transition: 0.2s linear;
 }
 form .signin__btn:hover {
@@ -164,11 +152,7 @@ form .signin__btn:hover {
   top: 50%; /* 입력 필드 중앙에 수직 위치시키기 */
   transform: translateY(-50%);
   padding: 6px 12px;
-<<<<<<< HEAD:ag01_merge1/static/css/login.css
   background-color: #FF9E44; /* 버튼 색상 */
-=======
-  background-color: #e91e63; /* 버튼 색상 */
->>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/static/css/login.css
   border: none;
   color: white;
   cursor: pointer;
@@ -180,13 +164,8 @@ form .signin__btn:hover {
   display: inline-block; /* show 클래스 추가 시 보이도록 */
 }
 
-<<<<<<< HEAD:ag01_merge1/static/css/login.css
 .sendEmailBtn:hover, .resendEmailBtn:hover, #chkEmailCodeBtn:hover {
   background-color: #f4c69b;
-=======
-.sendEmailBtn, .resendEmailBtn:hover {
-  background-color: #e080a3;
->>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/static/css/login.css
 }
 
 /* 인증번호 확인 버튼 */
@@ -196,11 +175,7 @@ form .signin__btn:hover {
   top: 50%; /* 입력 필드 중앙에 수직 위치시키기 */
   transform: translateY(-50%);
   padding: 6px 12px;
-<<<<<<< HEAD:ag01_merge1/static/css/login.css
   background-color: #FF9E44; /* 버튼 색상 */
-=======
-  background-color: #f4a7c3; /* 버튼 색상 */
->>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/static/css/login.css
   border: none;
   color: white;
   cursor: pointer;

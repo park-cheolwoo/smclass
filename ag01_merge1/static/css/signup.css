@@ -11,11 +11,7 @@ body {
 }
 
 h1 {
-<<<<<<< HEAD:ag01_merge1/static/css/signup.css
   color: #FF9E44;
-=======
-  color: #e91e63;
->>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/static/css/signup.css
   font-size: 48px;
   letter-spacing: -3px;
   text-align: center;
@@ -117,11 +113,7 @@ form .input__block input:focus, form .input__block input:active {
 }
 
 form .signin__btn {
-<<<<<<< HEAD:ag01_merge1/static/css/signup.css
   background: #FF9E44;
-=======
-  background: #e91e63;
->>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/static/css/signup.css
   color: white;
   display: block;
   width: 92.5%;
@@ -133,11 +125,7 @@ form .signin__btn {
   cursor: pointer;
   font-size: 14px;
   font-family: "Montserrat", sans-serif;
-<<<<<<< HEAD:ag01_merge1/static/css/signup.css
   box-shadow: 0 15px 30px #f4c69b;
-=======
-  box-shadow: 0 15px 30px rgba(233, 30, 99, 0.36);
->>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/static/css/signup.css
   transition: 0.2s linear;
 }
 form .signin__btn:hover {
@@ -153,51 +141,6 @@ form .signin__btn:hover {
   color: #1b1f38;
 }
 
-<<<<<<< HEAD:ag01_merge1/static/css/signup.css
-=======
-.sendEmailBtn, .resendEmailBtn {
-  position: absolute;
-  right: 40px; /* 오른쪽에 위치시키기 */
-  top: 50%; /* 입력 필드 중앙에 수직 위치시키기 */
-  transform: translateY(-50%);
-  padding: 6px 12px;
-  background-color: #e91e63; /* 버튼 색상 */
-  border: none;
-  color: white;
-  cursor: pointer;
-  display: none; /* 기본적으로 숨김 */
-  border-radius: 5px;
-}
-
-.sendEmailBtn.show {
-  display: inline-block; /* show 클래스 추가 시 보이도록 */
-}
-
-.sendEmailBtn, .resendEmailBtn:hover {
-  background-color: #e080a3;
-}
-
-/* 인증번호 확인 버튼 */
-#chkEmailCodeBtn{
-  position: absolute;
-  right: 40px; /* 오른쪽에 위치시키기 */
-  top: 50%; /* 입력 필드 중앙에 수직 위치시키기 */
-  transform: translateY(-50%);
-  padding: 6px 12px;
-  background-color: #f4a7c3; /* 버튼 색상 */
-  border: none;
-  color: white;
-  cursor: pointer;
-  display: none; /* 기본적으로 숨김 */
-  border-radius: 5px;
-}
-#chkEmailCodeBtn.show {
-  display: inline-block; /* show 클래스 추가 시 보이도록 */
-}
-
-#idChk{display: block;}
-
->>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/static/css/signup.css
 #findAddr{
   margin-left: 40px;
   margin-bottom: 20px;
@@ -287,11 +230,7 @@ footer p {
   text-align: center;
 }
 footer p .fa {
-<<<<<<< HEAD:ag01_merge1/static/css/signup.css
   color: #FF9E44;
-=======
-  color: #e91e63;
->>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/static/css/signup.css
 }
 footer p a {
   text-decoration: none;

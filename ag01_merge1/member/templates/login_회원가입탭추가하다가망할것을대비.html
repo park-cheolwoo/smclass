@@ -14,10 +14,6 @@
   <script src="http://code.jquery.com/jquery-latest.min.js"></script>
   <script type="text/javascript">
     $(document).ready(function(){
-<<<<<<< HEAD:ag01_merge1/member/templates/login_회원가입탭추가하다가망할것을대비.html
-<<<<<<<< HEAD:ag01_merge1/member/templates/login_회원가입탭추가하다가망할것을대비.html
-=======
->>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/member/templates/login_회원가입탭추가하다가망할것을대비.html
       let signup = $(".links").find("li").find("#signup") ; 
       let signin = $(".links").find("li").find("#signin") ;
       let reset  = $(".links").find("li").find("#reset")  ; 
@@ -28,24 +24,6 @@
       //----------- 회원가입 ---------------------
       회원가입 화면을 따로 만들지 여기에 할지 모르겠네
       signup.on("click",function(e){
-<<<<<<< HEAD:ag01_merge1/member/templates/login_회원가입탭추가하다가망할것을대비.html
-========
-      let signup = $("#signup"); 
-      let signin = $("#signin");
-      let reset  = $("#reset"); 
-      let first_input = $(".first-input");
-      let hidden_input = $("#repeat__password");
-      let signin_btn  = $(".signin__btn");
-
-      //----------- 회원가입 ---------------------
-      // 회원가입 화면은 따로 만들기
-      signup.on("click", function(e){
-        location.href="/member/signup/"
-      });
-/*      signup.on("click",function(e){
->>>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/member/templates/login.html
-=======
->>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/member/templates/login_회원가입탭추가하다가망할것을대비.html
         e.preventDefault();
         $(this).parent().parent().siblings("h1").text("회원가입");
         $(this).parent().css("opacity","1");
@@ -57,16 +35,7 @@
         });
         signin_btn.text("회원가입");
       });
-<<<<<<< HEAD:ag01_merge1/member/templates/login_회원가입탭추가하다가망할것을대비.html
-<<<<<<<< HEAD:ag01_merge1/member/templates/login_회원가입탭추가하다가망할것을대비.html
       */
-========
-*/
-
->>>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/member/templates/login.html
-=======
-      */
->>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/member/templates/login_회원가입탭추가하다가망할것을대비.html
       //----------- 로그인 ---------------------
       signin.on("click",function(e){
         e.preventDefault();
@@ -82,23 +51,12 @@
         signin_btn.text("로그인");
       });
      
-<<<<<<< HEAD:ag01_merge1/member/templates/login_회원가입탭추가하다가망할것을대비.html
-/*      //----------- reset ---------------------
-=======
       //----------- reset ---------------------
->>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/member/templates/login_회원가입탭추가하다가망할것을대비.html
       reset.on("click",function(e){
         e.preventDefault();
         $(this).parent().parent().siblings("form")
         .find(".input__block").find(".input").val("");
       });
-<<<<<<< HEAD:ag01_merge1/member/templates/login_회원가입탭추가하다가망할것을대비.html
-<<<<<<<< HEAD:ag01_merge1/member/templates/login_회원가입탭추가하다가망할것을대비.html
-========
-      */
->>>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/member/templates/login.html
-=======
->>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/member/templates/login_회원가입탭추가하다가망할것을대비.html
     }); //ready
 
     
@@ -136,13 +94,6 @@
               $("#id").focus();
               location.href = "/";
             } else {
-<<<<<<< HEAD:ag01_merge1/member/templates/login_회원가입탭추가하다가망할것을대비.html
-<<<<<<<< HEAD:ag01_merge1/member/templates/login_회원가입탭추가하다가망할것을대비.html
-========
-              console.log("아이디 : " + id + " / 비밀번호 : " + pw);
->>>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/member/templates/login.html
-=======
->>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/member/templates/login_회원가입탭추가하다가망할것을대비.html
               alert("아이디 또는 비밀번호가 일치하지 않습니다.");
               // input 텍스트박스 초기화
               $("#id").val("");
@@ -169,39 +120,18 @@
       <a href="#" id="signin">로그인</a>
     </li>
     <li>
-<<<<<<< HEAD:ag01_merge1/member/templates/login_회원가입탭추가하다가망할것을대비.html
-<<<<<<<< HEAD:ag01_merge1/member/templates/login_회원가입탭추가하다가망할것을대비.html
-      {% comment %} <a href="#" id="signup">회원가입</a> {% endcomment %}
-========
-      {% comment %} <a href="#" id="reset">RESET</a> {% endcomment %}
->>>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/member/templates/login.html
-    </li>
-    <li>
-      <a href="#" id="signup">회원가입</a>
-    </li>
-  </ul>
-<<<<<<<< HEAD:ag01_merge1/member/templates/login_회원가입탭추가하다가망할것을대비.html
-=======
       {% comment %} <a href="#" id="signup">회원가입</a> {% endcomment %}
     </li>
     <li>
       <a href="#" id="reset">RESET</a>
     </li>
   </ul>
->>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/member/templates/login_회원가입탭추가하다가망할것을대비.html
   
   <script>
 
   </script>
 
   <!-- Form -->
-<<<<<<< HEAD:ag01_merge1/member/templates/login_회원가입탭추가하다가망할것을대비.html
-========
-
-  <!-- 로그인 Form -->
->>>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/member/templates/login.html
-=======
->>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/member/templates/login_회원가입탭추가하다가망할것을대비.html
   <form action="/member/login/" method="post">
     {% csrf_token %}
     <!-- email input -->
@@ -221,11 +151,6 @@
       로그인
     </button>
   </form>
-<<<<<<< HEAD:ag01_merge1/member/templates/login_회원가입탭추가하다가망할것을대비.html
-
-  <!-- 아이디 / 비밀번호 찾기 -->
-=======
->>>>>>> dacd055790c1bebd05d4b54d61acd96832ddfc49:ag01_merge/member/templates/login_회원가입탭추가하다가망할것을대비.html
   <div class="find_info">
     <a href="/member/findInfo/">아이디 • 비밀번호 찾기</a>
   </div>
