@@ -275,6 +275,21 @@ cursor:pointer;}
   padding-top: 50px;
 }
 
+.info_waiting {
+  position: relative;
+  top: -7px;
+  margin-left: 30px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.2;
+  text-align: left;
+}
+
+.info_time{
+  color:#FF9E44
+}
+
+
 .info_img {
   width: 83%;
   margin: 0 auto;
@@ -530,6 +545,95 @@ td.sumcontent {
   outline: none;
   font-size: 20px;
 }
+
+.fTimeflex{
+  display: flex;
+  justify-content: flex-start;
+  width:90%;
+  height:300px;
+  margin: 0 auto;
+}
+
+#fTimeForm{
+  border:1px solid #FF9E44;
+  padding:5px;
+  width:14%;
+  height:270px;
+  text-align: left;
+  margin-left:160px;
+  font-size:14px;
+  margin-top:62px;
+}
+
+.fTimeTitle{
+  margin-bottom:5px;
+  font-size:16px;
+}
+.fPeople{
+  width:25px;
+  padding-left:5px;
+  margin:5px 0;
+}
+
+.waitselect{
+  height:30px;
+  width:100px;
+  text-align: left;
+  font-size:12px;
+  font-weight:700;
+  margin:5px 0;
+}
+
+.enterselect{
+    height: 30px;
+    width: 80px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 700;
+    margin: 5px 0;
+}
+
+.timeselect{
+  height: 30px;
+    width: 80px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 700;
+    margin: 5px 0;
+}
+
+
+.enterhour{
+  margin-left:10px;
+  padding-left:5px;
+  width:30px;
+}
+
+.enterminute{
+  margin-left: 10px;
+  padding-left: 5px;
+  width: 30px;
+}
+
+.fTimeBtn{
+  cursor:pointer;
+  width:80px;
+  height:30px;
+  text-align: center;
+  border: 1px solid #FF9E44;
+  border-radius: 5px;
+  background: #FF9E44;
+  margin-top:20px;
+}
+.fTimeStatTitle{
+  text-align:center;
+}
+.fTimeStat{
+  margin-left:50px;
+}
+
+
+
 
 /* foodboard-bview */
 

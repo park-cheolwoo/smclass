@@ -1,5 +1,6 @@
 from django.db import models
 from FoodCafe.models import Food,Cafe
+from foodBoard.models import fBoard
 # from foodBoard.models import fBoard
 
 # 현재 member
@@ -65,10 +66,9 @@ class delMember(models.Model):
 class Rating(models.Model):
     rNo = models.AutoField(primary_key=True)
     member = models.ForeignKey(Member,on_delete=models.DO_NOTHING)
-    food = models.ForeignKey(Food, on_delete=models.DO_NOTHING,null=True)
-    cafe = models.ForeignKey(Cafe, on_delete=models.DO_NOTHING,null=True)
-    rating = models.IntegerField()
+    fboard = models.ForeignKey(fBoard,on_delete=models.DO_NOTHING)
+    rating = models.CharField(max_length=10)
     rDate = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.rNo},{self.member},{self.food},{self.cafe},{self.rating}"
+        return f"{self.rNo},{self.member},{self.fboard},{self.rating}"

@@ -20,4 +20,4 @@ class delMemberAdmin(admin.ModelAdmin):
 
 @admin.register(Rating)
 class RationgAdmin(admin.ModelAdmin):
-    list_display = ['rNo','member','food','cafe','rating','rDate']
+    list_display = ['rNo','member','fboard','rating','rDate']

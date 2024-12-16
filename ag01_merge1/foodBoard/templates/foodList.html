@@ -38,8 +38,8 @@
   $(document).on("click",".listLikeOff",function(){
     alert("클릭");
     if(session_id ==""){
-      alert("로그인을 하셔야 좋아요가 가능합니다.")
-      return false
+      alert("로그인을 하셔야 좋아요가 가능합니다.");
+      location.href="/member/login/"
     }
     button = $(this)
     bNo = button.closest(".item_wrap2").find(".item_bNo").val();
@@ -71,7 +71,7 @@
     alert('클릭');
     if (session_id == "") {
         alert("로그인을 하셔야 즐겨찾기가 가능합니다.");
-        return false;
+         location.href="/member/login/"
     }
     button = $(this);
     bNo = button.closest(".item_wrap2").find(".item_bNo").val();
@@ -136,7 +136,9 @@
       alert("검색어는 영어,숫자,한글만 가능합니다.")
       return false;
     } foodFrm.submit();
-  })
+  });
+
+
   // 주소 검색 기능
   $(document).on("click",".listLoc",function(){
     let form = $(this).siblings(".search-box");
@@ -185,7 +187,7 @@
               {% endif %}
               <span class="LikeCnt">{{f.like_count}}</span>
               <button class="listLoc"></button>
-              <form class="search-box" action="/map/success/" method="post" id="search-form" style="display:none">
+              <form class="search-box" action="/map/success/" method="POST" id="search-form" style="display:none">
                 {% csrf_token %}
                 <input class="search-txt" type="text" name="search_word" value="{{f.bLocation}}" style="display:none">
               </form>
