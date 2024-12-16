@@ -1,5 +1,6 @@
 from django.db import models
 from FoodCafe.models import Food,Cafe
+# from foodBoard.models import fBoard
 
 # 현재 member
 # 이름 표시하고 싶으면 verbose_name="아이디" 이렇게 써도 됨
@@ -27,6 +28,18 @@ class Member(models.Model):
     def __str__(self):
         return f"{self.id}, {self.name}, {self.mDate}"
 
+
+# 회원 즐겨찾기
+class Star(models.Model):
+    sNo = models.AutoField(primary_key=True)
+    member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name="starred_boards")
+    fboard = models.ForeignKey("foodBoard.fBoard", on_delete=models.CASCADE, related_name="starred_by")
+    sDate = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.member} - {self.fboard}"
+
+
 # 회원 예약
 class Reservation(models.Model): 
     rNo = models.AutoField(primary_key=True)
@@ -51,22 +64,11 @@ class delMember(models.Model):
 # 평점
 class Rating(models.Model):
     rNo = models.AutoField(primary_key=True)
-    member = models.ForeignKey(Member, on_delete=models.CASCADE)
-    food = models.ForeignKey(Food, on_delete=models.DO_NOTHING, null=True)
-    cafe = models.ForeignKey(Cafe, on_delete=models.DO_NOTHING, null=True)
+    member = models.ForeignKey(Member,on_delete=models.DO_NOTHING)
+    food = models.ForeignKey(Food, on_delete=models.DO_NOTHING,null=True)
+    cafe = models.ForeignKey(Cafe, on_delete=models.DO_NOTHING,null=True)
     rating = models.IntegerField()
     rDate = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.rNo},{self.member},{self.food},{self.cafe},{self.rating}"
-
-# 즐겨찾기
-class Star(models.Model):
-    sNo = models.AutoField(primary_key=True)
-    member = models.ForeignKey(Member, on_delete=models.CASCADE)
-    food = models.ForeignKey(Food, on_delete=models.CASCADE, null=True, blank=True)  # Food가 삭제되면 Rating도 삭제 
-    cafe = models.ForeignKey(Cafe, on_delete=models.CASCADE, null=True, blank=True)
-    sDate = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f"{self.sNo}, {self.sDate}"

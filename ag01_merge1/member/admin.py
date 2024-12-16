@@ -1,5 +1,5 @@
 from django.contrib import admin
-from member.models import Member,Reservation,delMember,Star,Rating
+from member.models import Member,Star,Reservation,delMember,Rating
 
 @admin.register(Member)
 class MemberAdmin(admin.ModelAdmin):
@@ -7,7 +7,8 @@ class MemberAdmin(admin.ModelAdmin):
 
 @admin.register(Star)
 class StarAdmin(admin.ModelAdmin):
-  list_display = ['sNo','sDate']
+    list_display = ("sNo", "member", "fboard", "sDate")
+
 
 @admin.register(Reservation)
 class ResAdmin(admin.ModelAdmin):
@@ -15,9 +16,8 @@ class ResAdmin(admin.ModelAdmin):
 
 @admin.register(delMember)
 class delMemberAdmin(admin.ModelAdmin):
-    list_display = ['dNo','id','dDate']
-
+  list_display = ['dNo','id','dDate']
 
 @admin.register(Rating)
 class RationgAdmin(admin.ModelAdmin):
-    list_display = ["rNo", "member", "food", "cafe", "rating", "rDate"]
+    list_display = ['rNo','member','food','cafe','rating','rDate']

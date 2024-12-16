@@ -12,10 +12,14 @@ urlpatterns = [
     path('findInfo/', views.findInfo, name="findInfo"),  # 아이디/비밀번호 찾기 페이지
     ## 아이디 찾기
     path('findId/', views.findId, name="findId"),  # 아이디 찾기 페이지 - 이름 / 이메일주소 일치 확인
-    ## 패스워드 찾기
+    ## 비밀번호 찾기
     path('send_verification_code/', views.send_verification_code, name='send_verification_code'), # 인증메일 발송
     path('verify_code/', views.verify_code, name='verify_code'), # 인증번호 확인
     path('findPassword/', views.findPassword, name='findPassword'), # 이름, 이메일주소, 인증번호 일치/존재 확인
+    
+    ### 비밀번호 재설정
+    path('newPassword/', views.newPassword, name='newPassword'), # 새 비밀번호 페이지
+    path('newPasswordCheck/', views.newPasswordCheck, name='newPasswordCheck'), # 새 비밀번호 사용 가능여부 확인. 기존 비밀번호와 새 비밀번호 비교
 
     ### 회원가입
     path('signup/', views.signup, name="signup"),  # 회원가입
@@ -25,5 +29,4 @@ urlpatterns = [
     path('telDupChk/', views.telDupChk, name="telDupChk"),  # 전화번호 중복 확인
     path('emailDupChk/', views.emailDupChk, name="emailDupChk"),  # 이메일 중복 확인
     path('agreeChk/', views.agreeChk, name="agreeChk"),  # 회원가입 step01 약관동의
-
 ]

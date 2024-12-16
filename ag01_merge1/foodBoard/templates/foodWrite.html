@@ -17,7 +17,7 @@
   <title>ANG-GGO</title>
   <script>
     // 1. 사이트 GPS 출력
-    $(function() {
+    {% comment %} $(function() {
         const radius = 6371; // 지구 반지름 (단위: km)
 
         // 두 지점 간의 거리 계산 함수 (Haversine 공식)
@@ -88,7 +88,7 @@
                 $("#blocation").html("<p>근처에 데이터가 없습니다.</p>");
             }
         }
-    });// 1번 끝
+    });// 1번 끝 {% endcomment %}
 
   // 2. 글쓰기 유효성 검사
   if("{{wmsg}}"=='1'){
@@ -101,30 +101,77 @@
     location.href='/board/nboard/'
   }
 
-  $(document).on("click",".write",function(){
+  $(function() {
+        $('.write').click(function() {
+            
+            //summernote 내용을 임시로 저장
+            let summernoteContent = $('#summernote').val();
+            $('#temp').html(summernoteContent);
+            console.log($('#temp').text())
 
-    if($('#bTitle').val().length<2){
-      alert('게시글 제목은 두 자리 이상 입력해야 합니다.');
-      $('#bTitle').focus();
-      return false;
-    }else if($('#bSubtitle').val().length<2){
-      alert('게시글 부제목은 두 자리 이상 입력해야 합니다.');
-      $('#bSubtitle').focus();
-      return false;
-    }else if($('.note-editable > p').text().length<2){
-              console.log($('.note-editable > p').text())
-              alert('게시글 내용은 두 자리 이상 입력해야 합니다.');
-              $('.note-editable').focus();
-              return false;
-            }else if(!$("#bFile1").val()){
-              alert('게시글 파일을 첨부해주세요.');
-              return false;
-            }writeFrm.submit();
-          });// 2번 끝
-        
-        // 3. 썸머노트 삽입
-        $(function(){
+            if ($('#bTitle').val().length < 2) {
+                alert('게시글 제목은 두 자리 이상 입력해야 합니다.');
+                $('#bTitle').focus();
+                return false;
+            } else if ($('#bSubtitle').val().length < 2) {
+                alert('게시글 부제목은 두 자리 이상 입력해야 합니다.');
+                $('#bSubtitle').focus();
+                return false;
+            } else if ($('#temp').text().length < 2) {
+                alert('게시글 내용은 두 자리 이상 입력해야 합니다.');
+                $(this).focus();
+                return false;
+            } else if (!$("#bfile1").val()) {
+                alert('게시글 파일을 첨부해주세요.');
+                return false;
+            } else {
+                let location = $("#blocation").val();
+                let formattedLocation = extractCityDistrict(location);
+                if (!formattedLocation) {
+                    alert("주소 형식이 올바르지 않습니다. (00시 00구) 또는 (00도 00시) 형태로 작성해주세요.");
+                    $("#blocation").focus()
+                    return false;
+                }
+            }
+            writeFrm.submit();
+        });
+    });
+  
+    // 주소의 형식을 확인하는 함수
+   function extractCityDistrict(location) {
+    let parts = location.split(" ");
+    let formattedAddress = "";
 
+    if (parts.length >= 2) {
+        let firstPart = parts[0];
+        let secondPart = parts[1];
+
+        // 특별자치시(세종)
+        if (firstPart.endsWith("특별자치시")) {
+            formattedAddress = firstPart;
+            return formattedAddress;
+        } 
+        // 특별시, 광역시(서울,대구,대전...)
+        else if (firstPart.endsWith("특별시") || firstPart.endsWith("광역시")) {
+            formattedAddress = firstPart + " " + secondPart;
+            if (secondPart.endsWith("구")) {
+                return formattedAddress;
+            }
+        } 
+        // 도(경기,전북,...)
+        else if (firstPart.endsWith("도")) {
+            formattedAddress = firstPart + " " + secondPart;
+            if (secondPart.endsWith("시") || secondPart.endsWith("군")) {
+                return formattedAddress;
+            }
+        }
+    }
+
+    return null; // 형식이 올바르지 않으면 null 반환
+    }
+
+  // 3. 썸머노트 삽입
+  $(function(){
       $('#summernote').summernote({
           focus:true,  width:"100%",
           minHeight: 400,           // 에디터 최소 높이
@@ -214,31 +261,32 @@
             <td><input type="text" name="bSubtitle" id="bSubtitle" placeholder="부제목을 입력해주세요."></td>
           </tr>
           <tr>
-            <th class="star">위치</th>
-            <td id="blocation"><input type="text" name="bgps" id="bgps" value=""></td>
+            <th class="star">식당 위치</th>
+            <td id="bLocation"><input type="text" name="bLocation" id="blocation" value="서울특별시 금천구 가산디지털1로 145 (가산동)" placeholder="도로명주소/서울특별시 금천구 가산디지털1로 145 (가산동)"></td>
           </tr>
           <tr>
             <th class="star">내용</th>
             <td class="sumcontent">
+              <div id="temp" style="display: none"></div>
               <textarea name="bContent" id="summernote" cols="50" rows="10"></textarea>
             </td>
           </tr>
           <tr>
-            <th class="summer">이미지1</th>
+            <th class="summer star">이미지1</th>
             <td>
-              <input type="file" onchange="readURL(this);" name="bFile1" id="bFile1">
+              <input type="file" name="bFile1" id="bfile1">
             </td>
           </tr>
           <tr>
-            <th class="summer">이미지2</th>
+            <th class="summer star">이미지2</th>
             <td>
-              <input type="file" onchange="readURL(this);" name="bFile2" id="bFile2">
+              <input type="file" name="bFile2" id="bfile2">
             </td>
           </tr>
           <tr>
-            <th class="summer">이미지3</th>
+            <th class="summer star">이미지3</th>
             <td>
-              <input type="file" onchange="readURL(this);" name="bFile3" id="bFile3">
+              <input type="file" name="bFile3" id="bfile3">
             </td>
           </tr>
           

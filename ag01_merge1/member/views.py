@@ -98,6 +98,10 @@ def signup(request):
   return render(request, "signup.html")
   
 ### ---------------------------- 새 비밀번호 설정 ----------------------------
+def newPasswordCheck(request):
+
+  JsonResponse({"result" : "success", "message" : "사용 가능한 비밀번호입니다."})
+
 def newPassword(request):
   return render(request, "newPassword.html")
 
@@ -117,12 +121,11 @@ def verify_code(request):
 
     # 인증번호 일치 여부 확인
     if input_code == saved_code:
+      # # 인증번호가 일치하면 비밀번호를 화면에 띄우기
+      # member_id = request.session['member_id']
+      # member = Member.objects.get(id=member_id)
 
-      # 인증번호가 일치하면 비밀번호를 화면에 띄우기
-      member_id = request.session['member_id']
-      member = Member.objects.get(id=member_id)
-
-      return JsonResponse({"result": "success", "message": f"인증되었습니다. 비밀번호는 {member.pw}입니다."})
+      return JsonResponse({"result": "success", "message": "인증되었습니다."})
     else:
       return JsonResponse({"result": "error", "message": "인증번호가 일치하지 않습니다."})
 
@@ -235,7 +238,6 @@ def findInfo(request):
     return render(request, "findInfo.html")
 ### // --------------------------- 아이디/비밀번호 찾기 ----------------------------
 
-
 ### 로그아웃
 def logout(request):
   request.session.clear()
@@ -245,12 +247,11 @@ def logout(request):
 def loginChk(request):
     id = request.POST.get("id", "")
     pw = request.POST.get("pw", "")
-    print("id : ",id)
-    print("pw : ",pw)
+
     # db에서 해당 아이디 검색
     try:
         user = Member.objects.get(id=id)
-        print("user : ",user)
+        
         # 입력된 비밀번호와 저장된 암호화된 비밀번호 비교
         if check_password(pw, user.pw):
             # 로그인 성공, 세션에 사용자 정보 저장
