@@ -86,7 +86,7 @@ def calendar(request):
 
   else:
     #print("출석체크 시도")
-    # 세션에서 aId 가져오기
+    # 세션에서 id 가져오기
     id = request.session.get('session_id')
     today = date.today() # 오늘 날짜 today에 저장
     member = Member.objects.filter(id=id).first()

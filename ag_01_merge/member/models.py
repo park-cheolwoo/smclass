@@ -22,14 +22,17 @@ class Member(models.Model):
     def __str__(self):
         return f"{self.id}, {self.name}, {self.mDate}"
 
+
 # 회원 즐겨찾기
 class Star(models.Model):
-  sNo = models.AutoField(primary_key=True)
-  star = models.ManyToManyField(Member, default="", related_name="star_members")
-  sDate = models.DateTimeField(auto_now=True)
+    sNo = models.AutoField(primary_key=True)
+    member = models.ForeignKey("member.Member", on_delete=models.CASCADE, related_name="star_member")
+    fboard = models.ForeignKey("foodBoard.fBoard", on_delete=models.CASCADE, related_name="star_fboard")
+    sDate = models.DateTimeField(auto_now=True)
 
-  def __str__(self):
-     return f"{self.sNo},{self.star}"
+    def __str__(self):
+        return f"{self.member} - {self.fboard}"
+
 
 # 회원 예약
 class Reservation(models.Model): 

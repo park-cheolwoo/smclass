@@ -3,11 +3,12 @@ from member.models import Member,Star,Reservation,delMember,Rating
 
 @admin.register(Member)
 class MemberAdmin(admin.ModelAdmin):
-  list_display = ['id', 'name', 'nickname', 'mDate','point']
+    list_display = ['id', 'name', 'nickname', 'mDate','point']
+
 
 @admin.register(Star)
 class StarAdmin(admin.ModelAdmin):
-    list_display = ("sNo", "sDate")
+    list_display = ("sNo", "member", "fboard", "sDate")
 
 
 @admin.register(Reservation)

@@ -1,0 +1,260 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google fonts-->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{% static '/css/coupon.css'%}" />
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script type="text/javascript" src="{% static '/js/event.js'%}"></script>
+  
+  <title>출석체크</title>
+</head>
+<body>
+  <h2><a class="navbar-brand" href="/">앙꼬</a></h2>
+  <ul class='tempMenu'>
+    <li><a href="/admin/">admin</a></li>
+    {% if not request.session.session_id %}
+    <li><a href="/member/login/">로그인</a></li>
+    {% else %}
+    <li><a href="/member/logout/">로그아웃</a></li>
+    {% endif %}
+  </ul>
+   
+  <!-- container -->
+  <section id="container">
+    <div id="memberBenefit">
+      <input type="hidden" id="focusarea" value="">
+      <div class="sub_title_wrap">
+        <h2 class="sub_title">
+          <span>MEMBER BENEFIT</span>
+        </h2>
+      </div> 
+
+      <ul class="tab tab_item5"> <!-- 이벤트창 소메뉴 -->
+        <li><button type="button" class="cpnList" onclick="javascript:location.href='/event/coupon/'">쿠폰</button></li>
+        <li><button type="button" onclick="javascript:location.href='/event/point/'">앙포인트</button></li>
+        <li><button type="button" class="attChk" onclick="javascript:location.href='/event/calendar/'">출석체크</button></li>
+        <li><button type="button" class="eventThisMonth" onclick="javascript:location.href='/event/calendar/#event_of_this_month'">이달의 이벤트</button></li>
+      </ul>
+
+      <script>
+
+      </script>
+
+      <div id="pajx_container"> 
+        <input id="pajxActive" name="pajxActive" type="hidden" value="3">
+    
+
+        <div class="content1 tab_content active">
+          <!-- 출석체크 -->
+          <form action="/event/coupon/" method="post" name="cpnFrm">
+            {% csrf_token %}
+
+          <!-- 스페셜 쿠폰 -->
+            <div class="section special_coupon_section">
+              <h3 class="section_tit">SPECIAL COUPON</h3>
+              
+              <!-- <div class="coupon_download_top">
+                <button type="button" class="btn small btn_download_all" disabled="">쿠폰 받기 완료</button>
+                <button type="button" class="btn small btn_download_all" name="allcoupon" data-coupontype="B" data-grade="">쿠폰 모두 받기</button>
+              </div> -->
+
+              <div class="couponCode_wrap">
+                  <form class="couponCode" action="#" method="post">
+                      {% csrf_token %}
+                      <input class="input_couponCode" type="text" placeholder="쿠폰코드를 입력하세요.">
+                      <button class="btn btn-light inputCoupon-btn" type="submit">
+                          <i class="fas fa-search"></i>
+                      </button>
+                  </form>
+              </div>
+              <ul class="coupon_list">
+
+                <li class="union_coupon">
+                  <div class="coupon_box"> <!-- 쿠폰 틀 -->
+                    <div class="text"> <!-- 쿠폰 내부 글자 -->
+                      <div class="coupon_category_wrap">
+                        <h4><span>3</span>%</h4>
+                      </div>
+                      <p class="tit">전상품 더블 3%</p>
+                      <p class="desc">최대 10,000원 할인 (15,000원 이상 구매)</p>
+                    </div> <!-- //쿠폰 내부 글자 -->
+                    <div class="button_wrap"> <!-- 다운 버튼 -->
+                      <p class="coupon_label">SOLD OUT</p>
+                      <button type="button" class="btn_download" name="solocoupon" data-couponnm="킨 20% 쿠폰" data-sale="20.00000" data-couponcd="ZTJH4LXRB" data-downcount="1" data-unitid="0" data-coupontype="B">
+                        <span class="hide">다운로드</span>
+                      </button>
+                      <button type="button" class="done" data-couponcd="LHBPGBAS5">
+                        <span class="hide">다운로드</span><!-- 2023.10.04 -->
+                      </button> <!-- 이미 다운 받았을 경우 done 클래스 추가 부탁드립니다. -->
+                    </div> <!-- // 다운 버튼 -->
+                  </div> <!-- //쿠폰 틀 -->
+                  <div class="coupon_notice"> <!-- 쿠폰 특징 -->
+                    <p>사용기간 : 2024-12-08 00:00:00 ~ 2024-12-08 23:59:59</p>
+                    <p>적용대상 : 일부 상품 쿠폰 적용 대상에서 제외​</p>
+                  </div>  
+                </li>
+
+                <li class="union_coupon">
+                  <div class="coupon_box">
+                    <div class="text">
+                      <div class="coupon_category_wrap">
+                        <h4><span>10</span>%</h4>
+                      </div>
+                      <p class="tit">전상품 10%</p>
+                      <p class="desc">최대 30,000원 할인 (15,000원 이상 구매)</p>
+                    </div>
+                    <div class="button_wrap">
+                      <p class="coupon_label">SOLD OUT</p>
+                      <button type="button" class="btn_download" name="solocoupon" data-couponnm="킨 20% 쿠폰" data-sale="20.00000" data-couponcd="ZTJH4LXRB" data-downcount="1" data-unitid="0" data-coupontype="B">
+                        <span class="hide">다운로드</span>
+                      </button>
+                      <button type="button" class="done" data-couponcd="ESA18YQ7P">
+                        <span class="hide">다운로드</span><!-- 2023.10.04 -->
+                      </button> <!-- 이미 다운 받았을 경우 done 클래스 추가 부탁드립니다. -->
+                    </div>
+                  </div>
+                  <div class="coupon_notice">
+                    <p>사용기간 : 2024-12-01 10:00:00 ~ 2024-12-16 09:59:59</p>
+                    <p>적용대상 : 일부 상품 쿠폰 적용 대상에서 제외​</p>
+                  </div>
+                </li>
+              </ul>
+            </div> <!-- // 스페셜 쿠폰 -->
+
+
+            <!-- 일반 쿠폰 
+            <div class="section all_coupon_section">
+              <h3 class="section_tit">모든 쿠폰을 한곳에서!</h3>
+              <div class="coupon_download_top">
+                <button type="button" class="btn small btn_download_all" disabled="">쿠폰 받기 완료</button>
+                <button type="button" class="btn small btn_download_all" name="allcoupon" data-coupontype="B" data-grade="">쿠폰 모두 받기</button>
+              </div>
+              
+              
+              <ul class="coupon_list">
+                <li class="union_coupon">
+                  <div class="coupon_box">
+                    <div class="text">
+                      <div class="coupon_category_wrap">
+                        <h4><span>20</span>%</h4>
+                      </div>
+                      <p class="tit">킨 20% 쿠폰</p>
+                      <p class="desc">최대 40,000원 할인 (10,000원 이상 구매)</p>
+                    </div>
+                    <div class="button_wrap">
+                      <p class="coupon_label">SOLD OUT</p>
+                      <button type="button" class="btn_download" name="solocoupon" data-couponnm="킨 20% 쿠폰" data-sale="20.00000" data-couponcd="ZTJH4LXRB" data-downcount="1" data-unitid="0" data-coupontype="B">
+                        <span class="hide">다운로드</span>
+                      </button>
+                      <button type="button" class="done">
+                        <span class="hide">다운로드</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="coupon_notice">
+                  <p>사용기간 : 2024-12-02 00:00:00 ~ 2024-12-08 23:59:59</p>
+                  <p>적용디바이스 : APP, MO, PC </p>
+                </div>
+              </li>
+              
+              
+              <li class="union_coupon">
+                <div class="coupon_box">
+                  <div class="text">
+                    <div class="coupon_category_wrap">
+                      <h4><span>20</span>%</h4>
+                    </div>
+                    <p class="tit">모한 20% 쿠폰</p>
+                    <p class="desc">최대 50,000원 할인 (50,000원 이상 구매)</p>
+                  </div>
+                    <div class="button_wrap">
+                      <p class="coupon_label">SOLD OUT</p>
+                      <button type="button" class="btn_download" name="solocoupon" data-couponnm="킨 20% 쿠폰" data-sale="20.00000" data-couponcd="ZTJH4LXRB" data-downcount="1" data-unitid="0" data-coupontype="B">
+                        <span class="hide">다운로드</span>
+                      </button>
+                      <button type="button" class="done">
+                        <span class="hide">다운로드</span>
+                      </button>
+                    </div>
+                    <div class="coupon_notice">
+                      <p>사용기간 : 2024-12-02 10:00:00 ~ 2024-12-09 10:00:59</p>
+                      <p>적용디바이스 : APP, MO, PC </p>
+                    </div>
+                  </li>
+                  
+                  
+                  <li class="union_coupon">
+                    <div class="coupon_box">
+                    <div class="text">
+                      <div class="coupon_category_wrap">
+                        <h4><span>5</span>%</h4>
+                      </div>
+                      <p class="tit">더미튼 더블 5% 쿠폰</p>
+                      <p class="desc">최대 10,000원 할인 (10,000원 이상 구매)</p>
+                    </div>
+                    <div class="button_wrap">
+                      <p class="coupon_label">SOLD OUT</p>
+                      <button type="button" class="btn_download" name="solocoupon" data-couponnm="더미튼 더블 5% 쿠폰" data-sale="5.00000" data-couponcd="BVI2OI9RE" data-downcount="1" data-unitid="0" data-coupontype="B">
+                        <span class="hide">다운로드</span>
+                      </button>
+                      <button type="button" class="done">
+                        <span class="hide">다운로드</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="coupon_notice">
+                    <p>사용기간 : 2024-12-06 10:00:00 ~ 2024-12-09 10:00:59</p>
+                    <p>적용디바이스 : APP, MO, PC </p>
+                  </div>
+                </li>
+                      
+                
+                <li class="union_coupon">
+                  <div class="coupon_box">
+                    <div class="text">
+                      <div class="coupon_category_wrap">
+                        <h4><span>5</span>%</h4>
+                      </div>
+                      <p class="tit">파타고니아</p>
+                      <p class="desc">최대 30,000원 할인 (30,000원 이상 구매)</p>
+                    </div>
+                    <div class="button_wrap">
+                      <p class="coupon_label">SOLD OUT</p>
+                      <button type="button" class="btn_download" name="solocoupon" data-couponnm="킨 20% 쿠폰" data-sale="20.00000" data-couponcd="ZTJH4LXRB" data-downcount="1" data-unitid="0" data-coupontype="B">
+                        <span class="hide">다운로드</span>
+                      </button>
+                      <button type="button" class="done">
+                        <span class="hide">다운로드</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="coupon_notice">
+                    <p>사용기간 : 2024-12-01 00:00:00 ~ 2025-01-01 00:00:59</p>
+                    <p>적용디바이스 : APP, MO, PC </p>
+                  </div>
+                </li>
+              </ul>
+            </div> //일반 쿠폰 -->
+            
+
+           
+          
+           
+          </form>
+        </div> <!-- //content1 tab_content active-->
+      </div> <!-- //pajx_container -->
+
+    </div> <!-- //memberBenefit -->
+  </section> <!-- //container -->
+  
+  
+</body>
+</html>

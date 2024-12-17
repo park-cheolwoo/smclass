@@ -1,0 +1,246 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block container-block %}
+<script>
+  let session_id = "{{request.session.session_id}}"
+  let csrftoken = $('meta[name="csrf-token"]').attr('content');
+  let button;
+  let bNo;
+  let cnt;
+
+  $(document).on("click",".listLikeOn2",function(){
+    alert("클릭");
+    button = $(this)
+    bNo = button.closest(".info_more").find(".item_bNo").val();
+    cnt = button.next().next().text()
+    $.ajax({
+        headers: {"X-CSRFToken": csrftoken},  // CSRF 토큰 설정
+        url: '/foodBoard/Likes/',
+        type: 'POST',
+        dataType: 'json',  // JSON 응답 처리
+        data: {'id': session_id, 'bNo': bNo},
+        success: function(data) {
+            console.log(data);  // 응답 데이터 출력
+            if (data.result == "remove") {
+                alert("좋아요를 삭제했습니다.");
+                button.css({"display":"none"});  // 클릭된 버튼을 숨김
+                button.next().css({'display':"block"});  // 이전 요소를 표시
+                button.next().next().text(Number(cnt)-1);
+            }
+        },
+        error: function() {
+            alert('좋아요를 삭제하는데 실패했습니다.');
+        }
+
+  });
+  });
+
+  $(document).on("click",".listLikeOff2",function(){
+    alert("클릭");
+    if(session_id ==""){
+      alert("로그인을 하셔야 좋아요가 가능합니다.")
+      return false
+    }
+    button = $(this)
+    bNo = button.closest(".info_more").find(".item_bNo").val();
+    cnt = button.next().text()
+    $.ajax({
+        headers: {"X-CSRFToken": csrftoken},  // CSRF 토큰 설정
+        url: '/foodBoard/Likes/',
+        type: 'POST',
+        dataType: 'json',  // JSON 응답 처리
+        data: {'id': session_id, 'bNo': bNo},
+        success: function(data) {
+            console.log(data);  // 응답 데이터 출력
+            if (data.result == "add") {
+                alert("좋아요를 눌렀습니다.");
+                button.css({"display":"none"});  // 클릭된 버튼을 숨김
+                button.prev().css({'display':"block"});  // 이전 요소를 표시
+                button.next().text(Number(cnt)+1);
+            }
+        },
+        error: function() {
+            alert('좋아요를 추가하는데 실패했습니다.');
+        }
+    });
+  });
+
+  $(document).on("click", ".liststarOff2", function() {
+    alert('클릭');
+    if (session_id == "") {
+        alert("로그인을 하셔야 즐겨찾기가 가능합니다.");
+        return false;
+    }
+    button = $(this);
+    bNo = button.closest(".info_more").find(".item_bNo").val();
+    
+    $.ajax({
+        headers: {"X-CSRFToken": csrftoken},  // CSRF 토큰 설정
+        url: '/foodBoard/Stars/',
+        type: 'POST',
+        dataType: 'json',  // JSON 응답 처리
+        data: {'id': session_id, 'bNo': bNo},
+        success: function(data) {
+            console.log(data);  // 응답 데이터 출력
+            if (data.result == "1") {
+                alert("즐겨찾기가 등록되었습니다.");
+                button.css({"display":"none"});  // 클릭된 버튼을 숨김
+                button.prev().css({"display":"block"}); 
+            }
+        },
+        error: function() {
+            alert('즐겨찾기를 등록하는데 실패했습니다.');
+        }
+    });
+  });
+
+  $(document).on("click",".liststarOn2",function(){
+    alert('클릭');
+    button = $(this);
+    bNo = button.closest(".info_more").find(".item_bNo").val();
+    if(confirm("즐겨찾기를 삭제하시겠습니까?")){
+      $.ajax({
+        headers: {"X-CSRFToken": csrftoken},  // CSRF 토큰 설정
+        url: '/foodBoard/Stars/',
+        type: 'POST',
+        dataType: 'json',  // JSON 응답 처리
+        data: {'id': session_id, 'bNo': bNo},
+        success: function(data) {
+          console.log(data);  // 응답 데이터 출력
+          if (data.result == "1") {
+            alert("즐겨찾기가 삭제되었습니다.");
+            button.css({"display":"none"});  // 클릭된 버튼을 숨김
+            button.next().css({"display":"block"}); 
+          }
+        },
+        error: function() {
+          alert('즐겨찾기를 삭제하는데 실패했습니다.');
+        }
+      });
+    }
+  });
+
+
+  $(document).on("click",".comment_list",function(){
+      alert("클릭")
+      $(this).toggleClass('comment_effective');
+  })
+
+  $(document).on("click",".listLoc2",function(){
+    let form = $(this).siblings(".search-box");
+    form.submit()
+  });
+
+
+</script>
+<main>
+  <div id="foodboard1">  
+    <div class="info_more">
+      <input class="item_bNo" type='text' value={{flist.bNo}} style="display:none">
+      <div class="info_img">
+        {% if flist.bFile1 %}
+        <img src= "{{flist.bFile1.url}}">
+        {% endif %}
+        {% if flist.bFile2 %}
+        <img src= "{{flist.bFile2.url}}">
+        {% endif %}
+        {% if flist.bFile3 %}
+        <img src= "{{flist.bFile3.url}}">{% endif %}
+      </div>
+      <br>
+      <div class="info_text">
+        <div class="info_wrap">
+          <div class="bottom_slide">
+            <strong>{{flist.bTitle}}
+              <a href="/foodBoard/foodRes/{{flist.bNo}}/">
+                <ion-icon name="chevron-forward-outline" class="moreIcon"></ion-icon>
+              </a>
+            </strong>
+            <p>{{flist.bLocation}}</p>
+          </div>
+        </div>
+        <div class="button_wrap">
+          <div class="reservation">
+            <a href="/foodBoard/foodRes/{{flist.bNo}}/">
+            <ion-icon name="calendar-number-outline" style="width:30px; height:30px;"></ion-icon>
+            <p>예약하기</p>
+          </a>
+          </div>
+        </div>
+      </div>
+      {% if flist.is_liked %}
+      <button class="listLikeOn2" style="display:block"></button>
+      <button class="listLikeOff2" style="display:none"></button>
+      {% else %}
+      <button class="listLikeOn2" style="display:none"></button>
+      <button class="listLikeOff2" style="display:block"></button>
+      {% endif %}
+              <span class="LikeCnt2">{{flist.like_count}}</span>
+              <button class="listLoc2"></button>
+              <form class="search-box" action="/map/success/" method="post" id="search-form" style="display:none">
+              {% csrf_token %}
+                <input class="search-txt" type="text" name="search_word" value="{{flist.bLocation}}" style="display:none">
+              </form>
+              {% if flist.star %}
+              <button class="liststarOn2" style="display:block"></button>
+              <button class="liststarOff2" style="display:none"></button>
+              {% else %}
+              <button class="liststarOn2" style="display:none"></button>
+              <button class="liststarOff2" style="display:block"></button>
+              {% endif %}
+      <br/>
+      <div class="bottom_content">
+            <strong>{{flist.bSubtitle}}</strong>
+            <p>{{flist.bContent|safe}}</p>
+            </div>
+          </div>
+          <button class="cancelBtn1" onclick="location.href='/foodBoard/foodList/'">목록으로</button>
+          <br/>
+          <br/>
+        <hr class="comment_seperator"></hr>
+          <br/>
+
+          <div class="comment_div">
+            <button type='button' class="comment_list">
+              <h4 class="comment_content"><span class="comment_icon">😋</span>음식이 맛있어요</h4>              
+              <h4 class="comment_cnt">13명</h4>
+            </button>
+            <button type='button' class="comment_list">
+              <h4 class="comment_content"><span class="comment_icon">🍚</span>양이 많아요</h4>              
+              <h4 class="comment_cnt">13명</h4>
+            </button>
+            <button type='button' class="comment_list">
+              <h4 class="comment_content"><span class="comment_icon">👀</span>매장이 넓어요</h4>              
+              <h4 class="comment_cnt">13명</h4>
+            </button>
+            <button type='button' class="comment_list">
+              <h4 class="comment_content"><span class="comment_icon">💸</span>가성비가 좋아요</h4>              
+              <h4 class="comment_cnt">13명</h4>
+            </button>
+            <button type='button' class="comment_list">
+              <h4 class="comment_content"><span class="comment_icon">💖</span>친절해요</h4>              
+              <h4 class="comment_cnt">13명</h4>
+            </button>
+            <button type='button' class="comment_list">
+              <h4 class="comment_content"><span class="comment_icon">🌱</span>재료가 신선해요</h4>              
+              <h4 class="comment_cnt">13명</h4>
+            </button>
+            <button type='button' class="comment_list">
+              <h4 class="comment_content"><span class="comment_icon">⛰️</span>뷰가 좋아요</h4>              
+              <h4 class="comment_cnt">13명</h4>
+            </button>
+            <button type='button' class="comment_list">
+              <h4 class="comment_content"><span class="comment_icon">✨</span>매장이 청결해요</h4>              
+              <h4 class="comment_cnt">13명</h4>
+            </button>
+            <button type='button' class="comment_list">
+              <h4 class="comment_content"><span class="comment_icon">🚘</span>주차장이 넓어요</h4>              
+              <h4 class="comment_cnt">13명</h4>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+    {% endblock container-block %}
+    

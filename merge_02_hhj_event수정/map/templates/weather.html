@@ -1,0 +1,339 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name='csrf_token' content="{{csrf_token}}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/css/test.css' %}">
+  <title>ANG-GGO</title>
+  <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=Cn1m1ocQfA6R49VlaMJaT8i0vWsmiBX1acPSdFAH"></script>
+  <script type="text/javascript">
+    var map;
+    var InfoWindow,marker;
+    var content,content1,content2,content3,rect;
+    var url,lat,lon,name;
+    var Clicklat,Clicklon;
+    var result,resultDiv; 
+    var poiId,color;
+    var poiId2,color2;
+    var tData = new Tmapv2.extension.TData();
+    let isSquareMapActive = false;
+    let isAutoTrafficActive = false;
+    let isMeasureDistanceActive = false; // 플래그 변수 추가
+	  let csrfToken = $('meta[name="csrf_token"]').attr('content')
+
+  // 페이지가 로딩이 된 후 호출하는 함수입니다.
+  function initTmap() {
+    // map 생성
+    map = new Tmapv2.Map("map_div", {
+      center: new Tmapv2.LatLng(37.56520450, 126.98702028),
+      zoom: 18,
+      width: "100%",
+      height: "700px",
+      httpsMode: true,
+    });
+
+    map.addListener("click", onClick);
+
+   
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        var lat = position.coords.latitude;
+        var lon = position.coords.longitude;
+        marker = new Tmapv2.Marker({
+          position: new Tmapv2.LatLng(lat, lon),
+          map: map,
+        });
+
+        map.setCenter(new Tmapv2.LatLng(lat, lon));
+        map.setZoom(18);
+      });
+    }
+
+    // 기본 상태로 measureDistance 실행
+    measureDistance();
+  }
+
+
+    /// 수정완료      
+
+
+  // 클릭 시 위도경도 출력
+  function onClick(e) {
+     const clickLat = e.latLng.lat();
+      const clickLon = e.latLng.lng();
+       console.log("클릭한 위치의 위도:", clickLat, "경도:", clickLon);
+        $.ajax({
+           url: '/static/기상청_격자위경도.csv',
+           dataType: 'text',
+           beforeSend: function(xhr){ xhr.overrideMimeType('text/plain; charset=euc-kr'); },
+           success: function (data) {
+            const { nearestLocation_s2, locX, locY } = processCSVData(data, clickLat, clickLon);
+              if (nearestLocation_s2) {
+                // console.log(nearestLocation_s2)
+                const xhr = new XMLHttpRequest();
+                const apiUrl = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst';
+                const serviceKey = 'EPhM94JT5WuG2cnWrA7xBy4Ip1zeWGD%2Fc9StwgvLEua3LPV6Qgp9%2Bu%2Fq5hyyC9%2FtVA%2BL4WipZChsLpNs4obZ%2Bw%3D%3D';
+                const queryParams = '?' + encodeURIComponent('serviceKey') + '=' + serviceKey +
+                                    '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1') +
+                                    '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('8') +
+                                    '&' + encodeURIComponent('dataType') + '=' + encodeURIComponent('Json') +
+                                    '&' + encodeURIComponent('base_date') + '=' + encodeURIComponent('20241210')+
+                                    '&' + encodeURIComponent('base_time') + '=' + encodeURIComponent('1930') +
+                                    '&' + encodeURIComponent('nx') + '='+ encodeURIComponent(locX) +
+                                    '&' + encodeURIComponent('ny') + '=' + encodeURIComponent(locY);
+                xhr.open('GET', apiUrl + queryParams);
+                xhr.onreadystatechange = function() {
+                   if (this.readyState == 4) {
+                     // console.log('Status: ' + this.status);
+                     // console.log('Headers: ' + JSON.stringify(this.getAllResponseHeaders()));
+                     const {temperature, humidity, weather,  wdDirection, wdStrength} = findSource(this.responseText);
+                     console.log("temp : "+temperature)
+                     console.log("humidity : "+humidity)
+                     console.log("weather : "+weather)
+                     console.log("wdDirection : "+wdDirection)
+                     console.log("wdStrength : "+wdStrength)
+                    } };
+                    xhr.send(''); // 기상청 api 끝
+                  } },
+            error: function () {
+                alert('CSV 파일을 읽는 데 실패했습니다.'); 
+              } }); } 
+              
+          
+              
+  function processCSVData(data, clickLat, clickLon) {
+     const lines = data.split("\n");
+     let minDistance = Infinity;
+     let nearestLocation_s2 = '';
+     var locX;
+     var locY;
+
+
+     for (let i = 1; i < lines.length; i++) {
+       const line = lines[i].trim();
+       if (line) {
+         const columns = line.split(",");
+         const 시도 = columns[0];
+         const 시군구 = columns[1];
+         const 읍면동 = columns[2];
+         const 위도 = parseFloat(columns[3]);
+         const 경도 = parseFloat(columns[4]);
+         const distance = getDistance(clickLat, clickLon, 위도, 경도);
+         if (distance < minDistance) {
+           minDistance = distance;
+           nearestLocation_s2 = 읍면동; } } }
+
+          for (let i = 1; i < lines.length; i++) {
+             const line = lines[i].trim();
+             if (line) {
+              const columns = line.split(",");
+              const 읍면동 = columns[2];
+              if (읍면동 === nearestLocation_s2) {
+                console.log(읍면동)
+                locX = columns[5]; // 6번째 열의 값
+                locY = columns[6]; // 7번째 열의 값
+                if (locX !== undefined && locY !== undefined) {
+                  console.log("locX : " + locX); console.log("locY : " + locY); }
+                  break; // 일치하는 행을 찾았으면 반복문 종료
+              } } } return { nearestLocation_s2, locX, locY }; }
+
+  function getDistance(lat1, lon1, lat2, lon2) {
+     const radius = 6371; // 지구 반지름 (km)
+     const toRad = (value) => (value * Math.PI) / 180;
+     const dLat = toRad(lat2 - lat1);
+     const dLon = toRad(lon2 - lon1);
+     const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+     return radius * c; }
+
+  function findMinDistance(locations, targetLat, targetLon) {
+    let minDistance = Infinity;
+    let minLocation = null;
+    for (const location of locations) {
+      const distance = getDistance(targetLat, targetLon, location.lat, location.lon);
+      if (distance < minDistance) {
+        minDistance = distance; minLocation = location;// 가장 가까운 위치 업데이트 
+         } }
+         return { minDistance, minLocation }; }
+
+  function findSource(responseText){
+    const data = JSON.parse(responseText)
+    let items = data.response.body.items.item;
+    let temperature = '';
+    let humidity = '';
+    let weather = '';
+    let wdDirection = '';
+    let wdStrength = '';
+    // console.log("data : "+data)
+    console.log("items.length : "+items.length)
+    for(i=0;i<items.length;i++){
+      if(items[i].category == "PTY"){
+        weather  = items[i].obsrValue;
+      } else if(items[i].category == "REH"){
+        humidity = items[i].obsrValue;
+      } else if(items[i].category == "T1H"){
+        temperature = items[i].obsrValue;
+      } else if(items[i].category == "VEC"){
+        wdDirection  = items[i].obsrValue;
+      } else if(items[i].category == "WSD"){
+        wdStrength  = items[i].obsrValue;
+      } 
+    } 
+    return {temperature, humidity, weather,  wdDirection, wdStrength}
+    }
+
+
+  /// 수정완료       
+
+
+  // 모든 부가 정보를 제거하는 함수
+  function resetActiveStates() {
+    // 모든 기능의 활성 상태를 초기화
+    isSquareMapActive = false;
+    isAutoTrafficActive = false;
+    isMeasureDistanceActive = false;
+    $(".api_etc_btns > div").removeClass("__color_blue_fill");
+    $(".api_etc_labels > div").hide();
+
+    // 기본 정보 제거
+    try {
+      if (measureDistance) {
+        measureDistance.remove();
+      }
+    } catch (error) {}
+
+    // 교통정보 제거
+    try {
+      tData.autoTraffic(map, { trafficOnOff: false });
+    } catch (error) {}
+
+    // 추가적인 UI 초기화
+    $("#map_wrap").empty();
+  }
+
+  // 기본 정보
+  function measureDistance() {
+    resetActiveStates(); // 다른 기능 초기화
+    isMeasureDistanceActive = true; // measureDistance 활성화
+
+    $(".api_etc_btns > div#measureDistance").addClass("__color_blue_fill");
+    $("#map_wrap").html(`
+        <div>기본 정보를 표시합니다.</div>
+    `);
+  }
+
+  function resetMeasureObject() {
+    $(".api_etc_btns > div").removeClass("__color_blue_fill");
+    $(".api_etc_labels > div").hide();
+  }
+</script>
+<main>
+  <!-- 헤더 부분 -->
+  <header>
+    <div class="inner">
+      <a href="/"><span class="main_logo">로고</span></a>
+      <ul>
+        <a href="/map/mview/"><li>지도</li></a>
+        <a href="/foodBoard/blist/"><li>맛집추천</li></a>
+        <a href="/board/nboard/"><li>게시판</li></a>
+        <li>예약</li>
+        <li>이벤트</li>
+        <li>브랜드 소개</li>
+      </ul>
+      <span>
+        <button type="button" class="ag_my">로그인/회원가입</button>
+      </span>
+    </div>
+    <hr>
+  </header>
+<body onload="initTmap(); ">
+  <div class="search_m">
+    <div class="here">
+      <div class="sub_navloc">HOME&nbsp;&nbsp; <strong><i class="fa-solid fa-chevron-right"></i>&nbsp;&nbsp; 지도</strong></div>
+    </div>
+    <div class="m_info">
+      <form action="#" name="mapping" method="post">
+        {% csrf_token %}
+        <input type="text" id="searchKeyword" name="searchKeyword" placeholder="   검색어를 입력해주세요." >
+        <button id="inBtn">검색</button>
+        <button id="weatherBtn">날씨 검색</button>
+        <div class="f_category">
+          <span><img src="/static/images/크리스마스.png/"><br>크리스마스</span>
+          <span><img src="/static/images/veg.png/"><br>채식식당</span>
+          <span><img src="/static/images/wine.png/"><br>와인/바</span>
+          <span><img src="/static/images/newyear.png/"><br>새해파티</span>
+          <span><img src="/static/images/연말데이트.png/"><br>데이트</span>
+          <span><img src="/static/images/brunch.png/"><br>브런치</span>
+          <span><img src="/static/images/cafe.png/"><br>카페</span>
+          <span><img src="/static/images/thumb.png/"><br>인기순</span>
+        </div>
+      </form>
+    </div>
+    <div id="map_div" style="position: relative;">
+      <div class="_map_layer_overlay" style="padding-top: 10px;">
+          <div class="__space_10_h"></div>
+          <div class="api_etc_btns _map_overlay_row __flex_align_start" >
+              <div style="margin-left:35px;"></div>
+              <div id="measureDistance" class="_btn_radio" onclick="measureDistance();">기본</div>
+              <div class="__space_10_w"></div>
+              <div id="squareMap" class="_btn_radio" onclick="squareMap();">혼잡도</div>
+              <div class="__space_10_w"></div>
+              <div id="autoTraffic" class="_btn_radio" onclick="autoTraffic();">교통정보</div>
+              <div class="__space_10_w"></div>
+          </div>
+      </div>
+  </div>
+      <p id="result"></p>
+      <div id="map_wrap" class="map_wrap3" style="height:450px">
+        <div id="map_div" class="map_wrap" style='position :relative; bottom:-20px;'></div>
+      </div>
+
+  <!-- 하단 부분 -->
+  <footer>
+    <div class="footer">
+      <div class="ftnavi">
+        <ul>
+          <li><a href="">회사소개</a></li>
+          <li><a href="">오시는길</a></li>
+          <li><a href="">개인정보처리방침</a></li>
+          <li><a href="">영상정보처리기기운영관리방침</a></li>
+          <li><a href="">이용약관</a></li>
+          <li><a href="">이메일무단수집거부</a></li>
+        </ul>
+        <div class="addr">
+          <p>포레스트 리솜<span>|</span>충청북도 제천시 백운면 금봉로 365</p>
+          <p class="tel">대표번호 : 043-649-6000&nbsp;&nbsp;
+          <span>예약문의 : 1600-0060</span>
+          <span>단체문의 : 02-6177-5999</span>
+          <span>분양문의 : 02-567-5555</span>
+          <span>통신판매업신고 : 2011-충북제천-0016호</span>
+          </p>
+          <p>메리츠화재와 개인정보 배상책임보험 계약을 체결하여 회원 개인정보를 보호하고 있습니다.</p>
+          <p class="copy">COPYRIGHT(C) HOBAN HOTEL & RESORT. ALL RIGHTS RESERVED.</p>
+        </div>
+      </div>
+      <div class="right">
+        <div class="sns">
+          <a href="#"><img src="/static/images/insta_btn_fnew.png"></a>
+          <a href="#"><img src="/static/images/youtube_btn_fnew.png"></a>
+          <a href="#"><img src="/static/images/facebook_btn_fnew.png"></a>
+          <a href="#"><img src="/static/images/kakao_ch_btn_fnew.png"></a>
+        </div>
+        <div class="group">
+          <select name="site_go" id="site_go" class="sel_box">
+            <option value="#">패밀리사이트</option>
+            <option value="https://www.ihoban.co.kr/web">호반건설</option>
+            <option value="https://www.hobanapt.co.kr/web">호반베르디움</option>
+          </select>
+          <button type="button">GO</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+  </main>
+</body>
+</html>

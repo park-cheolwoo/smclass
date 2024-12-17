@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     'comment',    # w
     'member',    # s
     'FoodCafe', # c
+    # 'admin', #c
+    'adtest', # admin 사이트 테스팅용
 ]
 
 MIDDLEWARE = [

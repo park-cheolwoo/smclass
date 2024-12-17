@@ -1,0 +1,451 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <title>아이디 • 비밀번호 찾기</title>
+  <meta charset="UTF-8">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="description" content="ANGGGO" />
+  <meta name="keywords" content="ANGGGO" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{% static '/css/login.css' %}">
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+  <script>
+    let idBtnHidden = false; // 버튼 숨김 상태 관리
+    let verificationResult = false;
+
+    $(document).ready(function() {
+      const csrfToken = $("meta[name='csrf-token']").attr("content");
+
+      let findIdTab = $(".findIdTab"); // 아이디 찾기 탭
+      let findPwTab = $(".findPwTab"); // 비밀번호 찾기 탭
+      let loginPage = $("#loginPage"); // 로그인페이지로 이동하는 그 부분
+  
+      let first_input = $(".first-input"); // 이름 텍스트박스
+      let hidden_input = $("#chkEmailCode"); // 인증번호 입력값
+      let hidden_result = $(".hiddenResult");
+
+      let sendEmailBtn = $("#sendEmailBtn"); // 인증번호 전송 버튼
+      let resendEmailBtn = $("#resendEmailBtn"); // 인증번호 재전송 버튼
+      let chkEmailCodeBtn = $("#chkEmailCodeBtn"); // 이메일 인증번호 확인 버튼
+      let find_btn = $(".find_btn"); // 큰버튼
+  
+      let verificationCode = ''; // 랜덤 인증번호 저장 변수
+
+      
+      //----------- 비밀번호 찾기 화면 ---------------------
+      findPwTab.on("click", function(e) {
+        e.preventDefault(); // 기본 동작 방지
+
+        $(this).addClass('active');   // 클릭된 탭에 active 추가
+        $('.findIdTab').removeClass('active');  // 다른 탭에서 active 제거
+
+        sessionStorage.removeItem('verification_code'); // 세션 초기화
+        switchCodeButton(); // 버튼 상태 업데이트
+
+        // 비밀번호 찾기 화면으로 변경
+        $(this).parent().css("opacity", "1");
+        $(this).parent().siblings().css("opacity", ".6");
+        $("#findIdBtn").css("display", "none"); // 아이디 찾기 버튼 숨기기
+        $("#findPwBtn").css("display", "block"); // 비밀번호 찾기 버튼 나타내기
+
+        // 이름 텍스트박스를 비밀번호 찾기 화면에 맞게 변환
+        first_input.removeClass("first-input__block").addClass("signup-input__block");
+
+        // 인증번호 입력 부분 보이기
+        if ($("#chkEmailCode").val() === '') {
+          hidden_input.css({
+            "opacity": "1",
+            "display": "block"
+          });
+        }
+
+        // **버튼 초기화**
+        resendEmailBtn.css("display", "none"); // 인증번호 재전송 버튼 숨기기
+        $("#sendEmailBtn").css("display", "inline-block"); // 인증번호 전송 버튼 보이기
+
+        // 아이디/패스워드 결과 부분 숨기기
+        hidden_result.css({
+          "opacity": "0",
+          "display": "none"
+        });
+
+        $("#result_message").css("display", "none"); // 메시지 숨기기
+        $("#name").parent().show();
+        $("#email").parent().show();
+        $("#name").val("");
+        $("#email").val("");        
+      });
+
+      // 인증번호 전송 버튼 클릭
+      sendEmailBtn.on("click", function(e) {
+        e.preventDefault();
+
+        const name = $("#name").val(); // 이름 가져오기
+        const email = $("#email").val(); // 이메일 가져오기
+
+        // 입력값 유효성 검사
+        if ((!name) && (!email)) {
+          alert("이름과 이메일을 입력하세요.");
+          $("#name").focus();
+          return;
+        } else if (!name) {
+          alert("이름을 입력하세요.");
+          $("#name").focus();
+          return;
+        } else if (!email) {
+          alert("이메일 주소를 입력하세요.");
+          $("#email").focus();
+          return;
+        }
+
+        // 이메일로 인증번호 전송 (AJAX 요청)
+        $.ajax({
+          url: '/member/send_verification_code/', // 서버 URL
+          type: 'POST',
+          headers: { "X-CSRFToken": csrfToken },
+          data: {
+            "name": name,
+            "email": email
+          },
+          success: function(response) {
+            if (response.result === 'success') {
+              alert("인증번호가 전송되었습니다.");
+
+              // 인증번호 전송 상태 세션에 저장
+              sessionStorage.setItem("verification_code", response.verification_code);
+
+              // 버튼 전환
+              sendEmailBtn.css("display", "none"); // 인증번호 전송 버튼 숨기기
+              resendEmailBtn.css("display", "inline-block"); // 인증번호 재전송 버튼 보이기
+              
+              //인증번호 확인 버튼 보이기
+              chkEmailCodeBtn.css("display","inline-block");
+            } else {
+              alert("전송 실패: " + response.message);
+            }
+          },
+          error: function() {
+            alert("서버 오류. 다시 시도해주세요.");
+          }
+        }); //ajax
+      }); // sendEmailBtn 인증번호 전송 버튼
+    
+      // resendEmailBtn 인증번호 재전송 버튼 -----------
+      resendEmailBtn.on("click", function(e) {
+        e.preventDefault();
+        const name = $("#name").val(); // 이름 가져오기
+        const email = $("#email").val(); // 이메일 가져오기
+
+        // 입력값 유효성 검사
+        if ((!name) && (!email)) {
+          alert("이름과 이메일을 입력하세요.");
+          $("#name").focus();
+          return;
+        } else if (!name) {
+          alert("이름을 입력하세요.");
+          $("#name").focus();
+          return;
+        } else if (!email) {
+          alert("이메일 주소를 입력하세요.");
+          $("#email").focus();
+          return;
+        }
+
+        // 이메일로 인증번호 전송 (AJAX 요청)
+        $.ajax({
+          url: '/member/send_verification_code/', // 서버 URL
+          type: 'POST',
+          headers: { "X-CSRFToken": csrfToken },
+          data: {
+            "name": name,
+            "email": email
+          },
+          success: function(response) {
+            if (response.result === 'success') {
+              alert("인증번호가 재전송되었습니다.");
+              // 인증번호 재전송 상태를 세션에 저장
+              sessionStorage.setItem('verification_code', response.verification_code);
+            } else {
+              alert("인증번호 재전송 실패: " + response.message);
+            }
+          },
+          error: function() {
+            alert("서버 오류. 다시 시도해주세요.");
+          }
+        }); //ajax
+      }); // resendEmailBtn 인증번호 재전송 버튼
+
+
+      // 인증번호 버튼 상태 업데이트
+      function switchCodeButton() {
+        // 현재 선택된 탭이 아이디 찾기 탭인지 비밀번호 찾기 탭인지 확인
+        const isFindIdTabActive = $('.findIdTab').hasClass('active');
+        const isFindPwTabActive = $('.findPwTab').hasClass('active');
+
+        if (isFindIdTabActive) {
+          // 아이디 찾기 탭이 활성화된 경우, 인증번호 관련 버튼 숨기기
+          $('#sendEmailBtn').hide();
+          $('#resendEmailBtn').hide();
+        } else if (isFindPwTabActive) {
+          // 비밀번호 찾기 탭이 활성화된 경우, 인증번호 관련 버튼 표시
+          if (sessionStorage.getItem('verification_code')) {
+            $('#sendEmailBtn').hide();
+            $('#resendEmailBtn').show();
+          } else {
+            $('#sendEmailBtn').show();
+            $('#resendEmailBtn').hide();
+          }
+        }
+      }
+
+      // ------------- 비밀번호 찾기 버튼 클릭 시
+      $("#findPwBtn").click(function(){
+        alert("비밀번호 찾기 클릭");  
+        name = $("#name").val(); // 사용자가 입력한 인증번호
+        email = $("#email").val(); // 사용자가 입력한 이메일
+        chkEmailCode = $("#chkEmailCode").val() // 사용자가 입력한 인증번호
+
+        if((!name) && (!email)){
+          alert("이름과 이메일 주소를 입력하세요.");
+          $("#name").focus();
+          return;
+        }else if(!name){
+          alert("이름을 입력하세요.");
+          $("#name").focus();
+          return;
+        }else if(!email){
+          alert("이메일 주소를 입력하세요.");
+          $("#email").focus();
+          return;
+        }
+
+        $.ajax({
+          url: '/member/findPassword/',  // 아이디 패스워드 확인해야 함 url추가하고
+          type: 'POST',
+          headers : {"X-CSRFToken" : csrfToken},
+          data: {
+            "name" : name,
+            "email" : email,
+            "chkEmailCode" : chkEmailCode 
+          },
+          success: function(response) { // 입력한 이메일과 이름이 맞을때
+            if(response.result == 'success') {
+              alert("회원정보가 확인되었습니다.");
+                            
+              // 화면에 있던 거 다 숨기기
+              $("#name").parent().hide();
+              $("#email").parent().hide();
+              $("#chkEmailCode").parent().hide();
+              $("#findPwBtn").css("display", "none");
+              
+              // 화면에 메시지 표시
+              const message = `<div style="width: 90%; max-width: 680px; height: 150px; margin: 0 auto; border-radius: 8px; border: none; background: rgba(15, 19, 42, 0.1); color: #333; padding: 0 0 0 15px; font-size: 1.2em; text-align: center; margin-top: 20px;">
+                <h2 style="padding-top: 55px;">${response.name}님의 아이디는 <strong>${response.user_id}</strong>입니다.</h2>
+              </div>`;
+              
+              $("#result_message").html(message);
+              $("#result_message").css("display", "block");
+
+            } else if (response.result == "fail") {
+              alert(response.message); // 서버에서 보낸 오류 메시지
+              $("#name").val("");
+              $("#email").val("");
+              $("#name").focus();
+            }
+          },
+          error: function() {
+            alert("서버 오류");
+          }
+        }); // ajax
+      }); // chkEmailCodeBtn 비밀번호 찾기 클릭
+
+
+      // ------------- 인증번호 확인 버튼 ------------- 
+      //내일(2024-12-09) 작업할것................................
+      chkEmailCodeBtn.on("click", function(e){
+        e.preventDefault(); // 기본 동작 방지
+        console.log("인증번호 확인 버튼 클릭");
+
+        const name = $("#name").val(); // 사용자가 입력한 이름
+        const email = $("#email").val(); // 사용자가 입력한 이메일
+        const chkEmailCode = $("#chkEmailCode").val(); // 사용자가 입력한 인증번호
+
+        $.ajax({
+          url: '/member/verify_code/',  // 인증번호 확인을 위한 URL
+          type: 'POST',
+          headers : {"X-CSRFToken" : csrfToken},
+          data: {
+            "name" : name,
+            "email" : email,
+            "chkEmailCode" : chkEmailCode 
+          },
+          success: function(response) {
+            if (response.result === 'success') {
+              alert("인증번호가 일치합니다.");
+              verificationResult = true;
+              // 비밀번호 찾기 버튼 활성화
+              $("#findPwBtn").prop("disabled", false);
+            } else {
+              alert("인증번호가 일치하지 않습니다. 다시 시도해주세요.");
+            }
+          },
+          error: function() {
+            alert("서버 오류. 다시 시도해주세요.");
+          }
+        }); //ajax
+      });  // <인증번호 확인> 버튼
+
+
+      //----------- 아이디 찾기 화면 ---------------------
+      findIdTab.on("click", function(e) {
+        e.preventDefault();  // 페이지 새로고침 방지
+                
+        $(this).addClass('active');   // 클릭된 탭에 active 추가
+        $('.findPwTab').removeClass('active');  // 다른 탭에서 active 제거
+
+        sessionStorage.removeItem('verification_code'); // 인증번호 세션 초기화
+        switchCodeButton(); // 버튼 상태 업데이트
+
+        $("#findIdBtn").css("display","block"); // 아이디 찾기 버튼 나타내기
+        $("#findPwBtn").css("display","none"); // 비밀번호 찾기 버튼 숨기기
+
+        // 아이디 찾기 화면으로 변경
+        $(this).parent().parent().siblings("h1").text("아이디 찾기");
+        $(this).parent().css("opacity", "1");
+        $(this).parent().siblings().css("opacity", ".6");
+
+        // 이름 텍스트박스를 아이디 찾기 화면에 맞게 변환
+        first_input.addClass("first-input__block").removeClass("signup-input__block");
+
+        // 아이디 결과 부분 숨기기
+        hidden_result.css({
+          "opacity": "0",  
+          "display": "none"
+        });
+        // 인증번호 입력 부분 숨기기
+        hidden_input.css({
+          "opacity": "0",  
+          "display": "none"
+        });
+
+        // 인증번호 전송 버튼 숨기기
+        resendEmailBtn.css("display", "none");
+        sendEmailBtn.css("display", "none");
+        chkEmailCodeBtn.css("display", "none");
+
+        $("#result_message").css("display", idBtnHidden ? "block" : "none"); // 메시지 상태 유지
+        $("#name").parent().show();
+        $("#email").parent().show();
+        $("#name").val("");
+        $("#email").val("");
+
+      });
+
+      // 로그인 누르면 로그인화면으로 이동
+      loginPage.on("click", function() {
+        location.href = "/member/login/";
+      });      
+
+      // ----------- 아이디 찾기 버튼 클릭 시
+      $("#findIdBtn").on("click", function(e){
+        e.preventDefault(); // 기본 동작 방지
+        console.log("아이디 찾기 클릭");
+
+        const name = $("#name").val(); // 사용자가 입력한 인증번호
+        const email = $("#email").val(); // 사용자가 입력한 이메일
+
+        if((!name) && (!email)){
+          alert("이름과 이메일 주소를 입력하세요.");
+          $("#name").focus();
+          return;
+        } else if(!name){
+          alert("이름을 입력하세요.");
+          $("#name").focus();
+          return;
+        } else if(!email){
+          alert("이메일 주소를 입력하세요.");
+          $("#email").focus();
+          return;
+        }
+
+        $.ajax({
+          url: '/member/findId/',
+          type: 'POST',
+          headers : {"X-CSRFToken" : csrfToken},
+          data: {
+            "name" : name,
+            "email" : email 
+          },
+          success: function(response) {
+            // 서버 응답 처리
+            if (response.result == "success") {
+              alert("회원정보가 확인되었습니다.");
+              
+              // 텍스트박스, 버튼 숨기기
+              $("#name").parent().hide();
+              $("#email").parent().hide();
+              $("#findIdBtn").css("display", "none");
+
+              // 화면에 메시지 표시
+              const message = `<div style="width: 90%; max-width: 680px; height: 150px; margin: 0 auto; border-radius: 8px; border: none; background: rgba(15, 19, 42, 0.1); color: #333; padding: 0 0 0 15px; font-size: 1.2em; text-align: center; margin-top: 20px;">
+              <h2 style="padding-top: 55px;">${response.name}님의 아이디는 <strong>${response.user_id}</strong>입니다.</h2>
+              </div>`;
+              
+              $("#result_message").html(message);
+              $("#result_message").css("display", "block");
+
+            } else if (response.result == "fail") {
+              alert(response.message); // 서버에서 보낸 오류 메시지
+              $("#name").val("");
+              $("#email").val("");
+              $("#name").focus();
+            }
+          },
+          error: function(xhr, status, error) {
+            alert("서버 오류");
+          }
+        }); // ajax
+      }); // 아이디 찾기 버튼 클릭 시
+
+      // 페이지 새로고침 시 인증번호 상태 확인
+      switchCodeButton();
+    }); // jquery
+  </script>
+
+</head>
+<body>
+  <div class="container">
+    <h1>아이디 찾기</h1>
+    <h4>회원정보에 등록한 이름과 이메일 주소를 입력하세요.</h4>
+    <ul class="links">
+      <li><a href="#" id="signin" class="findIdTab">아이디 찾기</a></li>
+      <li><a href="#" id="signup" class="findPwTab">비밀번호 찾기</a></li>
+      <li><a href="/member/login/" id="loginPage">로그인</a></li>
+    </ul>
+
+    <form method="post" action="/member/send_verification/">
+      {% csrf_token %}
+      <div class="first-input input__block first-input__block">
+        <input type="text" placeholder="이름" class="input" id="name" name="name" />
+      </div>
+      <div class="input__block">
+        <input type="email" placeholder="이메일 주소" class="input" id="email" name="email" />
+        <button type="button" class="sendEmailBtn" id="sendEmailBtn" style="display:none">인증번호 전송</button>
+        <button type="button" class="sendEmailBtn" id="resendEmailBtn" style="display:none">인증번호 재전송</button>
+      </div>
+      <div class="input__block">
+        <input type="text" placeholder="이메일로 전송된 인증번호를 입력하세요" class="input repeat__password" id="chkEmailCode" name="chkEmailCode">
+        <button type="button" id="chkEmailCodeBtn" class="chkEmailCodeBtn">인증번호 확인</button>
+      </div>
+      
+      <button type="button" class="signin__btn find_btn" id="findIdBtn" style="display:block">아이디 찾기</button>
+      <button type="button" class="signin__btn find_btn" id="findPwBtn" style="display:none">비밀번호 찾기</button>
+
+      <div id="result_message"></div>
+    </form>
+  </div>
+</body>
+</html>

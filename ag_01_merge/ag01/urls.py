@@ -4,15 +4,17 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('home.urls')),    # h
-    path('foodBoard/', include('foodBoard.urls')),    # c
-    path('Brand/',include('Brand.urls')),    # c
-    path('map/', include('map.urls')),    # w
-    path('board/', include('board.urls')),    # w
-    path('comment/', include('comment.urls')),    # w
-    path('member/', include('member.urls')),    # s
-    path('event/',include('event.urls')), #h
+    path("admin/", admin.site.urls),
+    path("Admin/", include("admin.urls")),
+    path("", include("home.urls")),  # h
+    path("foodBoard/", include("foodBoard.urls")),  # c
+    path("Brand/", include("Brand.urls")),  # c
+    path("map/", include("map.urls")),  # w
+    path("board/", include("board.urls")),  # w
+    path("comment/", include("comment.urls")),  # w
+    path("member/", include("member.urls")),  # s
+    path("event/", include("event.urls")),  # h
+    path("adtest/", include("adtest.urls")),  # h
 ]
 
 
