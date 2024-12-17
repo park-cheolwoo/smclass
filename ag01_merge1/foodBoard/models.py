@@ -16,6 +16,7 @@ class fBoard(models.Model):
     like_members = models.ManyToManyField("member.Member", related_name="fboard_like_members")
     bNo = models.AutoField(primary_key=True)
     bLocation = models.CharField(max_length=1000)
+    bTime = models.CharField(max_length=200, choices=CHOICES)
     bTitle = models.CharField(max_length=200, null=False)
     bSubtitle = models.CharField(max_length=200, null=False)
     bContent = models.TextField(null=False)
@@ -23,12 +24,5 @@ class fBoard(models.Model):
     bFile2 = models.ImageField(null=True, upload_to="fBoard")
     bFile3 = models.ImageField(null=True, upload_to="fBoard")
     bHit = models.IntegerField(default=0)
+    bLike = models.IntegerField(default=0)
     bDate = models.DateTimeField(auto_now=True)
-
-class fTime(models.Model):
-    fNo = models.AutoField(primary_key=True)
-    member = models.ForeignKey('member.Member',on_delete=models.DO_NOTHING,related_name='fTime_member')
-    fBoard = models.ForeignKey('foodBoard.fBoard',on_delete=models.DO_NOTHING,related_name='fTime_fBoard')
-    fPeople = models.IntegerField(default=0)
-    fTime = models.IntegerField(choices=CHOICES)
-    fDate = models.TimeField()

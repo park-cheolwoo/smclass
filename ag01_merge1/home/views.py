@@ -5,6 +5,3 @@ def index(request):
     return render(request, 'index.html')
   else:
     return redirect('map:mview')
-
-def homesweet(request):
-  return render(request, 'homesweet.html')

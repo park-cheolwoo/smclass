@@ -3739,7 +3739,7 @@ textarea.form-control-lg {
   --bs-navbar-disabled-color: rgba(0, 0, 0, 0.3);
   --bs-navbar-active-color: rgba(0, 0, 0, 0.9);
   --bs-navbar-brand-padding-y: 0.3125rem;
-  --bs-navbar-brand-margin-end: 1rem;
+  --bs-navbar-brand-margin-end:5rem;
   --bs-navbar-brand-font-size: 2rem;
   --bs-navbar-brand-color: rgba(0, 0, 0, 0.9);
   --bs-navbar-brand-hover-color: rgba(0, 0, 0, 0.9);
@@ -10889,6 +10889,14 @@ hr.divider-light {
   font-size: 0.9rem;
   padding: 0.75rem 0;
 }
+
+#mainNav .navbar-nav .nav-item .nav_login {
+  font-size: 0.65rem;
+  font-weight: 400;
+}
+
+/* #mainNav .navbar-nav .login_li {} */
+
 #mainNav .navbar-nav .nav-item .nav-link:hover, #mainNav .navbar-nav .nav-item .nav-link:active {
   color: #f4623a;
 }
@@ -10909,8 +10917,18 @@ hr.divider-light {
   }
   #mainNav .navbar-nav .nav-item .nav-link {
     color: #ffffff;
-    padding: 0 1rem;
+    padding: 0 1.25rem;
   }
+  #mainNav .navbar-nav {
+    color: #ffffff;
+    padding-left: 0px;
+  }
+  
+  #mainNav .navbar-nav .nav-item .nav_login {
+    color: #ffffff;
+    padding: 0 0.5rem;
+  }
+
   #mainNav .navbar-nav .nav-item .nav-link:hover {
     color: #60212e;
   }

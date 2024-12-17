@@ -18,8 +18,6 @@ class Attendance(models.Model):
 
 
 
-
-
 # class Post(models.Model): # 쿠폰 껍데기
 #   member = models.ForeignKey(Member,related_name='post',on_delete=models.PROTECT) # 삭제 방지
 #   title = models.CharField(max_length=50)

@@ -38,8 +38,8 @@
   $(document).on("click",".listLikeOff",function(){
     alert("클릭");
     if(session_id ==""){
-      alert("로그인을 하셔야 좋아요가 가능합니다.");
-      location.href="/member/login/"
+      alert("로그인을 하셔야 좋아요가 가능합니다.")
+      return false
     }
     button = $(this)
     bNo = button.closest(".item_wrap2").find(".item_bNo").val();
@@ -71,7 +71,7 @@
     alert('클릭');
     if (session_id == "") {
         alert("로그인을 하셔야 즐겨찾기가 가능합니다.");
-         location.href="/member/login/"
+        return false;
     }
     button = $(this);
     bNo = button.closest(".item_wrap2").find(".item_bNo").val();
@@ -136,9 +136,7 @@
       alert("검색어는 영어,숫자,한글만 가능합니다.")
       return false;
     } foodFrm.submit();
-  });
-
-
+  })
   // 주소 검색 기능
   $(document).on("click",".listLoc",function(){
     let form = $(this).siblings(".search-box");
@@ -149,27 +147,25 @@
   <!-- 지역 배너 -->
   <div id="foodboard2">
     <div class="tablist">
-      <span><a href="/foodBoard/foodList" class="{% if not bLocation %}tablist_active{% endif %}">전국</a></span>
-      <span><a href="/foodBoard/foodList?bLocation=서울" class="{% if bLocation == '서울' %}tablist_active{% endif %}">서울</a></span>
-      <span><a href="/foodBoard/foodList?bLocation=경기" class="{% if bLocation == '경기' %}tablist_active{% endif %}">경기</a></span>
-      <span><a href="/foodBoard/foodList?bLocation=강원" class="{% if bLocation == '강원' %}tablist_active{% endif %}">강원</a></span>
-      <span><a href="/foodBoard/foodList?bLocation=인천" class="{% if bLocation == '인천' %}tablist_active{% endif %}">인천</a></span>
-      <span><a href="/foodBoard/foodList?bLocation=충청북도" class="{% if bLocation == '충청북도' %}tablist_active{% endif %}">충북</a></span>
-      <span><a href="/foodBoard/foodList?bLocation=충청남도" class="{% if bLocation == '충청남도' %}tablist_active{% endif %}">충남</a></span>
-      <span><a href="/foodBoard/foodList?bLocation=세종" class="{% if bLocation == '세종' %}tablist_active{% endif %}">세종</a></span>
-      <span><a href="/foodBoard/foodList?bLocation=대전" class="{% if bLocation == '대전' %}tablist_active{% endif %}">대전</a></span>
-      <span><a href="/foodBoard/foodList?bLocation=전북특별자치도" class="{% if bLocation == '전북특별자치도' %}tablist_active{% endif %}">전북</a></span>
-      <span><a href="/foodBoard/foodList?bLocation=전라남도" class="{% if bLocation == '전라남도' %}tablist_active{% endif %}">전남</a></span>
-      <span><a href="/foodBoard/foodList?bLocation=광주" class="{% if bLocation == '광주' %}tablist_active{% endif %}">광주</a></span>
-      <span><a href="/foodBoard/foodList?bLocation=경상북도" class="{% if bLocation == '경상북도' %}tablist_active{% endif %}">경북</a></span>
-      <span><a href="/foodBoard/foodList?bLocation=경상남도" class="{% if bLocation == '경상남도' %}tablist_active{% endif %}">경남</a></span>
-      <span><a href="/foodBoard/foodList?bLocation=대구" class="{% if bLocation == '대구' %}tablist_active{% endif %}">대구</a></span>
-      <span><a href="/foodBoard/foodList?bLocation=울산" class="{% if bLocation == '울산' %}tablist_active{% endif %}">울산</a></span>
-      <span><a href="/foodBoard/foodList?bLocation=부산" class="{% if bLocation == '부산' %}tablist_active{% endif %}">부산</a></span>
-      <span><a href="/foodBoard/foodList?bLocation=제주" class="{% if bLocation == '제주' %}tablist_active{% endif %}">제주</a></span>
-
+          <span><a href = "/foodBoard/foodList">전국</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=서울">서울</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=경기">경기</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=강원">강원</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=인천">인천</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=충청북도">충북</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=충청남도">충남</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=세종">세종</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=대전">대전</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=전북특별자치도">전북</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=전라남도">전남</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=광주">광주</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=경상북도">경북</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=경상남도">경남</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=대구">대구</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=울산">울산</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=부산">부산</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=제주">제주</a></span>
           <!-- 카테고리 -->
-           
         </div>
         <div>
           <div class="content_list2">
@@ -189,7 +185,7 @@
               {% endif %}
               <span class="LikeCnt">{{f.like_count}}</span>
               <button class="listLoc"></button>
-              <form class="search-box" action="/map/success/" method="POST" id="search-form" style="display:none">
+              <form class="search-box" action="/map/success/" method="post" id="search-form" style="display:none">
                 {% csrf_token %}
                 <input class="search-txt" type="text" name="search_word" value="{{f.bLocation}}" style="display:none">
               </form>

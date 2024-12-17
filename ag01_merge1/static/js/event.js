@@ -45,13 +45,13 @@ $(document).ready(function() {
 
   // ########### 1. 출석 체크 이벤트
   $(".btn_today_attend_chk").click(function(){
-    var aId = $(this).data("id");
+    var id = $(this).data("id");
     // alert("aId: " + aId)
-    console.log("aId: " + aId);
+    console.log("id: " + id);
 
     // 세션이 비어있으면 로그인 페이지로 리다이렉트
     // if(aId == "" || aId == "{{request.session.session_id}}"){
-    if(aId == ""){
+    if(id == ""){
       alert("로그인이 필요합니다.")
       location.href="/member/login/"
       return;
@@ -63,7 +63,7 @@ $(document).ready(function() {
       url:"/event/calendar/",
       type:"post",
       data:{
-        "aId":aId,
+        "id":id,
       },
       success:function(data){
         console.log("data.result: "+data.result);
@@ -89,12 +89,12 @@ $(document).ready(function() {
     // alert("테스트")
     var couponName = $(this).closest('.attend_event_coupon_bundle').find('.event_cpn_name').text().trim();
     var ticketDeduction = 0; // 차감할 응모권 수 
-    var aId = $(this).data("id");
+    var id = $(this).data("id");
     // alert("aId: " + aId)
-    console.log("aId: " + aId);
+    console.log("id: " + id);
 
     // 세션이 비어있으면 로그인 페이지로 리다이렉트
-    if(aId == ""){
+    if(id == ""){
       alert("로그인이 필요합니다.")
       location.href="/member/login/"
       return;
@@ -117,8 +117,8 @@ $(document).ready(function() {
       headers:{"X-CSRFToken":csrfToken},
       url:"/event/apply/",
       type:"post",
-      data:{
-        "aId":"{{request.session.session_id}}",
+      data: {
+        "id":id,
         "ticketDeduction":ticketDeduction, // 차감할 응모권 수 전송
       },
       success:function(data){
@@ -165,12 +165,12 @@ $(document).ready(function() {
 
   $(document).on("click","#btnMyLucky",function(){
     var ticketDeduction = 10; // 차감할 응모권 수 
-    var aId = $(this).data("id");
+    var id = $(this).data("id");
     // alert("aId: " + aId)
-    console.log("aId: " + aId);
+    console.log("id: " + id);
 
     // 세션이 비어있으면 로그인 페이지로 리다이렉트
-    if(aId == ""){
+    if(id == ""){
       alert("로그인이 필요합니다.")
       location.href="/member/login/"
       return;
@@ -188,7 +188,7 @@ $(document).ready(function() {
         url:"/event/luckyDraw/",
         type:"post",
         data:{
-          "aId":"{{request.session.session_id}}",
+          "id":id,
           "ticketDeduction":ticketDeduction, // 차감할 응모권 수 전송
         },
         success:function(data){

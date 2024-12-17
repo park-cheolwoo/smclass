@@ -10,4 +10,3 @@ urlpatterns = [
     path('point/', views.point, name='point'),
 
 ]
-

@@ -295,7 +295,8 @@
           },
           success: function(response) { // 입력한 이메일과 이름이 맞을때
             if(response.result == 'success') {
-              alert("회원정보가 확인되었습니다.");
+              location.href="/member/newPassword/";
+              /*alert("회원정보가 확인되었습니다.");
                             
               // 화면에 있던 거 다 숨기기
               $("#name").parent().hide();
@@ -309,7 +310,7 @@
               </div>`;
               
               $("#result_message").html(message);
-              $("#result_message").css("display", "block");
+              $("#result_message").css("display", "block");*/
 
             } else if (response.result == "fail") {
               alert(response.message); // 서버에서 보낸 오류 메시지

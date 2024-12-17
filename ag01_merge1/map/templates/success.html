@@ -600,13 +600,13 @@ function updateMapCenter() {
             // 현재 지도 중심 좌표 가져오기
             var currentCenter, currentLat, currentLon;
             console.log("현재 지도 중심 좌표:", currentLat, currentLon);
-                if (map && typeof map.getCenter === 'function') {
-                    currentCenter = map.getCenter();
-                    currentLat = currentCenter.lat();
-                    currentLon = currentCenter.lng();
-                } else {
-                    console.log("map.getCenter() is not available");
-                }
+if (map && typeof map.getCenter === 'function') {
+    currentCenter = map.getCenter();
+    currentLat = currentCenter.lat();
+    currentLon = currentCenter.lng();
+} else {
+    console.log("map.getCenter() is not available");
+}
 
             // li 이미지 상태 업데이트
             updateCategoryImage(searchKeyword);
@@ -691,8 +691,7 @@ function updateMapCenter() {
     
                         // 마커들이 생성되었을 때만 중심을 설정하고 확대하지 않음
                         var centerPosition = markerArr[0].getPosition(); // 첫 번째 마커 위치로 맵 중심 설정
-                        console.log("centerPosition : "+centerPosition)
-                        map.setCenter(centerPosition);
+                        map.setCenter(currentCenter);
     
                         // 기존 줌 레벨을 유지
                         map.setZoom(currentZoom);

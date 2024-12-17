@@ -10,5 +10,9 @@ urlpatterns = [
     path('bmodify/<int:bno>/', views.bmodify, name='bmodify'),   # 게시글 수정하기
     path('likes/', views.likes,name="likes"),   # 게시글 좋아요 기능
     path('gps_test/', views.gps_test, name='gps_test'),   # gps테스트
+
+
+
+    path('execute_reward_points/', views.execute_reward_points, name='execute_reward_points'),   # gps테스트
 ]
 

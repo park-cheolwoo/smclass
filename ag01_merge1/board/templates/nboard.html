@@ -3,10 +3,12 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
+  <meta name="csrf-token" content="{{ csrf_token }}">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" type="text/css" href="{% static '/css/nboard.css' %}">
   <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <script src="{% static 'js/reward_points.js' %}"></script>
   <title>ANG-GGO</title>
   <script>
     // 1. 모달창 위치정보 수집 동의
@@ -263,6 +265,7 @@ $(document).ready(function () {
   $("#gps_s").html(`<h2>${savedNearestLocation_s} <i class="fa-solid fa-location-dot"></i></h2>`);
 });// 5번 끝
 //--------------------------------------------------------------------------------------------
+
 </script>
 </head>
 <body>
@@ -293,6 +296,11 @@ $(document).ready(function () {
       <button type="button" id="gps_s"><h2>  <i class="fa-solid fa-location-dot"></i></h2></button>
       <input type="search" id="list_search" placeholder="검색어를 입력해주세요." >
       <button id="seBtn">검색</button>
+
+      <button type="button" id="reward_points_button">
+        <h2>임시 인기글 포인트 지급 실행 버튼</h2>
+      </button>
+      
 
       <!-- 위치 모달창 -->
       <div class="modal">

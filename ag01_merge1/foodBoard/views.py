@@ -1,16 +1,10 @@
 from django.shortcuts import render,redirect
-from foodBoard.models import fBoard,fTime
+from foodBoard.models import fBoard
 from django.core.paginator import Paginator
-from member.models import Member,Rating
-from django.db.models import Q,Avg
+from member.models import Member
+from django.db.models import Q
 from member.models import Star
 from django.http.response import JsonResponse
-import datetime
-
-def test2(request):
-    return render(request,'test2.html')
-
-
 
 def foodList(request):
     if request.method == "GET":
@@ -52,9 +46,8 @@ def foodList(request):
                 f.star = False
                 f.is_liked = False
             f.like_count = f.like_members.count()
-
-        context = {"flist": flist, "npage": npage,"bLocation":bLocation}
-        print("bLocation"+bLocation)
+            
+        context = {"flist": flist, "npage": npage}
         return render(request, "foodList.html", context)
 
     else:
@@ -94,7 +87,7 @@ def foodList(request):
                 f.is_liked = False
             f.like_count = f.like_members.count()
 
-        context = {"flist": flist, "npage": npage, "bLocaton": bLocation}
+        context = {"flist": flist, "npage": npage}
         return render(request, "foodList.html", context)
 
 def Stars(request):
@@ -108,6 +101,7 @@ def Stars(request):
     else:
         Star.objects.create(member=member, fboard=fboard)
     context = {"result": "1"}
+    print(context)
     return JsonResponse(context)
 
 
@@ -127,103 +121,19 @@ def Likes(request):
     return JsonResponse(context)
 
 def foodView(request,bNo):
-    if request.method == "GET":
-        id = request.session.get("session_id")
-        member = Member.objects.filter(id=id).first()
-        # fboard = fBoard.objects.filter(bNo=bNo)
-        qs = fBoard.objects.filter(bNo=bNo).first()
-        fTime2 = fTime.objects.filter(fBoard=qs)
-        rating_counts = Rating.objects.filter(fboard=qs)
-        ratings = Rating.objects.filter(fboard=qs,member=member)
-        rate_list = []
-        rate_count = []
-        if ratings:
-           for f in ratings:
-              rate_list.append(f.rating)
-        print(rate_list)
+    id = request.session.get("session_id")
+    member = Member.objects.filter(id=id).first()
+    qs = fBoard.objects.filter(bNo=bNo).first()
+    qs.star = Star.objects.filter(member=member, fboard=qs).exists()
+    qs.is_liked = qs.like_members.filter(id=member.id).exists()
+    qs.like_count = qs.like_members.count()
+    context = {"flist": qs}
+    return render(request, "foodView.html",context)
 
-        if rating_counts: 
-            for i in range(1, 10): # 1부터 9까지의 rating 값에 대해 카운트
-                count = rating_counts.filter(rating=i).count() or 0
-                rate_count.append(count)
-        
-        labels = []
-        times = []
-        counts = []
-        for hour in range(0,24):
-            data = fTime.objects.filter(fBoard=qs,fDate__hour=hour)
-            if not data:
-                labels.append(hour)
-                times.append(0)
-                counts.append(0)
-            else:
-                AvgData = data.aggregate(Avg("fTime"))["fTime__avg"] or 0
-                try:AvgData=int(AvgData)
-                except:AvgData=0
-                count = data.count()
-                if not count : count=0
-                labels.append(hour)
-                times.append(AvgData)
-                counts.append(count)
-        qs.star = Star.objects.filter(member=member, fboard=qs).exists()
-        qs.is_liked = qs.like_members.filter(id=member.id).exists()
-        qs.like_count = qs.like_members.count()
-        TimeAvg = fTime2.aggregate(Avg("fTime"))["fTime__avg"]
-        if TimeAvg is not None: 
-            TimeAvg = int(TimeAvg) 
-        else: 
-            TimeAvg = 0
-        now = datetime.datetime.now().strftime("%y-%m-%d")
-        
-        context = {"flist": qs,"TimeAvg":TimeAvg,"labels":labels,"times":times,"counts":counts, "rate_list":rate_list,\
-                    "rate_count":rate_count,"now":now}
-        return render(request, "foodView.html",context)
 
-    else:
-        if 'votetime' in request.COOKIES: 
-            id = request.session.get('id')
-            bNo = request.POST.get('bNo') 
-            votetime = f"id: {id}, bNo: {bNo}"
-            if id is None or bNo is None:
-                context = {"result": "2"}
-                return render(request,context,'foodView.html')  
-            elif request.COOKIES.get('votetime') == votetime: 
-                context = {"result": "0", "bNo":bNo} 
-                print(context)
-                return render(request, "foodView.html", context)
-        else:
-            id = request.session.get('session_id')
-            member = Member.objects.filter(id=id).first()
-            bNo = request.POST.get('bNo')
-            fBoard2 = fBoard.objects.filter(bNo=bNo).first()
-            fDate = None
-            fPeople = request.POST.get('fPeople')
-            fTime2 = request.POST.get('waitselect')
-            select = request.POST.get("enterselect")
-            if select == "0":
-                fDate = datetime.datetime().now().time()
-            elif select == "1":
-                category = request.POST.get("timeselect")
-                hour=0
-                minute=0
-                if category == "AM":
-                    hour = int(request.POST.get('hour'))
-                    if hour < 10 :
-                        hour = int("0" + str(hour))
-                if category == "PM":
-                    hour = int(request.POST.get('hour'))+12
-                    if hour == 24: hour = 12
-                minute = int(request.POST.get('minute'))
-                if minute <10:
-                    minute = int("0" + str(minute))
-                second=0
-                fDate = datetime.time(hour, minute,second)
-            context = {"result":"1","bNo":bNo}
-            response = render(request, "foodView.html", context)
-            expires = datetime.datetime.now().replace(hour=23,minute=59,second=59)
-            response.set_cookie('votetime',f"id : {id}, bNo : {bNo}",expires=expires)
-            fTime.objects.create(member=member,fBoard=fBoard2,fPeople=fPeople,fTime=fTime2,fDate=fDate)
-            return response
+def foodFind(request):
+    return render(request, "foodFind.html")
+
 
 def foodRes(request,bNo):
     qs = fBoard.objects.filter(bNo=bNo)
@@ -246,31 +156,3 @@ def foodWrite(request):
         qs = fBoard(member=member[0],bLocation=bLocation,bTitle=bTitle, bSubtitle=bSubtitle,bContent=bContent,bFile1=bFile1,bFile2=bFile2,bFile3=bFile3)
         qs.save()
         return redirect('/foodBoard/foodList/')
-
-def Ratings(request):
-    id = request.session.get('session_id')
-    member = Member.objects.filter(id=id).first()
-    bNo = request.POST.get('bNo')
-    fboard = fBoard.objects.filter(bNo=bNo).first()
-    rating = request.POST.get('rating')
-    status = request.POST.get('status')
-    print("id : ",id)
-    print("bNO : ",bNo)
-    print("rating : ",rating)
-    print("status : ",status)
-    if status =="1":
-        print("반응 추가")
-        qs = Rating.objects.filter(member=member,fboard=fboard,rating=rating)
-        if not qs:
-            Rating.objects.create(member=member,fboard=fboard,rating=rating)
-            context ={"result":"1","status":"1"}
-            return JsonResponse(context)
-        else: print("반응 추가 에러 발생")
-    elif status == "0":
-        print("반응 삭제")
-        qs = Rating.objects.filter(member=member,fboard=fboard,rating=rating).first()
-        if qs:
-            qs.delete()
-            context ={"result":"1","status":"0"}
-            return JsonResponse(context)
-        else: print("반응 삭제 에러 발생")

@@ -1,7 +1,5 @@
 from django.db import models
-from FoodCafe.models import Food,Cafe
-from foodBoard.models import fBoard
-# from foodBoard.models import fBoard
+from FoodCafe.models import Food, Cafe
 
 # 현재 member
 # 이름 표시하고 싶으면 verbose_name="아이디" 이렇게 써도 됨
@@ -21,25 +19,17 @@ class Member(models.Model):
     agree1 = models.DateTimeField(auto_now_add=True) # 필수약관동의
     agree2 = models.DateTimeField(auto_now_add=True) # 선택약관동의
 
-    # 비밀번호 찾기 - 인증번호 관련
-    verification_email = models.EmailField()  # 이메일 인증용
-    verification_code = models.CharField(max_length=6) # 인증번호
-    created_at = models.DateTimeField(auto_now_add=True)  # 생성 일시
-
     def __str__(self):
         return f"{self.id}, {self.name}, {self.mDate}"
 
-
 # 회원 즐겨찾기
 class Star(models.Model):
-    sNo = models.AutoField(primary_key=True)
-    member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name="starred_boards")
-    fboard = models.ForeignKey("foodBoard.fBoard", on_delete=models.CASCADE, related_name="starred_by")
-    sDate = models.DateTimeField(auto_now=True)
+  sNo = models.AutoField(primary_key=True)
+  star = models.ManyToManyField(Member, default="", related_name="star_members")
+  sDate = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return f"{self.member} - {self.fboard}"
-
+  def __str__(self):
+     return f"{self.sNo},{self.star}"
 
 # 회원 예약
 class Reservation(models.Model): 
@@ -66,9 +56,10 @@ class delMember(models.Model):
 class Rating(models.Model):
     rNo = models.AutoField(primary_key=True)
     member = models.ForeignKey(Member,on_delete=models.DO_NOTHING)
-    fboard = models.ForeignKey(fBoard,on_delete=models.DO_NOTHING)
-    rating = models.CharField(max_length=10)
+    food = models.ForeignKey(Food, on_delete=models.DO_NOTHING,null=True)
+    cafe = models.ForeignKey(Cafe, on_delete=models.DO_NOTHING,null=True)
+    rating = models.IntegerField()
     rDate = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.rNo},{self.member},{self.fboard},{self.rating}"
+        return f"{self.rNo},{self.member},{self.food},{self.cafe},{self.rating}"

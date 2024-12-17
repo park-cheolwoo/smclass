@@ -99,18 +99,54 @@ def signup(request):
   
 ### ---------------------------- 새 비밀번호 설정 ----------------------------
 def newPasswordCheck(request):
+  if request.method == "GET":
+    return JsonResponse({"result": "error", "message": "잘못된 요청입니다."})
+  else:
+    verification_email = request.session.get("verification_email")
+    if not verification_email:
+      return JsonResponse({"result": "error", "message": "세션이 만료되었습니다. 다시 시도해주세요."})
 
-  JsonResponse({"result" : "success", "message" : "사용 가능한 비밀번호입니다."})
+    newPw = request.POST.get("newPw", "")
+    newPwChk = request.POST.get("newPwChk", "")
+
+    if newPw != newPwChk:
+      return JsonResponse({"result": "error", "message": "비밀번호가 일치하지 않습니다."})
+
+    try:
+      # 이메일로 사용자 찾기
+      user = Member.objects.get(email=verification_email)
+      
+      # 입력된 새 비밀번호와 저장된 암호화된 기존 비밀번호 비교
+      if check_password(newPw, user.pw):
+        return JsonResponse({"result": "error", "message": "기존 비밀번호와 동일합니다. 다른 비밀번호를 사용해 주세요."})
+
+      # 비밀번호 업데이트
+      user.pw = make_password(newPw) # 비밀번호 암호화
+      user.save()
+
+      # 세션 정리(인증 관련 정보 삭제)
+      del request.session['verification_email']
+      del request.session['verification_code']
+
+      print(f"새 비밀번호 : {newPw}")
+
+      return JsonResponse({"result": "success", "message": "비밀번호가 성공적으로 변경되었습니다."})
+    
+    except Member.DoesNotExist:
+      return JsonResponse({"result": "error", "message": "사용자를 찾을 수 없습니다."})
+    except Exception as e:
+      return JsonResponse({"result": "error", "message": f"오류 발생: {str(e)}"})
+
 
 def newPassword(request):
   return render(request, "newPassword.html")
-
-
 ### ---------------------------- 아이디/비밀번호 찾기 ----------------------------
 # ---------------------------- 비밀번호 찾기 ----------------------------
 # 인증번호 확인 버튼
 def verify_code(request):
-  if request.method == 'POST':
+  if request.method == 'GET':
+    return JsonResponse({"result": "error", "message": "잘못된 요청입니다."})
+  else:
     input_code = request.POST.get('chkEmailCode')  # 유저가 입력한 인증번호
     saved_code = request.session.get('verification_code')  # 세션에서 인증번호 가져오기
 
@@ -121,10 +157,6 @@ def verify_code(request):
 
     # 인증번호 일치 여부 확인
     if input_code == saved_code:
-      # # 인증번호가 일치하면 비밀번호를 화면에 띄우기
-      # member_id = request.session['member_id']
-      # member = Member.objects.get(id=member_id)
-
       return JsonResponse({"result": "success", "message": "인증되었습니다."})
     else:
       return JsonResponse({"result": "error", "message": "인증번호가 일치하지 않습니다."})
@@ -147,9 +179,17 @@ def send_verification_code(request):
     # 랜덤 6자리 인증번호 생성
     verification_code = str(random.randint(100000, 999999))
 
-    # 세션에 인증번호와 회원 ID 저장
+    # 세션에 이메일, 인증번호와 회원 ID 저장
+    request.session['verification_email'] = email
     request.session['verification_code'] = verification_code
     request.session['member_id'] = member.id
+
+    # # db에 이메일, 인증번호 저장
+    # Member.objects.create(
+    #   verification_email = email,
+    #   verification_code = verification_code,
+    #   created_at = "now" # 가입일
+    # )
 
     # 이메일로 인증번호 전송
     try:
@@ -172,11 +212,10 @@ def send_verification_code(request):
       s.sendmail(sendEmail, recvEmail, msg.as_string())
       s.quit()
 
-      context = {"result":"success"}
-      return JsonResponse(context)
+      return JsonResponse({"result": "success", "message": "인증번호가 이메일로 전송되었습니다."})
     except Exception as e:
       return JsonResponse({"result": "error", "message": f"메일 전송 실패: {str(e)}"})
-    
+  
    
 ### 비밀번호 찾기 버튼 - 이름, 이메일, 인증번호 맞는지 확인
 def findPassword(request):
@@ -187,6 +226,7 @@ def findPassword(request):
       ## 사용자가 입력한 정보
       name = request.POST.get("name", "")
       email = request.POST.get("email", "")
+
       chkEmailCode = request.POST.get("chkEmailCode", "")
 
       print(f"이름 : {name}\n이메일 주소 : {email}\n인증번호 : {chkEmailCode}")
@@ -245,26 +285,26 @@ def logout(request):
 
 # 아이디/비밀번호 일치 확인
 def loginChk(request):
-    id = request.POST.get("id", "")
-    pw = request.POST.get("pw", "")
+  id = request.POST.get("id", "")
+  pw = request.POST.get("pw", "")
 
-    # db에서 해당 아이디 검색
-    try:
-        user = Member.objects.get(id=id)
-        
-        # 입력된 비밀번호와 저장된 암호화된 비밀번호 비교
-        if check_password(pw, user.pw):
-            # 로그인 성공, 세션에 사용자 정보 저장
-            request.session['session_id'] = user.id
-            request.session['session_nickname'] = user.nickname
-            list_qs = list(Member.objects.filter(id=id).values())  # 사용자 정보 가져오기
-            context = {"result": "success", "member": list_qs}  # member 정보를 JSON으로 반환
-        else:
-            context = {"result": "fail", "message": "비밀번호가 틀렸습니다."}
-    except Member.DoesNotExist:
-        context = {"result": "fail", "message": "아이디가 존재하지 않습니다."}
+  # db에서 해당 아이디 검색
+  try:
+    user = Member.objects.get(id=id)
+    
+    # 입력된 비밀번호와 저장된 암호화된 비밀번호 비교
+    if check_password(pw, user.pw):
+      # 로그인 성공, 세션에 사용자 정보 저장
+      request.session['session_id'] = user.id
+      request.session['session_nickname'] = user.nickname
+      list_qs = list(Member.objects.filter(id=id).values())  # 사용자 정보 가져오기
+      context = {"result": "success", "member": list_qs}  # member 정보를 JSON으로 반환
+    else:
+      context = {"result": "fail", "message": "비밀번호가 틀렸습니다."}
+  except Member.DoesNotExist:
+    context = {"result": "fail", "message": "아이디가 존재하지 않습니다."}
 
-    return JsonResponse(context)
+  return JsonResponse(context)
 
 
 ### 로그인페이지

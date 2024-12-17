@@ -1,12 +1,14 @@
 from django.shortcuts import render
 from board.models import Board
 from member.models import Member
+from event.models import Attendance
 from django.db.models import Q,F
 from django.db.models import Count
 from datetime import datetime
 from django.core.paginator import Paginator
 from django.http import JsonResponse,HttpResponse 
 from comment.models import Comment
+
 
 def nboard(request):  
   if request.method == 'GET':
@@ -203,3 +205,39 @@ def likes(request):   # 좋아요 숫자증가
   print("좋아요 갯수 확인",board.like_member.count())
   context = {"result":result,"count":board.like_member.count()}
   return JsonResponse(context)
+
+
+
+# 매달 1일 인기 상위글 5개의 작성자에게 포인트 1000 지급
+def reward_points_on_first_day():
+  # 1. 현재 날짜가 1일인지 확인
+  today = datetime.today()
+  # if today.day!= 1:
+  if today.day!= 16: # test
+    return # 1일이 아니라면 아무작업도 하지 않음
+  
+  # 2. 좋아요가 많은 상위 5개 게시글 찾기
+  top_boards = Board.objects.annotate(like_count=Count('like_member')).order_by('-like_count')[:5]
+  print("top_boards: ",top_boards)
+
+  # 3. 게시글 작성자에게 포인트 지급
+  rewarded_members = set(board.member for board in top_boards) # 중복을 방지할 집합
+  print("rewarded_members : ", rewarded_members)
+  
+  # 4. F()를 사용해서 포인트를 한번에 업데이트
+  # Member.objects.filter()로 해당 유저를 찾아 F()로 포인트 추가
+  Member.objects.filter(id__in=[member.id for member in rewarded_members]).update(point=F('point')+1000) # 1000 포인트 지급
+    
+  print("포인트 지급 완료")
+
+
+def execute_reward_points(request):
+    if request.method == 'POST':
+        # reward_points_on_first_day() 함수 실행
+        reward_points_on_first_day()
+        
+        # 성공적으로 처리되었음을 JSON으로 응답
+        return JsonResponse({'success': True})
+    
+    # 잘못된 요청일 경우
+    return JsonResponse({'success': False}, status=400)
