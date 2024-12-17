@@ -7,6 +7,10 @@ from member.models import Star
 from django.http.response import JsonResponse
 import datetime
 
+def test2(request):
+    return render(request,'test2.html')
+
+
 
 def foodList(request):
     if request.method == "GET":
@@ -48,8 +52,9 @@ def foodList(request):
                 f.star = False
                 f.is_liked = False
             f.like_count = f.like_members.count()
-            
-        context = {"flist": flist, "npage": npage}
+
+        context = {"flist": flist, "npage": npage,"bLocation":bLocation}
+        print("bLocation"+bLocation)
         return render(request, "foodList.html", context)
 
     else:
@@ -89,7 +94,7 @@ def foodList(request):
                 f.is_liked = False
             f.like_count = f.like_members.count()
 
-        context = {"flist": flist, "npage": npage}
+        context = {"flist": flist, "npage": npage, "bLocaton": bLocation}
         return render(request, "foodList.html", context)
 
 def Stars(request):

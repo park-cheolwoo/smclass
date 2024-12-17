@@ -1,4 +1,79 @@
 /* foodboard-blist */
+.headerBody{
+  background:#FF9E44;
+}
+
+.foodHeader {
+  width: 75%;
+  height: 150px;
+  border-bottom: 1px solid #FF9E44;
+  display:flex;
+  justify-content: space-between;
+  margin:0 auto;
+}
+
+.foodHeader>nav {
+  width: 1290px;
+  height: 150px;
+  margin: 0 auto;
+  display: flex;
+}
+
+.logo2 {
+  height: 150px;
+  text-align: center;
+  line-height:4;
+  color:white;
+  font-size:40px;
+  box-sizing: border-box;
+  flex:3;
+  font-weight:700;
+}
+
+.nav_ul3 {
+  width: 1168px;
+  height: 150px;
+  box-sizing: border-box;
+  display:flex;
+  justify-content: space-around;
+  flex:4;
+  flex-wrap : wrap;
+  font-size:20px;
+  color : white;
+  line-height:11;
+  font-weight:700;
+}
+
+.nav_ul2{
+  flex:3;
+  height:150px;
+  display:flex;
+  justify-content: space-around;
+  align-items:center;
+  line-height:2;
+  padding-top:20px;
+}
+
+.nav_ul2>li{
+  display:block;
+  color:white;
+  text-align: center;
+  font-size:15px;
+}
+
+.nav_ul2>li>a{
+  height:50px;
+}
+
+.login2{
+  flex:3;
+}
+
+a,
+button {
+  cursor: pointer;
+}
+
 #foodboard1 {
   height: 1500px;
   margin: 15px auto;
@@ -8,9 +83,7 @@
 }
 
 #foodboard2 {
-  flex: 1;
   height: auto;
-  margin: 0;
   text-align: center;
   font-size: 20px;
   font-weight: 700;
@@ -18,7 +91,7 @@
 
 .tablist {
   width: 1500px;
-  height: 40px;
+  height: 50px;
   display: flex;
   justify-content: space-around;
   margin: 0 auto;
@@ -27,6 +100,10 @@
 .tablist>span {
   width: 80px;
   height: 38px;
+}
+
+.tablist_active{
+  color:#FF9E44
 }
 
 .group {
@@ -257,10 +334,14 @@
 #add{width: 80px; height: 80px; text-align: center; font-size: 50px; position: fixed; bottom: 50px; right: 100px; border-radius: 21px; background-color: #FF9E44; color: #ffffff;}
 
 .foodSearch{margin:0 auto; display:flex; justify-content: center;}
+#food_option{
+  width:80px; height:50px;
+}
 #food_search{width:500px; margin-right:20px; height:50px; padding-left:10px; border:1px solid #e4e4e4; font-size: 18px;
-  font-weight: 400;}
+  font-weight: 400;
+position:relative;}
 #foodSearchBtn{width:50px; height:50px; text-align: center; vertical-align: middle; padding-top:5px; color: #333; border:1px solid #e4e4e4; border-radius: 2px; background:#fff;
-cursor:pointer;}
+cursor:pointer; position:relative; top: -2.3px;}
 
 
 
@@ -508,7 +589,7 @@ cursor:pointer;}
 }
 
 .comment_effective{
-  background: #83f999;
+  background: rgba(255, 158, 68, 0.7);
 }
 
 td.sumcontent {

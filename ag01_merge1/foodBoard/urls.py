@@ -10,5 +10,6 @@ urlpatterns = [
     path('Stars/', views.Stars, name="Star"),
     path('Likes/', views.Likes, name="Like"),
     path('Ratings/', views.Ratings, name="Rating"),
+    path('test2/', views.test2, name="test2"),
 ]
 

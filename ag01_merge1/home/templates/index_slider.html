@@ -1,0 +1,466 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <meta name="csrf-token" content="{{ csrf_token }}">
+        <title>임시 메인</title>
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+        <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="{% static '/images/favicon.ico'%}" />
+        <!-- Bootstrap Icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Google fonts-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+        <!-- SimpleLightbox plugin CSS-->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'css/styles.css'%}" rel="stylesheet" />
+        <link href="{% static 'css/modifyMain.css'%}" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <style type="text/css">
+            .slider {
+                width: 40rem;
+            }
+            .slide  img{    
+                    display: block;
+                    width: 1280px;
+                    height: 450px;  
+            }
+            
+            .slick-dots {
+                display: flex;
+                justify-content: center;    
+                margin: 0;
+                padding: 1rem 0;    
+                list-style-type: none;  
+                top: 400px !important;
+                left:600px !important;
+            }
+            .slick-dots li {
+                        margin: 0 0.25rem;
+            }   
+            .slick-dots button {
+                        display: block;
+                        width: 1rem;
+                        height: 1rem;
+                        padding: 0;         
+                        border: none;
+                        border-radius: 100%;
+                        background-color: rgba(255,255,255, 0.5);           
+                        text-indent: -9999px;
+                        cursor: pointer;
+            }
+                
+            .slick-dots li.slick-active button {
+                        background-color: white;
+            }   
+            
+            
+            
+            
+            /* .slick-arrow{
+                display: inline-block;
+                position: relative;
+                top: 220px;
+                z-index: 500;
+                color: #fff;
+                font-size: 20px;
+            } */
+            
+            .slick-prev,
+            .slick-next {
+                font-size: 0;
+                position: absolute;
+                bottom: 20px;
+                color: #fff;;
+                border: 0;
+                background: none;
+                z-index: 1;
+                top: 20px;
+                cursor: pointer;
+            }
+            
+            .slick-prev {
+                left: 20px;
+            }
+            
+            .slick-prev:after {
+                content: "\f104";
+                font: 40px/1 'FontAwesome';
+            }
+            
+            .slick-next {
+                right: 50px;
+                text-align: right;
+            }
+            
+            .slick-next:after {
+                content: "\f105";
+                font: 40px/1 'FontAwesome';
+            }
+            
+            .slick-prev:hover:after,
+            .slick-next:hover:after {
+                color: #7e7e7e;
+            }
+            
+        </style>
+        <script>
+            $(function(){
+                if("{{lmsg}}" == "1"){
+                    alert("로그아웃 되었습니다.")
+                    location.href="/"
+                }
+                
+                $('#search-form').submit(function(e){
+                    if($('.search-txt').val().length < 1){
+                        e.preventDefault(); // 폼 제출을 막습니다
+                        alert('검색창에 검색어를 입력하세요.');
+                        $('.search-txt').focus();
+                    }
+                });
+            });
+        </script>
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="/">앙꼬</a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div>
+                    {% if not request.session.session_id %}
+                    <ul class="navbar-nav ms-auto my-2 my-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="/member/login/">로그인</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">마이페이지</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">고객센터</a></li>
+                        {% comment %} <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li> {% endcomment %}
+                    </ul>
+                    {% else %}
+                    <ul class="navbar-nav ms-auto my-2 my-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="/member/logout/">로그아웃</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">마이페이지</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">고객센터</a></li>
+                        {% comment %} <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li> {% endcomment %}
+                    </ul>
+                    {% endif %}
+                </div>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto my-2 my-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="/map/success/">지도</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/board/nboard/">게시판</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">예약</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/event/calendar/">이벤트</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Brand">브랜드소개</a></li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <header class="masthead">
+            <div class="container px-4 px-lg-5 h-100">
+                <div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
+                    <div class="hashtag_box">
+                        <ul class="hashtagList">
+                            <li><a href="#"><p>#크리스마스</p></a></li>
+                            <li><a href="#"><p>#오마카세</p></a></li>
+                            <li><a href="#"><p>#감성카페</p></a></li>
+                            <li><a href="#"><p>#파스타</p></a></li>
+                        </ul>
+                        <ul class="hashtagList">
+                            <li><a href="#"><p>#text</p></a></li>
+                            <li><a href="#"><p>#뭐하지</p></a></li>
+                            <li><a href="#"><p>#호홓</p></a></li>
+                        </ul>
+                        <!-- ㅅㅂ 왜 오른쪽으로 치우쳐져 있는거야 열받게 -->
+                        <!-- <hr class="divider" /> -->
+                    </div>
+                    <div class="search_wrap">
+                        <form class="search-box" action="/map/success/" method="post" id="search-form">
+                            {% csrf_token %}
+                            <input class="search-txt" type="text" name="search_word" placeholder="장소 , 테마, 식당 이름 검색">
+                            <button class="btn btn-light search-btn" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Services 1 Restaurants -->
+        <section class="page-section" id="services1">
+            <h2 class="text-center mt-0">금주의 인기 테마 (식당)</h2>
+            <!-- <hr class="divider" /> -->
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <!-- slide 1 -->
+                    <div class="swiper-slide">
+                        <div class="swipe_images">
+                            <h3>로제이쁘다</h3>
+                            <a href="#"><img src="{% static '/images/main/r01.jpg' %}" alt="이미지 없음"></a>
+                        </div>
+                    </div>
+                    <!-- slide 2 -->
+                    <div class="swiper-slide">
+                        <div class="swipe_images">
+                            <h3>로제이쁘다</h3>
+                            <a href="#"><img src="{% static '/images/main/r05.jpg' %}" alt="이미지 없음"></a>
+                        </div>
+                    </div>
+                    <!-- slide 3 -->
+                    <div class="swiper-slide">
+                        <div class="swipe_images">
+                            <h3>로제이쁘다</h3>
+                            <a href="#"><img src="{% static '/images/main/r03.jpg' %}" alt="이미지 없음"></a>
+                        </div>
+                    </div>
+                    <!-- slide 4 -->
+                    <div class="swiper-slide">
+                        <div class="swipe_images">
+                            <h3>로제이쁘다</h3>
+                            <a href="#"><img src="{% static '/images/main/r06.jpg' %}" alt="이미지 없음"></a>
+                        </div>
+                    </div>
+                    <!-- slide 5 -->
+                    <div class="swiper-slide">
+                        <div class="swipe_images">
+                            <h3>로제이쁘다</h3>
+                            <a href="#"><img src="{% static '/images/main/r02.jpg' %}" alt="이미지 없음"></a>
+                        </div>
+                    </div>
+                    <!-- slide 6 -->
+                    <div class="swiper-slide">
+                        <div class="swipe_images">
+                            <h3>로제이쁘다</h3>
+                            <a href="#"><img src="{% static '/images/main/r04.jpg' %}" alt="이미지 없음"></a>
+                        </div>
+                    </div>
+                    
+                    
+                </div> <!-- swiper-wrapper -->
+                <!-- <div class="swiper-pagination"></div> -->
+            </div>
+        </section>
+        <hr class="divider" />
+        <!-- Services 2 Cafe -->
+        <section class="page-section" id="services2">
+            <h2 class="text-center mt-0">금주의 인기 테마 (카페)</h2>
+            <!-- <hr class="divider" /> -->
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <!-- slide 1 -->
+                    <div class="swiper-slide">
+                        <div class="swipe_images">
+                            <h3>로제이쁘다</h3>
+                            <a href="#"><img src="{% static '/images/main/r01.jpg' %}" alt="이미지 없음"></a>
+                        </div>
+                    </div>
+                    <!-- slide 2 -->
+                    <div class="swiper-slide">
+                        <div class="swipe_images">
+                            <h3>로제이쁘다</h3>
+                            <a href="#"><img src="{% static '/images/main/r05.jpg' %}" alt="이미지 없음"></a>
+                        </div>
+                    </div>
+                    <!-- slide 3 -->
+                    <div class="swiper-slide">
+                        <div class="swipe_images">
+                            <h3>로제이쁘다</h3>
+                            <a href="#"><img src="{% static '/images/main/r03.jpg' %}" alt="이미지 없음"></a>
+                        </div>
+                    </div>
+                    <!-- slide 4 -->
+                    <div class="swiper-slide">
+                        <div class="swipe_images">
+                            <h3>로제이쁘다</h3>
+                            <a href="#"><img src="{% static '/images/main/r06.jpg' %}" alt="이미지 없음"></a>
+                        </div>
+                    </div>
+                    <!-- slide 5 -->
+                    <div class="swiper-slide">
+                        <div class="swipe_images">
+                            <h3>로제이쁘다</h3>
+                            <a href="#"><img src="{% static '/images/main/r02.jpg' %}" alt="이미지 없음"></a>
+                        </div>
+                    </div>
+                    <!-- slide 6 -->
+                    <div class="swiper-slide">
+                        <div class="swipe_images">
+                            <h3>로제이쁘다</h3>
+                            <a href="#"><img src="{% static '/images/main/r04.jpg' %}" alt="이미지 없음"></a>
+                        </div>
+                    </div>
+                    
+                   
+                    
+                </div> <!-- swiper-wrapper -->
+                <!-- <div class="swiper-pagination"></div> -->
+            </div>
+        </section>
+
+
+          
+        <!-- About-->
+        <section class="page-section event_container_main" id="about">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div>
+                        <div class="slick-container">
+                        <div class="item"><img src="https://picsum.photos/id/233/1200/600" alt="" /></div>
+                        <div class="item"><img src="https://picsum.photos/id/234/1200/600" alt="" /></div>
+                        <div class="item"><img src="https://picsum.photos/id/236/1200/600" alt="" /></div>
+                        <div class="item"><img src="https://picsum.photos/id/237/1200/600" alt="" /></div>
+                    </div>
+                </div>
+            </div>
+        </section>    
+
+        <script>
+            $(document).ready(function () {
+
+                $(".slick-container").slick({
+                 dots: true,
+                 infinite: true,
+                 speed: 300,
+                 slidesToShow: 1,
+                 adaptiveHeight: true
+                });
+            });
+        </script>
+
+
+
+
+
+        
+        <!-- Portfolio-->
+        <div id="portfolio">
+            <div class="container-fluid p-0">
+                <div class="row g-0">
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="{% static '/images/img/portfolio/fullsize/1.jpg'%}" title="Project Name">
+                            <img class="img-fluid" src="{% static '/images/img/portfolio/thumbnails/1.jpg'%}" alt="..." />
+                            <div class="portfolio-box-caption">
+                                <div class="project-category text-white-50">랭킹순?</div>
+                                <div class="project-name">이미지 말고 페이지로 연결</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="{% static '/images/img/portfolio/fullsize/2.jpg'%}" title="Project Name">
+                            <img class="img-fluid" src="{% static '/images/img/portfolio/thumbnails/2.jpg'%}" alt="..." />
+                            <div class="portfolio-box-caption">
+                                <div class="project-category text-white-50">지역순?</div>
+                                <div class="project-name">이미지 말고 페이지로 연결</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="{% static '/images/img/portfolio/fullsize/3.jpg'%}" title="Project Name">
+                            <img class="img-fluid" src="{% static '/images/img/portfolio/thumbnails/3.jpg'%}" alt="..." />
+                            <div class="portfolio-box-caption">
+                                <div class="project-category text-white-50">뭐가 좋을까요</div>
+                                <div class="project-name">이미지 말고 페이지로 연결</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="{% static '/images/img/portfolio/fullsize/4.jpg'%}" title="Project Name">
+                            <img class="img-fluid" src="{% static '/images/img/portfolio/thumbnails/4.jpg'%}" alt="..." />
+                            <div class="portfolio-box-caption">
+                                <div class="project-category text-white-50">Category</div>
+                                <div class="project-name">Project Name</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="{% static '/images/img/portfolio/fullsize/5.jpg'%}" title="Project Name">
+                            <img class="img-fluid" src="{% static '/images/img/portfolio/thumbnails/5.jpg'%}" alt="..." />
+                            <div class="portfolio-box-caption">
+                                <div class="project-category text-white-50">Category</div>
+                                <div class="project-name">Project Name</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="{% static '/images/img/portfolio/fullsize/6.jpg'%}" title="Project Name">
+                            <img class="img-fluid" src="{% static '/images/img/portfolio/thumbnails/6.jpg'%}" alt="..." />
+                            <div class="portfolio-box-caption p-3">
+                                <div class="project-category text-white-50">Category</div>
+                                <div class="project-name">Project Name</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Call to action-->
+        <section class="page-section bg-dark text-white">
+            <div class="container px-4 px-lg-5 text-center">
+                <h2 class="mb-4">뭐가 좋을까요</h2>
+                <a class="btn btn-light btn-xl" href="https://startbootstrap.com/theme/creative/">Download Now!</a>
+            </div>
+        </section>
+
+        <!-- Footer-->
+        <footer>
+            <div class="footerr">
+                <div class="ftnavi">
+                    <ul>
+                        <li><a href="">회사소개</a></li>
+                        <li><a href="">오시는길</a></li>
+                        <li><a href="">개인정보처리방침</a></li>
+                        <li><a href="">영상정보처리기기운영관리방침</a></li>
+                        <li><a href="">이용약관</a></li>
+                        <li><a href="">이메일무단수집거부</a></li>
+                    </ul>
+                </div>
+                <div class="bottom_footer">
+
+                    <div class="addr">
+                        <p>앙꼬<span>|</span>서울 금천구 가산디지털2로 101</p>
+                        <p class="tel">대표번호 : 070-777-7777&nbsp;&nbsp;
+                            <span>예약문의 : 7777-7777</span>
+                            <span>단체문의 : 02-7171-1717</span>
+                            <span>분양문의 : 02-737-3737</span>
+                            <span>통신판매업신고 : 2024-서울금천-1213호</span>
+                        </p>
+                        <p>메리츠화재와 개인정보 배상책임보험 계약을 체결하여 회원 개인정보를 보호하고 있습니다.</p>
+                        <p class="copy">COPYRIGHT(C) ANGGGO. ALL RIGHTS RESERVED.</p>
+                    </div>
+                    <!-- <div class="right"> -->
+                    <div class="sns">
+                        <a href="#"><img src="/static/images/main/insta_btn_fnew.png"></a>
+                        <a href="#"><img src="/static/images/main/youtube_btn_fnew.png"></a>
+                        <a href="#"><img src="/static/images/main/facebook_btn_fnew.png"></a>
+                        <a href="#"><img src="/static/images/main/kakao_ch_btn_fnew.png"></a>
+                    </div>
+                </div>
+                <!-- </div> -->
+            </div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- SimpleLightbox plugin JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="{% static 'js/scripts.js' %}"></script>
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <!-- * *                               SB Forms JS                               * *-->
+        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    </body>
+</html>

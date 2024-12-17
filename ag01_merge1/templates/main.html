@@ -14,46 +14,47 @@
 </head>
 <body>
   <!-- 헤더 부분 -->
-   <header>
-      <div class="logo">
-        <a href="/"><ion-icon name="logo-github" style="width:150px; height:150px; vertical-align:middle; margin:0 auto;"></ion-icon></a>
-      </div>
-      <div class="navi">
-        <ul class="nav_ul">
-          <li>지도</li>
-          <li><a href="/foodBoard/foodList/">맛집추천</a></li>
-          <li><a href="/board/nboard/">게시판</a></li>
-          <li><a href="#">예약</a></li>
+   <div class="headerBody">
+
+     <header class="foodHeader">
+       <div class="logo2">
+         <a href="/">앙꼬</a>
+        </div>
+        <div class="navi2">
+          <ul class="nav_ul3">
+            <li>지도</li>
+            <li><a href="/foodBoard/foodList/">맛집추천</a></li>
+            <li><a href="/board/nboard/">게시판</a></li>
+            <li><a href="#">예약</a></li>
           <li>이벤트</li>
           <li>브랜드 소개</li>
         </ul>
       </div>
-      <div class="login">
+      <div class="login2">
         <span>  
           <ul class="nav_ul2">
             <li>
               <a href="/foodBoard/foodList/">
-                <ion-icon name="person-outline" style="width:20px; height:20px;"></ion-icon><br/>
+                <ion-icon name="person-outline" style="width:40px; height:40px;"></ion-icon><br/>
                 로그인</a>
-            </li>
-            <li>
-              <a href="/foodBoard/foodList/">
-                <ion-icon name="person-outline" style="width:20px; height:20px;"></ion-icon><br/>
-                회원가입</a>
-            </li>
-        </span>
-      </div>
-    <hr>
-    </header>
-    <hr>
-{% block container-block %}
-{% endblock container-block %}
-<footer>
+              </li>
+              <li>
+                <a href="/foodBoard/foodList/">
+                  <ion-icon name="person-outline" style="width:40px; height: 40px;"></ion-icon><br/>
+                  회원가입</a>
+                </li>
+              </span>
+            </div>
+          </header>
+        </div>
+          {% block container-block %}
+          {% endblock container-block %}
+          <footer>
             <div class="footerr">
                 <div class="ftnavi">
-                    <ul>
-                        <li><a href="">회사소개</a></li>
-                        <li><a href="">오시는길</a></li>
+                  <ul>
+                    <li><a href="">회사소개</a></li>
+                    <li><a href="">오시는길</a></li>
                         <li><a href="">개인정보처리방침</a></li>
                         <li><a href="">영상정보처리기기운영관리방침</a></li>
                         <li><a href="">이용약관</a></li>
