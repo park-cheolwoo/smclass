@@ -36,15 +36,6 @@ def bview(request,bno):
     return render(request,'bview.html',context)
 
 
-
-
-# 좋아요, board,member 3번게시글 aaa, 3번 bbb, 1번 aaa
-def likes(request):
-    id = request.session.get("session_id")
-    member = Member.objects.get(id=id)
-
-
-
 ## 게시판리스트
 def blist(request):
   qs = Board.objects.all().order_by("-bgroup","bstep")
