@@ -1,0 +1,286 @@
+{% extends 'main.html'%}
+{% load static %}
+
+{% block container-block %}
+<script>
+  let session_id = "{{request.session.session_id}}"
+  let csrftoken = $('meta[name="csrf-token"]').attr('content');
+  let button;
+  let bNo;
+  let cnt
+  $(document).on("click",".listLikeOn",function(){
+    alert("클릭");
+    button = $(this)
+    bNo = button.closest(".item_wrap2").find(".item_bNo").val();
+    cnt = button.next().next().text()
+    $.ajax({
+        headers: {"X-CSRFToken": csrftoken},  // CSRF 토큰 설정
+        url: '/foodBoard/Likes/',
+        type: 'POST',
+        dataType: 'json',  // JSON 응답 처리
+        data: {'id': session_id, 'bNo': bNo},
+        success: function(data) {
+            console.log(data);  // 응답 데이터 출력
+            if (data.result == "remove") {
+                alert("좋아요를 삭제했습니다.");
+                button.css({"display":"none"});  // 클릭된 버튼을 숨김
+                button.next().css({'display':"block"});  // 이전 요소를 표시
+                button.next().next().text(Number(cnt)-1);
+            }
+        },
+        error: function() {
+            alert('좋아요를 삭제하는데 실패했습니다.');
+        }
+
+  });
+  });
+
+  $(document).on("click",".listLikeOff",function(){
+    alert("클릭");
+    if(session_id ==""){
+      alert("로그인을 하셔야 좋아요가 가능합니다.")
+      return false
+    }
+    button = $(this)
+    bNo = button.closest(".item_wrap2").find(".item_bNo").val();
+    cnt = button.next().text()
+    $.ajax({
+        headers: {"X-CSRFToken": csrftoken},  // CSRF 토큰 설정
+        url: '/foodBoard/Likes/',
+        type: 'POST',
+        dataType: 'json',  // JSON 응답 처리
+        data: {'id': session_id, 'bNo': bNo},
+        success: function(data) {
+            console.log(data);  // 응답 데이터 출력
+            if (data.result == "add") {
+                alert("좋아요를 눌렀습니다.");
+                button.css({"display":"none"});  // 클릭된 버튼을 숨김
+                button.prev().css({'display':"block"});  // 이전 요소를 표시
+                button.next().text(Number(cnt)+1);
+            }
+        },
+        error: function() {
+            alert('좋아요를 추가하는데 실패했습니다.');
+        }
+    });
+  });
+
+
+  // 즐겨찾기 추가 기능
+  $(document).on("click", ".liststarOff", function() {
+    alert('클릭');
+    if (session_id == "") {
+        alert("로그인을 하셔야 즐겨찾기가 가능합니다.");
+        return false;
+    }
+    button = $(this);
+    bNo = button.closest(".item_wrap2").find(".item_bNo").val();
+    
+    $.ajax({
+        headers: {"X-CSRFToken": csrftoken},  // CSRF 토큰 설정
+        url: '/foodBoard/Stars/',
+        type: 'POST',
+        dataType: 'json',  // JSON 응답 처리
+        data: {'id': session_id, 'bNo': bNo},
+        success: function(data) {
+            console.log(data);  // 응답 데이터 출력
+            if (data.result == "1") {
+                alert("즐겨찾기가 등록되었습니다.");
+                button.css("display", "none");  // 클릭된 버튼을 숨김
+                button.prev(".liststarOn").css("display", "block");  // 이전 요소를 표시
+            }
+        },
+        error: function() {
+            alert('즐겨찾기를 등록하는데 실패했습니다.');
+        }
+    });
+  });
+
+  // 즐겨찾기 삭제 기능
+  $(document).on("click",".liststarOn",function(){
+    alert('클릭');
+    let button = $(this);
+    let bNo = button.closest(".item_wrap2").find(".item_bNo").val();
+    if(confirm("즐겨찾기를 삭제하시겠습니까?")){
+      $.ajax({
+        headers: {"X-CSRFToken": csrftoken},  // CSRF 토큰 설정
+        url: '/foodBoard/Stars/',
+        type: 'POST',
+        dataType: 'json',  // JSON 응답 처리
+        data: {'id': session_id, 'bNo': bNo},
+        success: function(data) {
+          console.log(data);  // 응답 데이터 출력
+          if (data.result == "1") {
+            alert("즐겨찾기가 삭제되었습니다.");
+            button.css({"display":"none"});  // 클릭된 버튼을 숨김
+            button.next().css({"display":"block"});  // 이전 요소를 표시
+          }
+        },
+        error: function() {
+          alert('즐겨찾기를 삭제하는데 실패했습니다.');
+        }
+      });
+    }
+  });
+
+
+  // 검색 기능
+  $(document).on("click","#foodSearchBtn",function(){
+    let foodOption = $("#food_option").val()
+    let foodKeyword = $("#food_search").val()
+    let foodKeyword_pattern = /^[0-9a-zA-Z가-힣]+$/
+    if(foodKeyword.length == 0){
+      alert("검색어를 입력하세요.")
+      return false;
+    }else if(!foodKeyword_pattern.test(foodKeyword)){
+      alert("검색어는 영어,숫자,한글만 가능합니다.")
+      return false;
+    } foodFrm.submit();
+  })
+  // 주소 검색 기능
+  $(document).on("click",".listLoc",function(){
+    let form = $(this).siblings(".search-box");
+    form.submit()
+  });
+
+</script>
+  <!-- 지역 배너 -->
+  <div id="foodboard2">
+    <div class="tablist">
+          <span><a href = "/foodBoard/foodList">전국</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=서울">서울</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=경기">경기</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=강원">강원</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=인천">인천</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=충청북도">충북</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=충청남도">충남</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=세종">세종</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=대전">대전</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=전북특별자치도">전북</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=전라남도">전남</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=광주">광주</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=경상북도">경북</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=경상남도">경남</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=대구">대구</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=울산">울산</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=부산">부산</a></span>
+          <span><a href = "/foodBoard/foodList?bLocation=제주">제주</a></span>
+          <!-- 카테고리 -->
+        </div>
+        <div>
+          <div class="content_list2">
+            {% if flist %}
+            {% for f in flist %}
+            <div class="item_wrap2">
+              <input class="item_bNo" type='text' value={{f.bNo}} style="display:none">
+              <a href="/foodBoard/foodView/{{f.bNo}}">      
+                <img class="listImg2" src="{{f.bFile1.url}}">
+              </a>
+              {% if f.is_liked == True %}
+              <button class="listLikeOn" style="display:block"></button>
+              <button class="listLikeOff" style="display:none"></button>
+              {% else %}
+              <button class="listLikeOn" style="display:none"></button>
+              <button class="listLikeOff" style="display:block"></button>
+              {% endif %}
+              <span class="LikeCnt">{{f.like_count}}</span>
+              <button class="listLoc"></button>
+              <form class="search-box" action="/map/success/" method="post" id="search-form" style="display:none">
+                {% csrf_token %}
+                <input class="search-txt" type="text" name="search_word" value="{{f.bLocation}}" style="display:none">
+              </form>
+
+              {% if f.star == True %}
+              <button class="liststarOn" style="display:block"></button>
+              <button class="liststarOff" style="display:none"></button>
+              {% else %}
+              <button class="liststarOn" style="display:none"></button>
+              <button class="liststarOff" style="display:block"></button>
+              {% endif %}
+
+              <div class="item_title">
+                <a href="/fBoard/foodView/{{ f.bNo }}/" class="item_title1">{{ f.bTitle }}</a>
+                  <span class="item_title2" id="location_{{ f.bNo }}">
+                    {% if f.bLocation %}
+                    {{ f.bLocation }}
+                    {% else %}
+                    미상
+                   {% endif %}
+                  </span>
+                </div>
+
+              <script>
+                  $(document).ready(function() {
+                      let location = "{{ f.bLocation }}";
+                      if(location != ""){
+                        let formattedLocation = extractCityDistrict(location);
+                        $("#location_{{ f.bNo }}").text(formattedLocation);
+                      }
+                  });
+
+                  // bLocation에서 "00시 00구"를 슬라이싱 하는 함수
+                  function extractCityDistrict(location) {
+                      let parts = location.split(" ");
+                      let city = parts[0];
+                      let district = parts[1];
+                      return city + " " + district;
+                  }
+              </script>
+
+          <div class="item_content">
+            <h4>
+              {{f.bSubtitle}}
+            </h4>
+          </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="no-results"> 검색 결과가 없습니다. </div>
+        {% endif %}      
+      </div>
+        <div class="btnAreaList">
+          <!-- 페이징이동1 -->
+    <div class="btnAreaList">
+    <!-- 페이징이동1 -->
+    <div class="allPageMoving1">
+        <ul class="page-num">
+            {% if flist.has_previous %}
+                <a href='/foodBoard/foodList/?npage=1&bLocation={{ request.GET.bLocation }}'><li class="first"><div></div></li></a>
+                <a href='/foodBoard/foodList/?npage={{ flist.previous_page_number }}&bLocation={{ request.GET.bLocation }}'><li class="prev"><div></div></li></a>
+            {% endif %}
+            {% for page in flist.paginator.page_range %}
+                {% if page != npage %}
+                    <a href='/foodBoard/foodList/?npage={{ page }}&bLocation={{ request.GET.bLocation }}'><li class="num"><div>{{ page }}</div></li></a>
+                {% else %}
+                    <li class="num on"><div>{{ page }}</div></li>
+                {% endif %}
+            {% endfor %}
+            {% if flist.has_next %}
+                <a href='/foodBoard/foodList/?npage={{ flist.next_page_number }}&bLocation={{ request.GET.bLocation }}'><li class="next"><div></div></li></a>
+                <a href='/foodBoard/foodList/?npage={{ flist.paginator.num_pages }}&bLocation={{ request.GET.bLocation }}'><li class="last"><div></div></li></a>
+            {% endif %}
+        </ul>
+        </div>
+    </div>
+      <!-- 로그인한 사람만 글쓰기 가능 -->
+      {%if request.session.session_id%}
+      <a id="add" href="/foodBoard/foodWrite/"><i class="fa-solid fa-plus"></i></a>
+      {% else %}
+      {% endif %}
+    </div>
+    <div class="foodSearch">
+      <form name="foodFrm" method="POST">
+        {% csrf_token %}
+        <select id="food_option">
+          <option value="">구분</option>
+          <option value="지역">지역</option>
+          <option value="제목+내용">제목+내용</option>
+          <option value="작성자">작성자</option>
+        </select>
+        <input type="search" id="food_search" name="foodKeyword"placeholder="검색어를 입력해주세요." >
+        <button id="foodSearchBtn"><img width="30" height="30" src="https://img.icons8.com/ios-filled/50/search--v1.png" alt="search--v1"/></button>
+      </form>
+    </div>
+
+  </div>
+    {% endblock container-block %}

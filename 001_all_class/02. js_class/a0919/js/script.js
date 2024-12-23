@@ -1,0 +1,1 @@
+document.write("<h2 style='color:red;'>자바스크립트 문서3</h2><br/>")

@@ -1,0 +1,214 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google fonts-->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+  <link rel="stylesheet" type="text/css" href="{% static '/css/calendar.css'%}" />
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <script type="text/javascript" src="{% static '/js/event.js'%}"></script>
+
+  <title>출석체크</title>
+</head>
+<body>
+  <h2 class="logoAg"><a class="navbar-brand" href="/">앙꼬</a></h2>
+  <ul class='tempMenu'>
+    <li><a href="/admin/">admin</a></li>
+    {% if not request.session.session_id %}
+    <li><a href="/member/login/">로그인</a></li>
+    {% else %}
+    <li><a href="/member/logout/">로그아웃</a></li>
+    {% endif %}
+  </ul>
+
+  
+ 
+  <!-- container -->
+  <section id="container">
+    <div id="memberBenefit">
+      <input type="hidden" id="focusarea" value="">
+      <div class="sub_title_wrap">
+        <h2 class="sub_title">
+          <span>MEMBER BENEFIT</span>
+        </h2>
+      </div> 
+
+      <ul class="tab tab_item5"> <!-- 이벤트창 소메뉴 -->
+        <li><button type="button" class="cpnList" onclick="javascript:location.href='/event/coupon/'">쿠폰</button></li>
+        <li><button type="button" onclick="javascript:location.href='/event/point/'">앙포인트</button></li>
+        <li><button type="button" class="attChk" onclick="javascript:location.href='/event/calendar/'">출석체크</button></li>
+        <li><button type="button" class="eventThisMonth" onclick="javascript:location.href='#event_of_this_month'">이달의 이벤트</button></li>
+      </ul>
+
+
+      <div id="pajx_container"> 
+        <input id="pajxActive" name="pajxActive" type="hidden" value="3">
+        <!-- 유저에게 보이는 화면 외에 운영자에게 전송되는 정보들이어서 hidden
+        <form id="frm" name="frm">
+          <input type="hidden" id="branchIdx" name="branchIdx" value="1">
+          <input type="hidden" id="eventYm" name="eventYm" value="202412">
+          <input type="hidden" id="eventStartDate" name="eventStartDate" value="20241201">
+          <input type="hidden" id="eventEndDate" name="eventEndDate" value="20241231">
+          <input type="hidden" id="ingYn" name="ingYn" value="Y">
+          <input type="hidden" id="needDayCnt" name="needDayCnt" value="31">
+          <input type="hidden" id="attSum" name="attSum" value="1">
+          <input type="hidden" id="event1EntryCnt" name="event1EntryCnt" value="0">
+          <input type="hidden" id="event2EntryCnt" name="event2EntryCnt" value="0">
+          <input type="hidden" id="event3EntryCnt" name="event3EntryCnt" value="0">
+          <input type="hidden" id="eventConditionCnt" name="eventConditionCnt" value="1">
+          <input type="hidden" id="eventUseConditionCnt" name="eventUseConditionCnt" value="0">
+          <input type="hidden" id="devicetype" name="devicetype" value="ALL">
+          <input type="hidden" id="benefitSeq" name="benefitSeq" value="">
+          <input type="hidden" id="eventType" name="eventType" value="">
+        </form>
+        -->
+
+        <div class="calendar_chk_wrap">
+          <!-- 출석체크 -->
+          <form action="/event/calendar/" method="post" name="calenFrm">
+            {% csrf_token %}
+            <div class="today_attend_chk">
+              <h2 class="tit_attend_chk">
+                <span>출석체크</span>
+              </h2>
+              <p class="attend_chk_desc">매일매일 출석만 해도 혜택이 가득! <br><br> 출석할수록 커지는 혜택을 확인해 보세요.</p>
+              
+              <div class="month_attend_chk_count"> <!-- 출석체크 영역 -->
+                <div class="month_attend_chk_count_box">
+                  <p class="tit_chk_count">이달의 출석횟수</p>
+                  {% if count == 0 %}
+                  <p class="chk_count_num"><!--이달의 출석횟수-->0</p>
+                  {% else %}
+                  <p class="chk_count_num"><!--이달의 출석횟수-->{{count}}</p>
+                  {% endif %}
+                </div>
+              </div>
+              <button type="button" id="stamp_btn" class="btn_today_attend_chk" data-id="{{request.session.session_id}}"><span>출석체크하기</span></button>
+            </div>
+            <!-- //출석체크 -->
+            
+            <!-- 출석체크 혜택 -->
+            <div class="apply_attend_event" id="event_of_this_month">
+
+              <h3 class="tit_get_benefit"><!--이번달-->12월 혜택받기</h3>
+              <p class="get_benefit_desc">
+                앱을 통해 예약할 때 마다 응모권이 1개씩 적립됩니다. <br><br> 응모권이 많을 수록 더 큰 혜택에 응모할 수 있습니다.
+              </p>
+              
+              <div class="attend_event_ticket">
+                <p class="attend_event_ticket_item">
+                  잔여 응모권
+                  {% if aTicket == 0 %}
+                  <strong class="chk_event_ticket_num">0</strong>
+                  {% else %}
+                  <strong class="chk_event_ticket_num">{{aTicket}}</strong>
+                  {% endif %}
+                </p>
+                <p class="attend_event_ticket_item st_use_complete">
+                  사용한 응모권
+                  {% if usedTicket == 0 %}
+                  <strong id="useConditionCnt">0</strong>
+                  {% else %}
+                  <strong id="useConditionCnt">{{usedTicket}}</strong>
+                  {% endif %}
+                </p>
+              </div>
+              <p class="attend_event_ticket_date"><!--오늘 날짜-->2024년 12월 06일 기준</p>
+              
+              <!-- 응모 가능한 쿠폰 리스트 -->
+              <div class="apply_attend_event_list">
+                <div class="attend_event_coupon_bundle">
+                  <div class="attend_event_coupon_item">
+                    <p class="event_cpn_amount">1000<em>원</em></p> <!-- 쿠폰혜택은 추후 변경 예정-->
+                    <p class="event_cpn_name">네이버 페이 쿠폰 1000원권?</p>
+                    <p class="event_cpn_desc">응모권 5개로 응모가능</p>
+                  </div>
+                  <button type="button" id="conditionBtn1" name="conditionBtn" class="btn_apply_event_coupon num1" data-id="{{request.session.session_id}}"><span>응모하기</span></button>
+                </div>
+              
+                <div class="attend_event_coupon_bundle">
+                  <div class="attend_event_coupon_item">
+                    <p class="event_cpn_amount">3000<em>원</em></p> <!-- 쿠폰혜택은 추후 변경 예정-->
+                    <p class="event_cpn_name">네이버 페이 쿠폰 3000원권?</p>
+                    <p class="event_cpn_desc">응모권 10개로 응모가능</p>
+                  </div>
+                  <button type="button" id="conditionBtn1" name="conditionBtn" class="btn_apply_event_coupon num2" data-id="{{request.session.session_id}}"><span>응모하기</span></button>
+                </div>
+              </div> <!-- //apply_attend_event_list -->
+              <!-- //응모 가능한 쿠폰 리스트 -->
+            </div> <!-- //apply_attend_event-->
+            <!-- //출석체크 혜택 -->
+
+            <!-- 행운뽑기 -->
+            <div class="lucky_draw" id="luckydraw">
+              <h3 class="tit_lucky_draw">행운뽑기</h3>
+              <p class="lucky_draw_desc">
+                행운뽑기의 주인공은 바로 당신!<br><br>
+                출석체크하고 오늘의 행운을 확인하세요
+              </p>
+              
+              <div class="my_lucky_draw">
+                <div class="attend_event_coupon_bundle">
+                  <div class="attend_event_coupon_item">
+                    <p class="event_cpn_amount">5000<em>원</em></p> <!-- 쿠폰혜택은 추후 변경 예정-->
+                    <p class="event_cpn_name">네이버 페이 쿠폰 5000원권?</p>
+                    <p class="event_cpn_desc">응모권 10개로 응모가능</p>
+                  </div>
+                  <p class="my_lucky_draw_box">
+                    <button type="button" id="btnMyLucky" class="btn_apply_event_luckyCoupon" data-id="{{request.session.session_id}}"><span>나의 행운 확인하기</span></button>
+                  </p>
+                </div>
+              </div>
+              
+              <div class="more_lucky_info">
+                <h4 class="tit_more_lucky_info">다음 행운의 주인공이 되어보세요!</h4>
+                <div class="more_lucky_info_bundle">
+                  <button type="button" class="btn_more_lucky clipboard" onclick="copyUrl()"><span>친구에게 이벤트 공유하기</span></button>
+                  <button type="button" class="btn_more_lucky" onclick=""><span>앙꼬 이벤트 알림받기</span></button>
+                </div>
+              </div>
+            </div> 
+            <!-- //행운뽑기 -->
+          
+            <!-- 유의사항 -->
+            <div class="attend_chk_notify">
+              <div class="attend_chk_notify_bundle">
+                <h3 class="tit_attend_chk_notify">유의사항</h3>
+                <ul class="bullet_dot_list">
+                  <li>출석체크 1회당 응모권 개수 1개가 충전됩니다.</li>
+                  <li>당월 사용하지 않은 응모권은 익월 소멸 됩니다.</li>
+                  <li>행운뽑기 이벤트는 출석체크 참여 후 응모 가능합니다.</li>
+                  <li>행운뽑기 혜택은 발행일로부터 1일 이내, 응모 혜택은 5일 이내로 사용 가능합니다.</li>
+                  <li>쿠폰의 상세 내용은 쿠폰함에서 확인 가능합니다.</li>
+                  <li>당사 사정에 따라 이벤트는 중간에 취소되거나 변경 될 수 있습니다.</li>
+                </ul>
+              </div>
+            </div> 
+            <!-- //유의사항 -->
+          </form>
+        </div> <!-- //calendar_chk_wrap-->
+      </div> <!-- //pajx_container -->
+
+    </div> <!-- //memberBenefit -->
+
+    <div class="scrollBtn">
+      <div class="scrollUp">
+        <i class="fa-solid fa-arrow-up"></i>
+      </div>
+      <div class="scrollDown">
+        <i class="fa-solid fa-arrow-down"></i>
+      </div>
+    </div>
+  </section> <!-- //container -->
+  
+
+  
+</body>
+</html>

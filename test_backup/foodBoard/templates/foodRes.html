@@ -1,0 +1,54 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block container-block %}
+<div id="foodboard1">
+  <h2 class="ResTitle"> 식당 예약 </h2>
+  <div class="info_more2">
+    <div class="info_img">
+      <img src= "{{flist.bFile1.url}}">
+      <img src= "{{flist.bFile2.url}}">
+      <img src= "{{flist.bFile3.url}}">
+    </div>
+    <div class="resFrm">
+      <form method="POST" name='resFrm'>
+        {% csrf_token %}
+      <table class="resTable">
+      <tr>
+        <td class="frmTitle">식당 | </td><br/>
+        <td><h4 class="text">{{flist.bTitle}}</h4></td> 
+      </tr>
+      <tr>
+        <td class="frmTitle">이름 | </td><br/>
+        <td><input type="text" class="text" placeholder="홍길동"></td>
+      </tr>
+      <tr>
+        <td class="frmTitle">전화번호 | </td>
+        <td><input type="text" class="text" placeholder="010-1234-5678"></td>
+      </tr>
+      <tr>
+        <td class="frmTitle">예약일시 | </td>
+        <td><input type="text" class="text" placeholder="240101"></td>
+      </tr>
+      <tr>
+        <td class="frmTitle">예약인원 | </td>
+        <td><input type="text" class="text" placeholder="2"></td>
+      </tr>
+      <tr>
+        <td class="frmTitle">메모 | </td>
+        <td><input type="text" class="text" placeholder="1줄만 작성 가능"></td>
+      </tr>
+      <tr id="btnWrap">
+        <td colspan='2'><button type="button" class="resBtn" onclick="alert('버튼 클릭!')">예약하기</button>
+        <button type="button" class="resBtn" onclick="location.href='/foodBoard/foodList/'">목록으로</button></td>
+      </tr>
+      <tr>
+      </tr>
+      </table>
+    </form>
+  </div>
+</div>
+  
+  
+  
+{% endblock container-block %}

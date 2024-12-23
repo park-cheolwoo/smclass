@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <!-- 객체(정의) : 기능(Method)과 속성(Property)을 가지는 것  >> 한 객체 안에 여러 개의 변수(함수)를 넣을 수 있음-->
+  <!-- 변수 >> 배열 >> 객체  -->
+
+  <script>
+    var a = 0;
+    var b = new Object(); // 객체선언 
+
+    b.color = "white"; //변수
+    b.price = 300000;
+    b.info = function () { //함수
+      document.write("tv색상 : " + this.color + "<br/>")
+      document.write("tv가격 : " + this.price + "<br/>")
+    }
+    //객체선언2 : 각 변수간 ;가 아닌 ,로 구분
+    var car = {
+      color: "white",
+      price: 500000,
+      info: function () {
+        document.write("car 색상 : " + this.color + "<br/>")
+        document.write("car 가격 : " + this.price + "<br/>")
+      }
+    }
+    car.tire = 4;
+    console.log(car.tire);
+    console.log(car.color);
+    console.log(car.price);
+    console.log(b.color);
+    console.log(a);
+
+  </script>
+</body>
+
+</html>

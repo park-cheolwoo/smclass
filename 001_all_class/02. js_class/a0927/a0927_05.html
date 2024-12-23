@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #main {
+      width: 800px;
+      margin: 50px auto;
+    }
+
+    #wrap {
+      width: 800px;
+      height: 400px;
+      border: 1px solid black;
+      margin-bottom: 20px;
+    }
+    </style>
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    $(function () {
+      $("#dataBtn").click(function () {
+        alert("버튼 클릭");
+        // 그래프 그리기
+      
+        const ctx = document.getElementById('myChart');
+        
+        let labelArr = [];
+        let dataArr = [];
+        let labelArr2 = [];
+        let dataArr2 = [];
+        let FirstNum = "";
+        let LastNum = $("#datalist").val()
+        if (LastNum == 10) { FirstNum = 10; }
+        else if (LastNum == 20) { FirstNum = 20 }
+        else if (LastNum == 30) { FirstNum = 30 }
+        
+        //
+        
+        //그래프 반복사용
+        let chartstatus = Chart.getChart("myChart");
+        if (chartstatus != undefined)//사용중이면
+        {
+          console.log("success");
+          chartstatus.destroy();
+        }
+        
+        //
+        
+        $.ajax({
+          url: "js/stuData.json",
+          type: "get",
+          data: "",
+          datatype: "json",
+          success: function (data) {
+            // console.log(data);
+            //10개 가져오기
+            var name_Arr2 = val.name.split(" ")[1]; //(!)
+            var score2 = Number(((val.kor + val.eng + val.math) / 3).toFixed(2));
+            for (i = FirstNum; i < LastNum; i++) { //(!)
+              labelArr2.push(name_Arr2[i])
+              dataArr2.push(score2[i])
+            }
+            
+            $.each(data, function (idx, val) {
+              var name_Arr = val.name.split(" ")[1]; //(!)
+              // console.log(name_Arr);
+              var score = Number(((val.kor + val.eng + val.math) / 3).toFixed(2));
+              // console.log(score);
+              labelArr.push(name_Arr);
+              dataArr.push(score);
+            });//성공
+            // // console.log(labelArr);
+            // // console.log(dataArr);
+            
+            
+          },
+          error: function () {
+            alert("실패");
+            
+          }//실패
+          
+        });//ajax
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: labelArr2,
+            datasets: [{
+              label: '',
+              data: dataArr2,
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });//그래프 그리기
+      });//데이터 불러오기 버튼
+    });//제이쿼리 선언
+    </script>
+</head>
+
+
+<body>
+  <div id="main">
+    <select id="datalist">
+      <option value="10">1~10</option>
+      <option value="20">11~20</option>
+      <option value="30">21~30</option>
+    </select>
+    <button id="dataBtn">데이터 불러오기</button>
+    <br />
+    <div id="wrap">
+      <canvas id="myChart"></canvas>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <title>회원가입 양식</title>
+  <style>
+    #pwTxt{font-weight:700px;}
+    .on{color:blue;}
+    .off{color:red;}
+  </style>
+</head>
+<body>    
+  <div>
+    <h3>회원가입</h3>
+      <form action="" name="frm" method="get">
+        <!-- 이름 -->
+        <label>이름</label>
+        <input type="text", id="name" id="name" onfocus placeholder="이름"><br/>
+        <!-- 아이디 -->
+        <label>아이디</label>
+        <input type="text" id="id" name="id" placeholder="아이디">
+        <button type="button">아이디 중복확인</button><br/>
+        <!-- 비밀번호 -->
+        <label>비밀번호</label>
+        <input type="password" id="pw" name="pw" placeholder="비밀번호" ><br/>
+        <!-- 비밀번호 확인 -->
+        <label>비밀번호 확인</label>
+        <input type="password" id="check" name="check" placeholder="비밀번호 확인" onkeyup ="pwCheck()">
+        <span id="pwTxt"></span><br/>
+        <!-- 비밀번호 type은 password로 설정(유의할 것) -->
+        <!-- 생년월일 -->
+        <label>생년월일</label>
+        <input type="date" id="birth" name="birth" placeholder="생년월일"><br/>
+        <!-- 성별 -->
+        <label>성별</label>
+        <input type="radio" name="gender" value="male" id="male">
+        <label for="male">남자</lable>
+          <input type="radio" name="gender" value="female" id="female">
+          <label for="female">여자</lable><br/>
+            <!-- 이메일 -->
+            <label>이메일</label>
+            <input type="text" id="email1" name="email1" placeholder="이메일">@
+            <input type="text" id="email2" name="emai12">
+            <select id="email3" onchange="echg()">
+              <!-- 이메일 선택창을 바꿀 때 함수 실행 -->
+              <option value="" selected>직접입력</option>
+              <option id="naver" value="naver.com">naver.com</option>
+              <option id="gmail" value="gmail.com">gmail.com</option>
+              <option id="daum" value="daum.net">daum.net</option>
+            </select><br/>
+            <!-- 우편번호 -->
+            <label>우편번호</label>
+            <input type="text" name="zipcode" id="zipcode" placeholder="우편번호">
+            <button type="button" onclick="addBtn()">주소검색</button><br/>
+            <!-- 주소 -->
+            <label>주소</label><br/>
+            <input type="text" name="address1" id="address1" placeholder="주소"><br/>
+            <input type="text" name="address2" id="address2"><br/><br/>
+            <!-- 버튼 -->
+            <button type="button">회원가입</button>
+            <button type="button">취소</button>
+          </form>
+    </div>
+  <script>
+    function echg(){
+      var email = document.getElementById("email3").value;
+      if(email==""){
+        document.getElementById("email2").value="";
+        document.getElementById("email2").focus();
+        // 강제 포커스 이동 //
+        document.getElementById("email2").readOnly=false;
+        // 이메일 읽기전용 설정(편집 제한) //
+      }
+      else{
+        document.getElementById("email2").value=email;
+        // email3에서 설정한 이메일대로 email2에 대입 // 
+        document.getElementById("email2").readOnly=true;
+        // 이메일 읽기전용 해제(편집 가능) // 
+      };
+    };
+
+    function pwCheck(){
+      var pw = document.getElementById("pw").value;
+      var check = document.getElementById("check").value;
+      if(pw==check){
+        // console.log("비밀번호가 일치합니다.");
+        document.getElementById("pwTxt").classList.add("on");
+        //on 클래스 추가
+        document.getElementById("pwTxt").classList.remove("off");
+        //off 클래스 제거
+        document.getElementById("pwTxt").innerText = "비밀번호가 일치합니다.";
+      }
+      else{
+        // console.log("비밀번호가 일치하지 않습니다.")};
+        document.getElementById("pwTxt").classList.add("off");
+        document.getElementById("pwTxt").classList.remove("on");
+        document.getElementById("pwTxt").innerText = "비밀번호가 일치하지 않습니다.";
+        // console.log(document.getElementById("pw").value);
+      // console.log(document.getElementById("check").value);
+    }
+    };
+
+    function addBtn() {
+      // alert("다음 주소를 호출합니다.")
+      new daum.Postcode({
+        oncomplete: function(data) {
+
+          
+          document.getElementById("zipcode").value = data.zonecode;
+          //우편번호
+          document.getElementById("address1").value = data.roadAddress;
+          //주소  
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+        }
+    }).open();
+    };
+    </script>
+</body>
+</html>

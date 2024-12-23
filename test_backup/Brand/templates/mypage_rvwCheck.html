@@ -1,0 +1,232 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block container-block %}
+
+<div id="foodboard4">
+   <div class="mpg_sidebar">
+    <div class="sdb_items">
+      <a href="#">회원정보수정</a>
+       <img width="20" height="20" src="https://img.icons8.com/sf-regular/48/sort-right.png" alt="sort-right"/ class="sdb_right">
+    </div>
+    <div class="sdb_items">
+      <a href="#">앙 포인트/쿠폰/리뷰 확인</a>
+       <img width="20" height="20" src="https://img.icons8.com/sf-regular/48/sort-right.png" alt="sort-right"/ class="sdb_right">
+    </div>
+    <div class="sdb_items">
+      <a href="#">예약 내역 확인</a>
+       <img width="20" height="20" src="https://img.icons8.com/sf-regular/48/sort-right.png" alt="sort-right"/ class="sdb_right">
+    </div>
+    <div class="sdb_items">
+      <a href="#">즐겨찾기 목록</a>
+       <img width="20" height="20" src="https://img.icons8.com/sf-regular/48/sort-right.png" alt="sort-right"/ class="sdb_right">
+    </div>
+    <div class="sdb_items">
+      <a href="#">게시글 작성 목록</a>
+       <img width="20" height="20" src="https://img.icons8.com/sf-regular/48/sort-right.png" alt="sort-right"/ class="sdb_right">
+    </div>
+    <div class="sdb_items">
+      <a href="#">문의 내역</a>
+       <img width="20" height="20" src="https://img.icons8.com/sf-regular/48/sort-right.png" alt="sort-right"/ class="sdb_right">
+    </div>
+   </div>
+   <h2 class="">앙 포인트/쿠폰/리뷰 확인</h2>
+   <h3 class="rvw_subtitle">앙 포인트 사용 내역</h3><br/>
+   <div class="rvw_content">
+   <table class="rvw_table">
+      <colgroup>
+         <col width='10%'>
+         <col width='50%'>
+         <col width='20%'>
+         <col width='20%'>
+      </colgroup>
+      <tr class="rvw_tabtitle">
+         <th >번호</th>
+         <th >마일리지 획득/사용 내역</th>
+         <th>마일리지 증감</th>
+         <th >적용일</th>
+      </tr>
+      <tr class="rvw_tabcontent">
+         <td>1</td>
+         <td>일일 출석체크 이벤트</td>
+         <td>+20</td>
+         <td>2024.12.09</td>
+      </tr>
+      <tr class="rvw_tabcontent">
+         <td>1</td>
+         <td>일일 출석체크 이벤트</td>
+         <td>+20</td>
+         <td>2024.12.09</td>
+      </tr>
+      <tr class="rvw_tabcontent">
+         <td>1</td>
+         <td>일일 출석체크 이벤트</td>
+         <td>+20</td>
+         <td>2024.12.09</td>
+      </tr>
+      <tr class="rvw_tabcontent">
+         <td>1</td>
+         <td>일일 출석체크 이벤트</td>
+         <td>+20</td>
+         <td>2024.12.09</td>
+      </tr>
+      <tr>
+         <td colspan='4' class="rvw_footer">잔여 포인트 : 1000P</td>
+      </tr>
+   </table>
+   </div>
+   <h3 class="rvw_subtitle2">쿠폰 사용 내역</h3><br/>
+   <div class="rvw_content2">
+   <table class="rvw_table2">
+      <colgroup>
+         <col width='10%'>
+         <col width='40%'>
+         <col width='30%'>
+         <col width='20%'>
+      </colgroup>
+      <tr class="rvw_tabtitle">
+         <th>번호</th>
+         <th>쿠폰 사용 내역</th>
+         <th>쿠폰 내용</th>
+         <th>적용일</th>
+      </tr>
+      <tr class="rvw_tabcontent">
+         <td>1</td>
+         <td>일일 출석체크 이벤트</td>
+         <td>식당 예약권   </td>
+         <td>2024.12.09</td>
+      </tr>
+      <tr class="rvw_tabcontent">
+         <td>1</td>
+         <td>일일 출석체크 이벤트</td>
+         <td>+20</td>
+         <td>2024.12.09</td>
+      </tr>
+      <tr class="rvw_tabcontent">
+         <td>1</td>
+         <td>일일 출석체크 이벤트</td>
+         <td>+20</td>
+         <td>2024.12.09</td>
+      </tr>
+      <tr class="rvw_tabcontent">
+         <td>1</td>
+         <td>일일 출석체크 이벤트</td>
+         <td>+20</td>
+         <td>2024.12.09</td>
+      </tr>
+      <tr>
+         <td colspan='4' class="rvw_footer">잔여 쿠폰 개수 : 3개</td>
+      </tr>
+   </table>
+   </div>
+   <h3 class="rvw_subtitle2">쿠폰 확인</h3><br/>
+   <div class="rvw_content2">
+   <table class="rvw_table2">
+      <colgroup>
+         <col width='10%'>
+         <col width='30%'>
+         <col width='40%'>
+         <col width='20%'>
+      </colgroup>
+      <tr class="rvw_tabtitle">
+         <th>번호</th>
+         <th>쿠폰명</th>
+         <th>쿠폰 할인 내용</th>
+         <th>획득일</th>
+      </tr>
+      <tr class="rvw_tabcontent">
+         <td>1</td>
+         <td>식당 예약권</td>
+         <td>식당 예약시 10% 할인</td>
+         <td>2024.12.09</td>
+      </tr>
+      <tr class="rvw_tabcontent">
+         <td>1</td>
+         <td>일일 출석체크 이벤트</td>
+         <td>+20</td>
+         <td>2024.12.09</td>
+      </tr>
+      <tr class="rvw_tabcontent">
+         <td>1</td>
+         <td>일일 출석체크 이벤트</td>
+         <td>+20</td>
+         <td>2024.12.09</td>
+      </tr>
+      <tr class="rvw_tabcontent">
+         <td>1</td>
+         <td>일일 출석체크 이벤트</td>
+         <td>+20</td>
+         <td>2024.12.09</td>
+      </tr>
+      <tr>
+         <td colspan='4' class="rvw_footer">잔여 쿠폰 개수 : 3개</td>
+      </tr>
+   </table>
+   </div>
+   <h3 class="rvw_subtitle2">리뷰 확인</h3><br/>
+   <div class="rvw_content2">
+   <table class="rvw_table2">
+      <colgroup>
+         <col width='5%'>
+         <col width='25%'>
+         <col width='40%'>
+         <col width='15%'>
+         <col width='20%'>
+         <col width='20%'>
+      </colgroup>
+      <tr class="rvw_tabtitle">
+         <th>번호</th>
+         <th>리뷰한 식당</th>
+         <th>리뷰 내용</th>
+         <th>작성일</th>
+         <th>수정/삭제</th>
+      </tr>
+      <tr class="rvw_tabcontent">
+         <td>1</td>
+         <td>안지</td>
+         <td>식당이 정말 아름다워요! 식...</td>
+         <td>2024.12.09</td>
+         <td>
+            <button type='button'>수정</button>
+            <button type='button'>삭제</button>
+         </td>
+      </tr>
+      <tr class="rvw_tabcontent">
+         <td>1</td>
+         <td>일일 출석체크 이벤트</td>
+         <td>+20</td>
+         <td>2024.12.09</td>
+         <td>
+            <button type='button'>수정</button>
+            <button type='button'>삭제</button>
+         </td>
+      </tr>
+      <tr class="rvw_tabcontent">
+         <td>1</td>
+         <td>일일 출석체크 이벤트</td>
+         <td>+20</td>
+         <td>2024.12.09</td>
+         <td>
+            <button type='button'>수정</button>
+            <button type='button'>삭제</button>
+         </td>
+      </tr>
+      <tr class="rvw_tabcontent">
+         <td>1</td>
+         <td>일일 출석체크 이벤트</td>
+         <td>+20</td>
+         <td>2024.12.09</td>
+         <td>
+            <button type='button'>수정</button>
+            <button type='button'>삭제</button>
+         </td>
+      </tr>
+      <tr>
+         <td colspan='5' class="rvw_footer">총 리뷰 개수 : 3개</td>
+      </tr>
+   </table>
+   </div>
+</div>
+
+
+{% endblock container-block %}

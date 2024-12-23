@@ -1,0 +1,151 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{% static '/css/foodboard.css' %}">
+  <title>ANG-GGO</title>
+</head>
+<body>
+    <!-- 헤더 부분 -->
+    <header>
+      <div class="inner">
+        <a href="/"><span class="main_logo">로고</span></a>
+        <ul>
+          <li>지도</li>
+          <a href="/foodBoard/blist/"><li>맛집추천</li></a>
+          <a href="/board/nboard/"><li>게시판</li></a>
+          <li>예약</li>
+          <li>이벤트</li>
+          <li>브랜드 소개</li>
+        </ul>
+        <span>
+          <button type="button" class="ag_my">로그인/회원가입</button>
+        </span>
+      </div>
+    </header>
+
+    <main>
+      <!-- 지역 배너 -->
+      <div id="foodboard">
+        <div class="tablist">
+          <span><a>전국</a></span>
+          <span><a>서울</a></span>
+          <span><a>경기</a></span>
+          <span><a>강원</a></span>
+          <span><a>인천</a></span>
+          <span><a>충북</a></span>
+          <span><a>충남</a></span>
+          <span><a>대전</a></span>
+          <span><a>전북</a></span>
+          <span><a>전남</a></span>
+          <span><a>광주</a></span>
+          <span><a>경북</a></span>
+          <span><a>경남</a></span>
+          <span><a>대구</a></span>
+          <span><a>울산</a></span>
+          <span><a>부산</a></span>
+          <span><a>제주</a></span>
+          <!-- 카테고리 -->
+          <div class="group">
+            <select name="site_go" id="site_go" class="sel_box">
+              <option value="#">모두</option>
+              <option value="">와인/바</option>
+              <option value="">음식점</option>
+              <option value="">카페</option>
+              <option value="">인기순</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="ico_select">
+          <div class="content_list">
+            <div class="item_wrap">
+              <a href="/foodBoard/bview/"><img src="/static/images/예시1.jpg"></a><br>
+              <div class="item_title">
+                <p><strong><a>힐스오브북스</a></strong>마포구</p>
+              </div>
+            </div>
+            <div class="item_wrap">
+              <a><img src="/static/images/예시1.jpg"></a><br>
+              <div class="item_title">
+                <p><strong><a>하우스 오브 블루</a></strong>종로구</p>
+              </div>
+            </div>
+            <div class="item_wrap">
+              <a><img src="/static/images/예시1.jpg"></a><br>
+              <div class="item_title">
+                <p><strong><a>본지르르 연희</a></strong>서대문구</p>
+              </div>
+            </div>
+          </div>
+          <div class="content_list">
+            <div class="item_wrap">
+              <a><img src="/static/images/예시1.jpg"></a><br>
+              <div class="item_title">
+                <p><strong><a>일기</a></strong>마포구</p>
+              </div>
+            </div>
+            <div class="item_wrap">
+              <a><img src="/static/images/예시1.jpg"></a><br>
+              <div class="item_title">
+                <p><strong><a>일기</a></strong></p>
+              </div>
+            </div>
+            <div class="item_wrap">
+              <a><img src="/static/images/예시1.jpg"></a><br>
+              <div class="item_title">
+                <p><strong><a>일기</a></strong></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 하단 부분 -->
+    <footer>
+      <div class="footer">
+        <div class="ftnavi">
+          <ul>
+            <li><a href="">회사소개</a></li>
+            <li><a href="">오시는길</a></li>
+            <li><a href="">개인정보처리방침</a></li>
+            <li><a href="">영상정보처리기기운영관리방침</a></li>
+            <li><a href="">이용약관</a></li>
+            <li><a href="">이메일무단수집거부</a></li>
+          </ul>
+          <div class="addr">
+            <p>포레스트 리솜<span>|</span>충청북도 제천시 백운면 금봉로 365</p>
+            <p class="tel">대표번호 : 043-649-6000&nbsp;&nbsp;
+            <span>예약문의 : 1600-0060</span>
+            <span>단체문의 : 02-6177-5999</span>
+            <span>분양문의 : 02-567-5555</span>
+            <span>통신판매업신고 : 2011-충북제천-0016호</span>
+            </p>
+            <p>메리츠화재와 개인정보 배상책임보험 계약을 체결하여 회원 개인정보를 보호하고 있습니다.</p>
+            <p class="copy">COPYRIGHT(C) HOBAN HOTEL & RESORT. ALL RIGHTS RESERVED.</p>
+          </div>
+        </div>
+        <div class="right">
+          <div class="sns">
+            <a href="#"><img src="images/insta_btn_fnew.png"></a>
+            <a href="#"><img src="images/youtube_btn_fnew.png"></a>
+            <a href="#"><img src="images/facebook_btn_fnew.png"></a>
+            <a href="#"><img src="images/kakao_ch_btn_fnew.png"></a>
+          </div>
+          <div class="group">
+            <select name="site_go" id="site_go" class="sel_box">
+              <option value="#">패밀리사이트</option>
+              <option value="https://www.ihoban.co.kr/web">호반건설</option>
+              <option value="https://www.hobanapt.co.kr/web">호반베르디움</option>
+            </select>
+            <button type="button">GO</button>
+          </div>
+        </div>
+      </div>
+    </footer>
+  
+</body>
+</html>

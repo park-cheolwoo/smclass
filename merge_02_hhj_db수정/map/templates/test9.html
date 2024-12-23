@@ -1,0 +1,259 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name='csrf_token' content="{{csrf_token}}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/css/test.css' %}">
+  <title>ANG-GGO</title>
+  <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=Cn1m1ocQfA6R49VlaMJaT8i0vWsmiBX1acPSdFAH"></script>
+  <script type="text/javascript">
+  var map;
+  var InfoWindow,marker;
+  var content,content1,content2,content3,rect;
+  var url,lat,lon,name;
+  var Clicklat,Clicklon;
+  var result,resultDiv; 
+  var poiId,color;
+  var poiId2,color2;
+  var tData = new Tmapv2.extension.TData();
+	let csrfToken = $('meta[name="csrf_token"]').attr('content')
+
+  // 페이지가 로딩이 된 후 호출하는 함수입니다.
+  function initTmap() {
+    map = new Tmapv2.Map("map_div", {
+      center: new Tmapv2.LatLng(37.56520450, 126.98702028),
+      zoom: 18,
+      width: "100%",
+      height: "700px",
+      httpsMode: true,
+      scrollwheel : true
+    });
+
+    map.addListener("click", onClick);
+
+   
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        var lat = position.coords.latitude;
+        var lon = position.coords.longitude;
+
+        marker = new Tmapv2.Marker({
+          position: new Tmapv2.LatLng(lat, lon),
+          map: map,
+        });
+
+        map.setCenter(new Tmapv2.LatLng(lat, lon));
+        map.setZoom(18);
+      });
+    }
+
+    // 기본 상태로 measureDistance 실행
+    measureDistance();
+  }
+
+  // 검색창에 검색
+  $("#inBtn").click(
+    function(){
+      var searchKeyword = $('#searchKeyword').val(); // 검색 키워드
+      var headers = {}; 
+      headers["appKey"]="Cn1m1ocQfA6R49VlaMJaT8i0vWsmiBX1acPSdFAH";
+      console.log(searchKeyword)
+
+    });
+
+  // 클릭 시 위도경도 출력
+  function onClick(e) {
+    const clickLat = e.latLng.lat();
+    const clickLon = e.latLng.lng();
+    console.log("클릭한 위치의 위도:", clickLat, "경도:", clickLon);
+
+    reverseLabel(Clicklon, Clicklat);
+  }
+
+
+  function reverseLabel(Clicklon, Clicklat){
+    zoomLevel = map.getZoom()
+    if(zoomLevel < 15)
+      zoomLevel = 15
+      var headers = {}; 
+      headers["appKey"]="Cn1m1ocQfA6R49VlaMJaT8i0vWsmiBX1acPSdFAH";  }
+
+
+
+  // 모든 부가 정보를 제거하는 함수
+  function resetMeasureObject() {
+    $(".api_etc_btns > div").removeClass("__color_blue_fill");
+    $(".api_etc_labels > div").hide();
+
+    // 기본 정보 제거
+    try {
+      if (measureDistance) {
+        measureDistance.remove();
+      }
+    } catch (error) {}
+
+    // 교통정보 제거
+    try {
+      tData.autoTraffic(map, { trafficOnOff: false });
+    } catch (error) {}
+
+    // 추가적인 UI 초기화
+    $("#map_wrap").empty();
+  }
+
+  // 기본 정보
+  function measureDistance() {
+    resetMeasureObject();
+    $(".api_etc_btns > div#measureDistance").addClass("__color_blue_fill");
+
+    $("#map_wrap").html(
+      `<div>기본 정보를 표시합니다.</div>`
+    );
+  }
+
+  // 유동인구 현황
+function squareMap() {
+  resetMeasureObject();
+  $(".api_etc_btns > div#squareMap").addClass("__color_blue_fill");
+
+  $("#map_wrap").html(`
+      <div id="map_div" class="map_wrap" style='position :relative; bottom:-20px;'></div>
+      <div style='position :relative; bottom:135px; left:10px; width:95px;height:140px;text-align:center; background:#ffffff ;border: 1px solid #808080;border-radius: 3px;font-size:12px'>장소혼잡도 단계
+          <div style='width:84px;height:25px; border: 1px solid #808080; text-align:center; background:#9cf7bd;border-radius: 3px; margin:3px auto'>여유</div>
+          <div style='width:84px;height:25px; border: 1px solid #808080; text-align:center; background:#73b7ff;border-radius: 3px;margin:3px auto'>보통</div>
+          <div style='width:84px;height:25px; border: 1px solid #808080; text-align:center; background:#d9a8ed;border-radius: 3px;margin:3px auto'>혼잡</div>
+          <div style='width:84px;height:25px; border: 1px solid #808080; text-align:center; background:#ff96b4;border-radius: 3px;margin:3px auto'>매우 혼잡</div>
+      </div>
+  `);
+  }
+
+  // 교통정보
+  function autoTraffic() {
+    resetMeasureObject();
+    $(".api_etc_btns > div#autoTraffic").addClass("__color_blue_fill");
+
+    tData.autoTraffic(map, { trafficOnOff: true });
+
+    $("#map_wrap").html(`
+      <div id="map_div" class="map_wrap" style="position: relative; bottom: -20px;"></div>
+      <div style="position: relative; bottom: 135px; left: 10px; width: 95px; height: 140px; text-align: center; background: #ffffff; border: 1px solid #808080; border-radius: 3px; font-size: 12px">
+        교통상황 단계
+        <div style="width: 84px; height: 25px; border: 1px solid #808080; text-align: center; background: #99cc00; border-radius: 3px; margin: 3px auto">여유</div>
+        <div style="width: 84px; height: 25px; border: 1px solid #808080; text-align: center; background: yellow; border-radius: 3px; margin: 3px auto">보통</div>
+        <div style="width: 84px; height: 25px; border: 1px solid #808080; text-align: center; background: orange; border-radius: 3px; margin: 3px auto">혼잡</div>
+        <div style="width: 84px; height: 25px; border: 1px solid #808080; text-align: center; background: #cc0000; border-radius: 3px; margin: 3px auto">매우 혼잡</div>
+      </div>
+    `);
+  }
+
+  
+</script>
+<main>
+  <!-- 헤더 부분 -->
+  <header>
+    <div class="inner">
+      <a href="/"><span class="main_logo">로고</span></a>
+      <ul>
+        <a href="/map/mview/"><li>지도</li></a>
+        <a href="/foodBoard/blist/"><li>맛집추천</li></a>
+        <a href="/board/nboard/"><li>게시판</li></a>
+        <li>예약</li>
+        <li>이벤트</li>
+        <li>브랜드 소개</li>
+      </ul>
+      <span>
+        <button type="button" class="ag_my">로그인/회원가입</button>
+      </span>
+    </div>
+    <hr>
+  </header>
+<body onload="initTmap(); ">
+  <div class="search_m">
+    <div class="here">
+      <div class="sub_navloc">HOME&nbsp;&nbsp; <strong><i class="fa-solid fa-chevron-right"></i>&nbsp;&nbsp; 지도</strong></div>
+    </div>
+    <div class="m_info">
+      <form action="#" name="mapping" method="post">
+        {% csrf_token %}
+        <input type="text" id="searchKeyword" name="searchKeyword" placeholder="   검색어를 입력해주세요." >
+        <button id="inBtn">검색</button>
+        <div class="f_category">
+          <span><img src="/static/images/크리스마스.png/"><br>크리스마스</span>
+          <span><img src="/static/images/veg.png/"><br>채식식당</span>
+          <span><img src="/static/images/wine.png/"><br>와인/바</span>
+          <span><img src="/static/images/newyear.png/"><br>새해파티</span>
+          <span><img src="/static/images/연말데이트.png/"><br>데이트</span>
+          <span><img src="/static/images/brunch.png/"><br>브런치</span>
+          <span><img src="/static/images/cafe.png/"><br>카페</span>
+          <span><img src="/static/images/thumb.png/"><br>인기순</span>
+        </div>
+      </form>
+    </div>
+    <div id="map_div" style="position: relative;">
+      <div class="_map_layer_overlay" style="padding-top: 10px;">
+          <div class="__space_10_h"></div>
+          <div class="api_etc_btns _map_overlay_row __flex_align_start" >
+              <div style="margin-left:35px;"></div>
+              <div id="measureDistance" class="_btn_radio" onclick="measureDistance();">기본</div>
+              <div class="__space_10_w"></div>
+              <div id="squareMap" class="_btn_radio" onclick="squareMap();">혼잡도</div>
+              <div class="__space_10_w"></div>
+              <div id="autoTraffic" class="_btn_radio" onclick="autoTraffic();">교통정보</div>
+              <div class="__space_10_w"></div>
+          </div>
+      </div>
+  </div>
+      <p id="result"></p>
+      <div id="map_wrap" class="map_wrap3" style="height:450px">
+        <div id="map_div" class="map_wrap" style='position :relative; bottom:-20px;'></div>
+      </div>
+
+  <!-- 하단 부분 -->
+  <footer>
+    <div class="footer">
+      <div class="ftnavi">
+        <ul>
+          <li><a href="">회사소개</a></li>
+          <li><a href="">오시는길</a></li>
+          <li><a href="">개인정보처리방침</a></li>
+          <li><a href="">영상정보처리기기운영관리방침</a></li>
+          <li><a href="">이용약관</a></li>
+          <li><a href="">이메일무단수집거부</a></li>
+        </ul>
+        <div class="addr">
+          <p>포레스트 리솜<span>|</span>충청북도 제천시 백운면 금봉로 365</p>
+          <p class="tel">대표번호 : 043-649-6000&nbsp;&nbsp;
+          <span>예약문의 : 1600-0060</span>
+          <span>단체문의 : 02-6177-5999</span>
+          <span>분양문의 : 02-567-5555</span>
+          <span>통신판매업신고 : 2011-충북제천-0016호</span>
+          </p>
+          <p>메리츠화재와 개인정보 배상책임보험 계약을 체결하여 회원 개인정보를 보호하고 있습니다.</p>
+          <p class="copy">COPYRIGHT(C) HOBAN HOTEL & RESORT. ALL RIGHTS RESERVED.</p>
+        </div>
+      </div>
+      <div class="right">
+        <div class="sns">
+          <a href="#"><img src="/static/images/insta_btn_fnew.png"></a>
+          <a href="#"><img src="/static/images/youtube_btn_fnew.png"></a>
+          <a href="#"><img src="/static/images/facebook_btn_fnew.png"></a>
+          <a href="#"><img src="/static/images/kakao_ch_btn_fnew.png"></a>
+        </div>
+        <div class="group">
+          <select name="site_go" id="site_go" class="sel_box">
+            <option value="#">패밀리사이트</option>
+            <option value="https://www.ihoban.co.kr/web">호반건설</option>
+            <option value="https://www.hobanapt.co.kr/web">호반베르디움</option>
+          </select>
+          <button type="button">GO</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+  </main>
+</body>
+</html>

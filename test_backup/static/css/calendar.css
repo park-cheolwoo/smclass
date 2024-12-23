@@ -1,0 +1,396 @@
+
+* {
+  margin:0; 
+  padding:0; 
+  list-style: none;
+}
+
+body {
+  font-family: "Noto Sans KR", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+button {
+  font-family: "Noto Sans KR", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+a:visited {
+  color: inherit;
+}
+a {
+  text-decoration-line: none;
+}
+
+.logoAg {
+  color: #ff9e44;
+  font-size: 50px;
+}
+.tempMenu {
+  width: 500px; 
+  border: solid 1px black;
+}
+.tempMenu li {
+  margin:10px; 
+  padding:10px; 
+  display: inline-block;
+}
+li {
+  list-style: none;
+}
+#container {
+  width:100%; 
+  height:4500px; 
+  border: solid 1px black; 
+  padding:100px 0; 
+  display: inline-block; 
+  box-sizing: border-box;
+}
+#memberBenefit {
+  width: 1500px; 
+  margin: 0 auto; 
+  border: solid 1px black;
+}
+.sub_title {
+  height: 100px; 
+  text-align: center;
+}
+.sub_title span {
+  margin-top: 20px; 
+  font-size: 50px;}
+ 
+
+/* 소메뉴 */
+.tab {
+  width: 1500px; 
+  height: 100px; 
+  border: solid 1px black;
+}
+.tab li {
+  border: solid 1px black; 
+  float: left;
+  margin-left: 200px; 
+  margin-top: 5px; 
+  padding: 30px; 
+}
+.tab li:nth-child(1) { 
+  width: 100px; 
+  margin-left: 110px; 
+  text-align: center;
+} 
+.tab li:nth-child(2) { 
+  width: 100px; 
+  text-align: center;
+} 
+.tab li:nth-child(3) {
+  width: 100px; 
+  text-align: center;
+} 
+.tab button {
+  background-color: white; 
+  border:none; 
+  font-size: 20px; 
+}
+
+
+/* 출석체크 */
+.calendar_chk_wrap {
+  width: 1500px;
+}
+.today_attend_chk {
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center; 
+  height: 100%;
+}
+.tit_attend_chk {
+  margin: 100px auto; 
+  padding:50px; 
+  text-align: center;
+}
+.tit_attend_chk span {
+  font-size: 80px;
+}
+.attend_chk_desc {
+  text-align: center; 
+  margin-top: 30px; 
+  margin-bottom: 150px;
+}
+.month_attend_chk_count {
+  margin: 0 auto; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center;
+  background-color: #ff9e44; 
+  width: 200px; 
+  height:200px; 
+  border-radius: 50%; 
+}
+.month_attend_chk_count_box { 
+  padding:30px; 
+  text-align: center; 
+  line-height: 65px; 
+}
+.month_attend_chk_count_box p {
+  box-sizing: border-box; 
+  margin: 5px 0;
+}
+.tit_chk_count {
+  line-height: 30px;
+}
+.chk_count_num {
+  margin: 5px; 
+  font-size: 80px;
+}
+.btn_today_attend_chk {
+  width: 200px; 
+  height: 100px;
+  background-color: white; 
+  border-radius:30px; 
+  border:solid 3px black; 
+  font-size: 20px; 
+  display: block;
+  margin: 80px auto 100px; 
+}
+
+
+/* 출석체크 혜택 */
+.apply_attend_event {
+  width: 1500px; 
+  height: 1450px; 
+  border: solid 1px black;
+}
+.tit_get_benefit {
+  margin: 130px auto; 
+  font-size: 50px; 
+  text-align: center; 
+  padding-top: 50px;
+  letter-spacing: -2px;
+}
+.get_benefit_desc {
+  text-align: center;
+}
+
+.attend_event_ticket {
+  width: 1000px; 
+  height: 100px; 
+  display: flex; 
+  margin: 80px auto 0;
+  align-items: center; 
+  justify-content: center; 
+  padding: 100px;
+}
+.attend_event_ticket_item {
+  margin: 30px auto; 
+  font-size: 25px; 
+  letter-spacing: -1px;
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  flex-direction: column;
+}
+.attend_event_ticket_item strong {
+  margin-top: 10px; 
+  padding-top: 20px; 
+  font-size: 45px; 
+}
+.attend_event_ticket_date {
+  text-align: center; 
+  font-size: 15px; 
+  margin-top:20px; 
+}
+
+/* 쿠폰 리스트 */
+
+.apply_attend_event_list {
+  width: 1500px; 
+  height: 500px;
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+}
+.attend_event_coupon_bundle {
+  margin-top: 50px; 
+  width:350px; 
+  height:300px; 
+  margin: 0 10px;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;  
+  flex-direction: column;
+}
+.attend_event_coupon_item {
+  border: solid 1px black; 
+  width:350px; 
+  height: 200px;
+}
+.attend_event_coupon_item p {
+  text-align: center; 
+}
+.event_cpn_amount {
+  font-size: 50px; 
+  margin-top: 45px;
+}
+.event_cpn_amount em {
+  font-size: 25px;
+}
+.event_cpn_name {
+  font-size: 15px; 
+  letter-spacing: -0.5px; 
+  margin-top: 15px;
+}
+.event_cpn_desc {
+  font-size: 13px; 
+  margin-top: 10px;
+}
+.btn_apply_event_coupon {
+  font-size: 20px; 
+  width: 350px; 
+  height: 80px;
+  background-color: white; 
+  border: solid 1px black; 
+  margin-top: 12px;
+}
+
+
+/* 행운뽑기 */
+.lucky_draw {
+  border: solid 1px black; 
+  width: 1500px; 
+  height: 1130px;
+}
+.tit_lucky_draw {
+  margin: 80px auto 100px;  
+  font-size: 50px; 
+  text-align: center; 
+  padding-top: 50px;
+  letter-spacing: -2px;
+}
+.lucky_draw_desc {
+  text-align: center; 
+}
+
+.my_lucky_draw {
+  width: 1500px; 
+  height: 300px; 
+  margin-top: 100px;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+}
+
+.more_lucky_info {
+  width: 1500px; 
+  height: 250px; 
+  margin-top: 80px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  flex-direction: column;
+} 
+.tit_more_lucky_info {
+  font-size: 25px; 
+  margin-top: 30px; 
+}
+.more_lucky_info_bundle {
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+}
+.btn_more_lucky {
+  width: 300px; 
+  height: 60px; 
+  margin: 30px 10px;
+  background-color: white; 
+  border: solid 1px black;
+}
+.btn_more_lucky span {
+  font-size: 15px;
+}
+.btn_apply_event_luckyCoupon {
+  font-size: 20px; 
+  width: 350px; 
+  height: 80px;
+  background-color: white; 
+  border: solid 1px black; 
+  margin-top: 12px;
+}
+
+/* 유의사항 */
+
+.attend_chk_notify {
+  width: 1500px; 
+  height: 400px; 
+  border: solid 1px black;
+}
+.attend_chk_notify_bundle {
+  margin-top: 40px; 
+  display: inline-block; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  flex-direction: column;
+}
+.tit_attend_chk_notify {
+  margin-top: 40px; 
+  font-size: 25px; 
+  opacity: 50%;
+}
+.bullet_dot_list {
+  margin-top: 35px;
+}
+.bullet_dot_list li {
+  margin-top: 12px; 
+  font-size: 13px; 
+  opacity: 50%;
+}
+
+
+
+/* 스크롤 이동 상,하단 */
+/* TOP */
+
+.scrollBtn {
+  opacity: 0;
+  transition: all 200ms ease-in-out;
+  
+}
+.scrollUp {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-left: auto;
+  display: flex;
+  position: fixed;
+  bottom: 115px; /* 브라우저 아래쪽 끝에서부터의 거리 */
+  right: 50px; /* 브라우저 오른쪽 끝에서부터의 거리 */
+  cursor: pointer;
+  z-index: 99;
+  background-color: #ff9e44;
+}
+
+/* DOWN */
+.scrollDown {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-left: auto;
+  display: flex;
+  position: fixed;
+  bottom: 50px; /* 브라우저 아래쪽 끝에서부터의 거리 */
+  right: 50px; /* 브라우저 오른쪽 끝에서부터의 거리 */
+  cursor: pointer;
+  z-index: 99;
+  background-color: #ff9e44;
+}
+
+.scrollUp i, .scrollDown i {
+  margin: auto;
+  text-align: center;
+  font-size: 25px;
+  color: #ffffff;
+}

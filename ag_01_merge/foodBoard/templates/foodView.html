@@ -1,0 +1,461 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block container-block %}
+<script>
+  let session_id = "{{request.session.session_id}}"
+  let csrftoken = $('meta[name="csrf-token"]').attr('content');
+
+  let button;
+  let bNo;
+  let cnt;
+
+  $(document).on("click",".listLikeOn2",function(){
+    alert("클릭");
+    button = $(this)
+    bNo = button.closest(".info_more").find(".item_bNo").val();
+    cnt = button.next().next().text()
+    $.ajax({
+        headers: {"X-CSRFToken": csrftoken},  // CSRF 토큰 설정
+        url: '/foodBoard/Likes/',
+        type: 'POST',
+        dataType: 'json',  // JSON 응답 처리
+        data: {'id': session_id, 'bNo': bNo},
+        success: function(data) {
+            console.log(data);  // 응답 데이터 출력
+            if (data.result == "remove") {
+                alert("좋아요를 삭제했습니다.");
+                button.css({"display":"none"});  // 클릭된 버튼을 숨김
+                button.next().css({'display':"block"});  // 이전 요소를 표시
+                button.next().next().text(Number(cnt)-1);
+            }
+        },
+        error: function() {
+            alert('좋아요를 삭제하는데 실패했습니다.');
+        }
+
+  });
+  });
+
+  $(document).on("click",".listLikeOff2",function(){
+    alert("클릭");
+    if(session_id ==""){
+      alert("로그인을 하셔야 좋아요가 가능합니다.")
+      location.href="/member/login/"
+    }
+    button = $(this)
+    bNo = button.closest(".info_more").find(".item_bNo").val();
+    cnt = button.next().text()
+    $.ajax({
+        headers: {"X-CSRFToken": csrftoken},  // CSRF 토큰 설정
+        url: '/foodBoard/Likes/',
+        type: 'POST',
+        dataType: 'json',  // JSON 응답 처리
+        data: {'id': session_id, 'bNo': bNo},
+        success: function(data) {
+            console.log(data);  // 응답 데이터 출력
+            if (data.result == "add") {
+                alert("좋아요를 눌렀습니다.");
+                button.css({"display":"none"});  // 클릭된 버튼을 숨김
+                button.prev().css({'display':"block"});  // 이전 요소를 표시
+                button.next().text(Number(cnt)+1);
+            }
+        },
+        error: function() {
+            alert('좋아요를 추가하는데 실패했습니다.');
+        }
+    });
+  });
+
+  $(document).on("click", ".liststarOff2", function() {
+    alert('클릭');
+    if (session_id == "") {
+        alert("로그인을 하셔야 즐겨찾기가 가능합니다.");
+         location.href="/member/login/"
+    }
+    button = $(this);
+    bNo = button.closest(".info_more").find(".item_bNo").val();
+    
+    $.ajax({
+        headers: {"X-CSRFToken": csrftoken},  // CSRF 토큰 설정
+        url: '/foodBoard/Stars/',
+        type: 'POST',
+        dataType: 'json',  // JSON 응답 처리
+        data: {'id': session_id, 'bNo': bNo},
+        success: function(data) {
+            console.log(data);  // 응답 데이터 출력
+            if (data.result == "1") {
+                alert("즐겨찾기가 등록되었습니다.");
+                button.css({"display":"none"});  // 클릭된 버튼을 숨김
+                button.prev().css({"display":"block"}); 
+            }
+        },
+        error: function() {
+            alert('즐겨찾기를 등록하는데 실패했습니다.');
+        }
+    });
+  });
+
+  $(document).on("click",".liststarOn2",function(){
+    alert('클릭');
+    button = $(this);
+    bNo = button.closest(".info_more").find(".item_bNo").val();
+    if(confirm("즐겨찾기를 삭제하시겠습니까?")){
+      $.ajax({
+        headers: {"X-CSRFToken": csrftoken},  // CSRF 토큰 설정
+        url: '/foodBoard/Stars/',
+        type: 'POST',
+        dataType: 'json',  // JSON 응답 처리
+        data: {'id': session_id, 'bNo': bNo},
+        success: function(data) {
+          console.log(data);  // 응답 데이터 출력
+          if (data.result == "1") {
+            alert("즐겨찾기가 삭제되었습니다.");
+            button.css({"display":"none"});  // 클릭된 버튼을 숨김
+            button.next().css({"display":"block"}); 
+          }
+        },
+        error: function() {
+          alert('즐겨찾기를 삭제하는데 실패했습니다.');
+        }
+      });
+    }
+  });
+
+
+  $(document).on("click", ".comment_list", function() {
+    let button = $(this);
+    let bNo = "{{flist.bNo}}";
+    let rating = button.find(".comment_rating").val();
+    let isEffective = button.hasClass('comment_effective');
+
+    alert("클릭");
+    console.log("Rating:", rating);
+    console.log("bNo:", bNo);
+    console.log("isEffective:", isEffective);
+
+    let status = isEffective ? "0" : "1";  // 상태에 따라 추가 또는 삭제 설정
+
+    $.ajax({
+        headers: {"X-CSRFToken": csrftoken},  // CSRF 토큰 설정
+        url: '/foodBoard/Ratings/',
+        type: 'POST',
+        dataType: 'json',  // JSON 응답 처리
+        data: {'bNo': bNo, "rating": rating, "status": status},
+        success: function(data) {
+            if(data.result == "1") {
+                alert(isEffective ? "반응을 삭제하였습니다." : "반응을 추가하였습니다.");
+                button.toggleClass('comment_effective');
+                let count = Number(button.find(".comment_cnt").text().slice(0, -1));
+                console.log("count : "+count)
+                if (data.status == "1") {count +=1;}
+                else if (data.status == "0") {count -=1;}
+                button.find(".comment_cnt").text(count+"명")
+            }
+        },
+        error: function() {
+            alert(isEffective ? '반응을 삭제하는데 실패했습니다.' : '반응을 추가하는데 실패했습니다.');
+        }
+    });
+  });
+
+  $(document).on("click",".listLoc2",function(){
+    let form = $(this).siblings(".search-box");
+    form.submit()
+  });
+
+  $(document).change(function(){
+    let timeOption = $(".enterselect").val()
+    if(timeOption=="1"){
+      $(".select_wrap").css({"display":"inline"})
+    } else{
+      $(".select_wrap").css({"display":"none"})
+    }
+  })
+
+
+  $(document).on("click", ".fTimeBtn", function() {
+    let bNo = $(".item_bNo").val();
+    let fPeople = $(".fPeople").val();
+    let waitselect = $(".waitselect").val();
+    let enterselect = $(".enterselect").val(); //지금,직접입력
+    let hour = "";
+    let minute = "";
+  
+     if(session_id ==""){
+      alert("로그인을 하셔야 입력이 가능합니다.")
+      location.href="/member/login/"
+    }
+
+    if (enterselect == "1") {
+        hour = $(".enterhour").val();
+        minute = $(".enterminute").val();
+    }
+
+    if (fPeople.length < 1) {
+        alert("인원을 입력하세요.");
+        $(".fPeople").focus();
+        return false;
+    }
+
+    if (enterselect == "1" && hour.length != 2) {
+        alert("시는 2자리로 입력하세요.");
+        $(".enterhour").focus();
+        return false;
+    }
+
+    if (enterselect == "1" && Number(hour) < 0 || Number(hour) > 13) {
+        alert("시는 1부터 12까지의 숫자만 입력이 가능합니다.");
+        $(".enterhour").focus();
+        return false;
+    }
+
+    if (enterselect == "1" && minute.length != 2) {
+        alert("분은 2자리로 입력하세요.");
+        $(".enterminute").focus();
+        return false;
+    }
+
+    if (enterselect == "1" && Number(minute) < 0 || Number(minute) > 60) {
+        alert("분은 0부터 59까지의 숫자만 입력이 가능합니다.");
+        $(".enterminute").focus();
+        return false;
+    }
+    fTimeForm.submit();
+  });
+
+    if ('{{ result }}'=="1") {
+      bNo = '{{ bNo }}'; 
+      alert('입력이 완료되었습니다.');
+      location.href = `/foodBoard/foodView/${bNo}/`;
+    };
+
+    if ('{{ result }}'=="0") {
+      bNo = '{{ bNo }}'; 
+      alert('입력은 하루에 1번 가능합니다.');
+      location.href = `/foodBoard/foodView/${bNo}/`;
+    };
+
+    if ('{{ result }}'=="2") {
+      alert('입력중 오류가 발생했습니다. 다시 시도해주세요.');
+      location.href = `/foodBoard/foodList/`;
+    };
+
+
+</script>
+<main>
+  <div id="foodboard1">  
+    <div class="info_more">
+      <input class="item_bNo" type="text" value="{{ flist.bNo }}" style="display: none;">
+      <div class="info_img">
+        {% if flist.bFile1 %}
+        <img src= "{{flist.bFile1.url}}">
+        {% endif %}
+        {% if flist.bFile2 %}
+        <img src= "{{flist.bFile2.url}}">
+        {% endif %}
+        {% if flist.bFile3 %}
+        <img src= "{{flist.bFile3.url}}">{% endif %}
+      </div>
+      <br>
+      <div class="info_text">
+        <div class="info_wrap">
+          <div class="bottom_slide">
+            <strong>{{flist.bTitle}}
+              <a href="/foodBoard/foodRes/{{flist.bNo}}/">
+                <ion-icon name="chevron-forward-outline" class="moreIcon"></ion-icon>
+              </a>
+            </strong>
+            <span class="info_waiting">평균 웨이팅 : 
+              <strong class="info_time">{{TimeAvg}}</strong>
+              분</span>
+            <p>{{flist.bLocation}}</p>
+          </div>
+        </div>
+        <div class="button_wrap">
+          <div class="reservation">
+            <a href="/foodBoard/foodRes/{{flist.bNo}}/">
+            <ion-icon name="calendar-number-outline" style="width:30px; height:30px;"></ion-icon>
+            <p>예약하기</p>
+          </a>
+          </div>
+        </div>
+      </div>
+      {% if flist.is_liked %}
+      <button class="listLikeOn2" style="display:block"></button>
+      <button class="listLikeOff2" style="display:none"></button>
+      {% else %}
+      <button class="listLikeOn2" style="display:none"></button>
+      <button class="listLikeOff2" style="display:block"></button>
+      {% endif %}
+              <span class="LikeCnt2">{{flist.like_count}}</span>
+              <button class="listLoc2"></button>
+              <form class="search-box" action="/map/success/" method="post" id="search-form" style="display:none">
+              {% csrf_token %}
+                <input class="search-txt" type="text" name="search_word" value="{{flist.bLocation}}" style="display:none">
+              </form>
+              {% if flist.star %}
+              <button class="liststarOn2" style="display:block"></button>
+              <button class="liststarOff2" style="display:none"></button>
+              {% else %}
+              <button class="liststarOn2" style="display:none"></button>
+              <button class="liststarOff2" style="display:block"></button>
+              {% endif %}
+      <br/>
+      <div class="bottom_content">
+            <strong>{{flist.bSubtitle}}</strong>
+            <p>{{flist.bContent|safe}}</p>
+            </div>
+          </div>
+          <div class="fTimeflex">
+            <form id="fTimeForm" name='fTimeForm' method="POST">
+              {% csrf_token %}
+              <h4 class="fTimeTitle">혹시 이 식당에 방문하셨나요?<br/> 당신의 웨이팅 시간을 입력해주세요</h4>
+              <br/>
+              <input type='hidden' name='bNo' value="{{flist.bNo}}">
+              <label>인원 : </label>
+              <input type='text' name='fPeople' class='fPeople' placeholder="3" maxlength="2">
+            <span>명</span><br/>
+            <label>웨이팅 시간 : </label>
+            <select class="waitselect"name='waitselect'>
+              <option value='0'>바로 입장</option>
+              <option value='10'>10분 이내</option>
+              <option value='30'>30분 이내</option>
+              <option value='45'>30분~1시간</option>
+              <option value='60'>1시간 이상</option>
+              <option value='120'>2시간 이상</option>
+            </select>
+            <br/>
+            <label>입장 시간 : </label>
+            <select class="enterselect" name="enterselect">
+              <option value="0">지금</option>
+              <option value="1">직접입력</option>
+            </select>
+            <div class="select_wrap" style="display:none">  
+              
+              <select class="timeselect" name="timeselect">
+                <option value="AM">오전</option>
+                <option value="PM">오후</option>
+              </select>
+              <input type='text' name='hour' class="enterhour" placeholder="12" maxlength="2">
+              <label>시</label>
+              <input type='text' name='minute' class="enterminute" placeholder="00" maxlength="2">
+              <label>분</label>
+            </select>
+          </div>
+          <br/>
+          <button type='button' class="fTimeBtn">입력하기</button>
+        </form>
+        <div class='fTimeStat'>
+          <h4 class='fTimeStatTitle'>웨이팅 시간 통계 ({{now}} 기준)</h4>
+          <div style="width: 650px; height:400px;"><canvas id="TimeStat"></canvas></div>
+    {% block script %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        (async function() {
+            // JSON 데이터를 파싱하여 JavaScript 객체로 변환
+            const labels = JSON.parse('{{ labels|escapejs }}');
+            const times = JSON.parse('{{ times|escapejs }}');
+            const counts = JSON.parse('{{ counts|escapejs }}');
+            
+            // Chart.js 사용하여 그래프 생성
+            new Chart(
+                document.getElementById('TimeStat'),
+                {
+                    type: 'line',
+                    data: {
+                        labels: labels,  // 시간대 라벨 설정
+                        datasets: [
+                            {
+                                label: '평균 대기시간',
+                                data: times,  // 평균 대기 시간 데이터
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                            },
+                            {
+                                label: '응답 수',
+                                data: counts,  // 데이터 개수
+                                borderColor: 'rgba(255, 99, 132, 1)',
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: '시간대 (00시)'
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: '수치'
+                                }
+                            }
+                        }
+                    }
+                }
+            );
+        })();
+    </script>
+    {% endblock %}
+        </div>
+      </div>
+        <button class="cancelBtn1" onclick="location.href='/foodBoard/foodList/'">목록으로</button>
+        <br/>
+        <br/>
+        <hr class="comment_seperator"></hr>
+        <br/>
+          <div class="comment_div">  
+            <button type='button' class="comment_list {% if '1' in rate_list %}comment_effective{% endif %}">
+              <h4 class="comment_content" ><span class="comment_icon">😋</span>음식이 맛있어요</h4>              
+              <h4 class="comment_cnt">{{rate_count.0}}명</h4>
+              <input class ="comment_rating" type='hidden' value="1">
+            </button>
+            <button type='button' class="comment_list  {% if '2' in rate_list %}comment_effective{% endif %}">
+              <h4 class="comment_content"><span class="comment_icon">🍚</span>양이 많아요</h4>              
+              <h4 class="comment_cnt">{{rate_count.1}}명</h4>
+              <input class ="comment_rating" type='hidden' value="2">
+            </button>
+            <button type='button' class="comment_list {% if '3' in rate_list %}comment_effective{% endif %}">
+              <h4 class="comment_content"><span class="comment_icon">👀</span>매장이 넓어요</h4>              
+              <h4 class="comment_cnt">{{rate_count.2}}명</h4>
+              <input class ="comment_rating" type='hidden' value="3">
+            </button>
+            <button type='button' class="comment_list {% if '4' in rate_list %}comment_effective{% endif %}">
+              <h4 class="comment_content"><span class="comment_icon">💸</span>가성비가 좋아요</h4>              
+              <h4 class="comment_cnt">{{rate_count.3}}명</h4>
+              <input class ="comment_rating" type='hidden' value="4">
+            </button>
+            <button type='button' class="comment_list {% if '5' in rate_list %}comment_effective{% endif %}">
+              <h4 class="comment_content"><span class="comment_icon">💖</span>친절해요</h4>              
+              <h4 class="comment_cnt">{{rate_count.4}}명</h4>
+              <input class ="comment_rating" type='hidden' value="5">
+            </button>
+            <button type='button' class="comment_list {% if '6' in rate_list %}comment_effective{% endif %}">
+              <h4 class="comment_content"><span class="comment_icon">🌱</span>재료가 신선해요</h4>              
+              <h4 class="comment_cnt">{{rate_count.5}}명</h4>
+              <input class ="comment_rating" type='hidden' value="6">
+            </button>
+            <button type='button' class="comment_list {% if '7' in rate_list %}comment_effective{% endif %}">
+              <h4 class="comment_content"><span class="comment_icon">⛰️</span>뷰가 좋아요</h4>              
+              <h4 class="comment_cnt">{{rate_count.6}}명</h4>
+              <input class ="comment_rating" type='hidden' value="7">
+            </button>
+            <button type='button' class="comment_list {% if '8' in rate_list %}comment_effective{% endif %}">
+              <h4 class="comment_content"><span class="comment_icon">✨</span>매장이 청결해요</h4>              
+              <h4 class="comment_cnt">{{rate_count.7}}명</h4>
+              <input class ="comment_rating" type='hidden' value="8">
+            </button>
+            <button type='button' class="comment_list {% if '9' in rate_list %}comment_effective{% endif %}">
+              <h4 class="comment_content"><span class="comment_icon">🚘</span>주차장이 넓어요</h4>              
+              <h4 class="comment_cnt">{{rate_count.8}}명</h4>
+              <input class ="comment_rating" type='hidden' value="9">
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+    {% endblock container-block %}
+    

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>학생 성적 입력</title>
+</head>
+<body>
+  <div id='main'>
+    <h2>학생 성적 입력</h2>
+    <form method = 'POST' name='sfrm' action='write/'>
+      {% csrf_token %}
+      <label>이름</label>
+      <input type='text' name='name'><br/>
+      <label>학과</label>
+      <input type='text' name='major'><br/>
+      <label>학번</label>
+      <input type='text' name='grade'><br/>
+      <label>나이</label>
+      <input type='text' name='age'><br/>
+      <label>성별</label>
+      <input type='radio' value='M' id='M'>
+      <label for='M'>남성</label>
+      <input type='radio' value='F' id='F'>
+      <label for='F'>여성</label>
+      <input type='submit' name='완료'>
+      <input type='reset' name='초기화'>
+    </form>
+  </div>
+    
+</body>
+</html>

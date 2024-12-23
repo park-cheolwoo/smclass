@@ -1,0 +1,214 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Nanum Gothic", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: inherit;
+  text-decoration: none;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+  box-sizing: border-box;
+}
+
+header {
+  width: 650px;
+  height: 54px;
+  background: #0aaf6b;
+  border-bottom: 3px solid #e5e5e5;
+}
+
+.header {
+  background: url(../images/bullet-h1.png) 20px 50% no-repeat;
+  position: relative;
+  padding: 15px 20px 15px 40px;
+}
+
+header h2 {
+  font-size: 18px;
+  color: #fff;
+  font-weight: 700;
+}
+
+section {
+  width: 610px;
+  margin: 10px;
+}
+
+.txt {
+  margin: 0 auto;
+  height: 100px;
+  padding: 15px;
+  margin-bottom: 25px;
+  background: #f8f8f8;
+  font-size: 12.3px;
+  color: #454545;
+}
+
+.calculate {
+  width: 610px;
+  height: 238px;
+  border: 1px solid #e8e8e8;
+  padding: 25px;
+  margin: -15px 0 30px;
+}
+
+.calculate label {
+  font-size: 15px;
+  font-weight: 700;
+  margin-right: 12px;
+}
+
+.calculate input[type="text"] {
+  margin-right: 9px;
+  padding: 0 5px;
+  width: 60px;
+  text-align: center;
+  border: 1px solid #ddd;
+  vertical-align: middle;
+
+}
+
+.calculate #Btn1 {
+  background: #0aaf6b;
+  width: 70px;
+  height: 27px;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  vertical-align: top;
+  border: 0;
+  font-size: 14px;
+  line-height: 1em;
+  letter-spacing: 0;
+  margin-left: 130px;
+}
+
+.calculate #Btn2 {
+  background: #656565;
+  width: 70px;
+  height: 27px;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  vertical-align: top;
+  border: 0;
+  font-size: 14px;
+  line-height: 1em;
+  letter-spacing: 0;
+}
+
+.clearfix {
+  width: 558px;
+  height: 48px;
+  margin: 10px 0 18px;
+}
+
+.clearfix dt {
+  float: left;
+  width: 20%;
+  font-size: 14px;
+}
+
+.clearfix dd {
+  width: 80%;
+  font-weight: 700;
+  color: #eb4f3a;
+}
+
+.graph {
+  width: 550px;
+  height: 70px;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.graph .weightClass ul {
+  height: 24px;
+  width: 550px;
+  list-style: none;
+}
+
+.graph .weightClass li {
+  float: left;
+  text-align: left;
+}
+
+.graph .weightClass li:nth-child(1) {
+  width: 21%
+}
+
+.graph .weightClass li:nth-child(2) {
+  width: 18.5%
+}
+
+.graph .weightClass li:nth-child(3) {
+  width: 14.5%
+}
+
+.graph .weightClass li:nth-child(4) {
+  width: 36.9%
+}
+
+.graph .map ul {
+  width: 550px;
+  display: flex;
+  text-align: center;
+  height: 24px;
+  color: white;
+  list-style: none;
+}
+
+.graph .map li:nth-child(1) {
+  width: 25%;
+  background: #329AE3;
+}
+
+.graph .map li:nth-child(2) {
+  width: 20%;
+  background: #95c520;
+}
+
+.graph .map li:nth-child(3) {
+  width: 18%;
+  background: #ee942a;
+}
+
+.graph .map li:nth-child(4) {
+  width: 36.9%;
+  background: #f15232;
+}
+
+footer {
+  width: 610px;
+  height: 500px;
+  padding-left: 11px;
+}
+
+footer h2 {
+  width: 600px;
+  height: 24px;
+  padding-left: 20px;
+  font-size: 18px;
+  color: #222;
+  font-weight: 700;
+  background: url(../images/bullet-h3g.png) 0 50% no-repeat;
+  margin-bottom:-8px;
+}
+
+footer h3 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  color: #0aaf6b;
+  padding: 0px 20px 0px 0px;
+}
+
+footer p {
+  font-size: 14px;
+  margin-bottom: 15px;
+  line-height: 18px;
+}
