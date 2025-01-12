@@ -1,0 +1,204 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="csrf-token" content='{{csrf_token}}'>
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>앙꼬(관리자 페이지)</title>
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <!-- Google fonts-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+        {% comment %} DataTable CDN {% endcomment %}
+        <link href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+        {% comment %} DataTable CDN {% endcomment %}
+        {% comment %} StartStrap CSS {% endcomment %}
+        <link href="/static/css/pros_styles.css" rel="stylesheet" />
+        <link rel="icon" type="image/x-icon" href="{% static '/images/meow.ico'%}" />
+        {% comment %} StartStrap CSS {% endcomment %}
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <!-- Navbar Brand-->
+            <a class="navbar-brand ps-3" href="/pros/pros_index.html">앙꼬(관리자 페이지)</a>
+            <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+            <!-- Navbar Search-->
+            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="검색" aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </form>
+            <!-- Navbar-->
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        {% comment %} <li><a class="dropdown-item" href="#!">Activity Log</a></li> {% endcomment %}
+                        {% if request.session.session_adminId %}
+                        <li><a class="dropdown-item" href="#!">{{request.session.session_adminName}} 님</a></li>
+                        <li><a class="dropdown-item" href="#!">로그아웃</a></li>
+                        {% else %}
+                        <li><a class="dropdown-item" href="#!">로그인</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            {% comment %} 메인(=통계) {% endcomment %}
+                            <div class="sb-sidenav-menu-heading">메인</div>
+                            <a class="nav-link" href="/pros/layout/">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-table-columns"></i></div>
+                                대시보드
+                            </a>
+                            {% comment %} 메뉴 {% endcomment %}
+                            <div class="sb-sidenav-menu-heading">메뉴</div>
+                            {% comment %} 관리자 시작 {% endcomment %}
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#admin" aria-expanded="false" aria-controls="admin">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                관리자
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="admin" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="/pros/admin1/">관리자 전체 조회</a>
+                                    <a class="nav-link" href="#">관리자 관리</a>
+                                    <a class="nav-link" href="#">관리자 로그 조회</a>
+                                    <a class="nav-link" href="#">관리자 계정으로 이메일 발송</a>
+                                </nav>
+                            </div>
+                            {% comment %} 관리자 끝 {% endcomment %}
+                            {% comment %} 회원 시작 {% endcomment %}
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#member" aria-expanded="false" aria-controls="member">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                회원
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="member" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="/pros/member1/">회원 전체 조회</a>
+                                    <a class="nav-link" href="#">회원정보 관리</a>
+                                    <a class="nav-link" href="#">좋아요·즐겨찾기 조회</a>
+                                    <a class="nav-link" href="#">약관 조회·수정</a>
+                                </nav>
+                            </div>
+                            {% comment %} 회원 끝 {% endcomment %}
+                            {% comment %} 게시글(Board) 시작 {% endcomment %}
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#board" aria-expanded="false" aria-controls="board">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                게시글
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="board" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="/pros/board1/">게시글 전체 조회</a>
+                                    <a class="nav-link" href="#">공지사항 추가·수정
+                                        ·삭제</a>
+                                </nav>
+                            </div>
+                            {% comment %} 게시글 끝 {% endcomment %}
+                            {% comment %} 지도 시작 {% endcomment %}
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#map" aria-expanded="false" aria-controls="map">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                지도
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="map" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="#">식당 상세보기 수정</a>
+                                    <a class="nav-link" href="#"></a>
+                                </nav>
+                            </div>
+                            {% comment %} 지도 끝 {% endcomment %}
+                            {% comment %} 이벤트 시작 {% endcomment %}
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#event" aria-expanded="false" aria-controls="event">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                이벤트
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="event" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="#">이벤트 로그 조회</a>
+                                    <a class="nav-link" href="#">이벤트 상품 관리</a>
+                                    <a class="nav-link" href="/pros/event1/">이벤트 관리</a>
+                                </nav>
+                            </div>
+                            {% comment %} 이벤트 끝 {% endcomment %}
+                            {% comment %} 기타 시작 {% endcomment %}
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#etc" aria-expanded="false" aria-controls="etc">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                기타
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="etc" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="#">관리자 게시판</a>
+                                    <a class="nav-link" href="#">차트 보기</a>
+                                </nav>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">이벤트 관리</h1>
+                        <input type='hidden' id='recordsTotal' value='{{recordsTotal}}'>
+                        <div class="card mb-4 mt-4">
+                            <div class="card-header">
+                                <i class="fas fa-table me-1"></i>
+                                상세조회
+                            </div>
+                            <div class="card-body">
+                                <table id="layoutTable" class='table table-bordered text-right mt-2 display compact'>
+                                    <thead>
+                                        <tr>
+                                            <th>aNo</th>
+                                            {% comment %} <th>비밀번호</th> {% endcomment %}
+                                            <th>ID</th>
+                                            <th>Count</th>
+                                            <th>aTicket</th>
+                                            <th>usedTicket</th>
+                                            <th>Point</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        {% comment %} DataTable CDN {% endcomment %}
+        <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.min.js" crossorigin="anonymous"></script>
+        {% comment %} DataTable CDN {% endcomment %}
+
+        <script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
+        <script type="text/javascript" src="{% static '/js/noLogin.js'%}"></script>
+        
+        <script src="/static/js/pros_event1_datatables.js"></script>
+        
+    </body>
+</html>
