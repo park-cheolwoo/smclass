@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+<head>
+   {% load static %}
+   {% block extrahead %}
+   <link rel="stylesheet" type="text/css" href="{% static '/css/style_myPage.css' %}">
+   <link rel="stylesheet" type="text/css" href="{% static '/css/foodboard_myPage.css' %}">
+   <link rel="stylesheet" type="text/css" href="{% static '/css/myPage.css' %}">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+   <title>ANG-GGO</title>
+   {% endblock %}
+</head>
+
+
+{% block content %}
+
+<body>
+   <section id="mypage_container">
+      <h2 class="sub_title">
+         <span>예약 확인</span>
+      </h2>
+      <div id="foodboard4">
+         <div class="mpg_sidebar">
+            <div class="sdb_items">
+               <a href="/Brand/mypage/update/">회원정보수정</a>
+               <img width="20" height="20" src="https://img.icons8.com/sf-regular/48/sort-right.png" alt="sort-right"/ class="sdb_right">
+            </div>
+            <div class="sdb_items">
+               <a href="/Brand/mypage/rvwCheck/">앙 포인트/쿠폰/리뷰 확인</a>
+               <img width="20" height="20" src="https://img.icons8.com/sf-regular/48/sort-right.png" alt="sort-right"/ class="sdb_right">
+            </div>
+            <div class="sdb_items">
+               <a href="/Brand/mypage/resCheck/">예약 내역 확인</a>
+               <img width="20" height="20" src="https://img.icons8.com/sf-regular/48/sort-right.png" alt="sort-right"/ class="sdb_right">
+            </div>
+            <div class="sdb_items">
+               <a href="/Brand/mypage/starCheck/">즐겨찾기 목록</a>
+               <img width="20" height="20" src="https://img.icons8.com/sf-regular/48/sort-right.png" alt="sort-right"/ class="sdb_right">
+            </div>
+            <div class="sdb_items">
+               <a href="/Brand/mypage/boardCheck/">게시글 작성 목록</a>
+               <img width="20" height="20" src="https://img.icons8.com/sf-regular/48/sort-right.png" alt="sort-right"/ class="sdb_right">
+            </div>
+            <div class="sdb_items">
+               <a href="#">문의 내역</a>
+               <img width="20" height="20" src="https://img.icons8.com/sf-regular/48/sort-right.png" alt="sort-right"/ class="sdb_right">
+            </div>
+         </div>
+
+
+         <div class="rvw_content">
+            <table class="rvw_table">
+               <colgroup>
+                  <col width='5%'>
+                  <col width='25%'>
+                  <col width='40%'>
+                  <col width='15%'>
+                  <col width='20%'>
+                  <col width='20%'>
+               </colgroup>
+               <tr class="rvw_tabtitle">
+                  <th>번호</th>
+                  <th>예약한 식당</th>
+                  <th>예약 인원</th>
+                  <th>예약일</th>
+                  <th>수정/취소</th>
+               </tr>
+               <tr class="rvw_tabcontent">
+                  <td>1</td>
+                  <td>안지</td>
+                  <td>2</td>
+                  <td>2024.12.09</td>
+                  <td>
+                     <button type='button'>수정</button>
+                     <button type='button'>삭제</button>
+                  </td>
+               </tr>
+               <tr class="rvw_tabcontent">
+                  <td>1</td>
+                  <td>일일 출석체크 이벤트</td>
+                  <td>+20</td>
+                  <td>2024.12.09</td>
+               </tr>
+               <tr class="rvw_tabcontent">
+                  <td>1</td>
+                  <td>일일 출석체크 이벤트</td>
+                  <td>+20</td>
+                  <td>2024.12.09</td>
+               </tr>
+               <tr class="rvw_tabcontent">
+                  <td>1</td>
+                  <td>일일 출석체크 이벤트</td>
+                  <td>+20</td>
+                  <td>2024.12.09</td>
+               </tr>
+               <tr>
+                  <td colspan='5' class="rvw_footer">총 예약건 : 3건</td>
+               </tr>
+            </table>
+         </div>
+      </div>
+   </section>
+</body>
+{% endblock %}

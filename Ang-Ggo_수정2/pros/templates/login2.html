@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <title>임시 관리자 로그인페이지</title>
+  <meta charset="UTF-8">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="description" content="ANGGGO" />
+  <meta name="keywords" content="ANGGGO" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scaleable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{% static '/css/login.css' %} ">
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      let signup = $("#signup"); 
+      let signin = $("#signin");
+      let reset  = $("#reset"); 
+      let first_input = $(".first-input");
+      let hidden_input = $("#repeat__password");
+      let signin_btn  = $(".signin__btn");
+   
+    // ---------------- jquery - 로그인 버튼 ----------------
+    $(function(){
+      const csrfToken = $("meta[name='csrf-token']").attr("content");
+      $(".signin__btn").click(function(){
+        id = $("#id").val();
+        pw = $("#pw").val();
+        // 아이디,비밀번호 입력했는지 체크
+        if (id == "") {
+        alert("아이디를 입력하세요.");
+        return false;
+        $("#id").focus();
+        } else if (pw == "") {
+        alert("비밀번호를 입력하세요.");
+        return false;
+        $("#pw").focus();}
+
+        $.ajax({
+          headers : {"X-CSRFToken":csrfToken},
+          url : "/pros/loginChk/",
+          type : "post",
+          data : {"id":id, "pw":pw},
+
+          success : function(data){
+            if (data.result == "success") {
+              //console.log("아이디 : " + id + " / 비밀번호 : " + pw);
+              alert("로그인되었습니다.");
+              location.href = "/pros/layout/";
+            } else {
+              alert("아이디 또는 비밀번호가 일치하지 않습니다.");
+              // input 텍스트박스 초기화
+              $("#id").val("");
+              $("#pw").val("");
+              $("#id").focus();
+            }
+          },
+          error : function(){
+            alert("에러");
+          }
+        });	// ajax
+      }); // 로그인 버튼
+    }); // jquery
+  });
+  </script>
+</head>
+<body>
+<div class="container">
+  <!-- Heading -->
+  <h1>로그인</h1>
+  
+  <!-- 로그인 Form -->
+  <form action="/member/login/" method="post">
+    {% csrf_token %}
+    <!-- email input -->
+    <div class="input__block">
+       <input type="text" placeholder="아이디" class="input" id="id" name="id"  />
+    </div>
+    <!-- password input -->
+    <div class="input__block">
+       <input type="password" placeholder="비밀번호" class="input" id="pw" name="pw"   />
+    </div>
+    <!-- 로그인 button -->
+    <button type="button" class="signin__btn">
+      로그인
+    </button>
+  </form>
+</body>
+</html>

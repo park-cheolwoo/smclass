@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+  {% load static %}
+  {% comment %} vvv이걸 넣어야 하나??? {% endcomment %}
+  {% csrf_token %} 
+
+  {% block css %}
+  <style>
+    #wrap{
+      margin-top: 100px;
+      margin-bottom: 80px;
+      height: 100%;
+    }
+
+  </style>
+  {% endblock css %}
+
+  <title> ANGGGO - 회원탈퇴 </title>
+  <meta charset="UTF-8" />
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="description" content="ANGGGO" />
+  <meta name="keywords" content="ANGGGO" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scaleable=no" />
+  <link rel="stylesheet" type="text/css" href="{% static '/css/reset.css' %}"/>
+  <link rel="stylesheet" type="text/css" href="{% static '/css/layout.css' %}"/>
+  <link rel="stylesheet" type="text/css" href="{% static '/css/content.css' %}"/>
+  <script type="text/javascript" src="{% static '/js/jquery.min.js' %}"></script>
+  <script type="text/javascript" src="{% static '/js/left_navi.js' %}"></script>
+  <script type="text/javascript" src="{% static '/js/main.js' %}"></script>
+  <script type="text/javascript" src="{% static '/js/common.js' %}"></script>
+  <script type="text/javascript" src="{% static '/js/jquery.easing.1.3.js' %}"></script>
+  <script type="text/javascript" src="{% static '/js/idangerous.swiper-2.1.min.js' %}"></script>
+  <script type="text/javascript" src="{% static '/js/jquery.anchor.js' %}"></script>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script src="{% static '/js/signup.js' %}"></script>
+
+  <!-- Favicon-->
+  <link rel="icon" type="image/x-icon" href="{% static '/images/meow.ico'%}" />
+  <!-- Bootstrap Icons-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+  <!-- Google fonts-->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+  <!-- SimpleLightbox plugin CSS-->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css" rel="stylesheet" />
+  <!-- Core theme CSS (includes Bootstrap)-->
+  <!-- <link href="{% static 'css/styles.css'%}" rel="stylesheet" />-->
+  <link href="{% static 'css/modifyMain_dA.css'%}" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="{% static '/css/navbarStyles_dA.css' %}">
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <script type="text/javascript" src="{% static '/js/noLogin.js'%}"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  
+  {% block extrahead %}
+  {% endblock %}
+
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      const csrfToken = $("meta[name='csrf-token']").attr("content");
+
+      const modal = $(".dAModal");
+      
+      if("{{lmsg}}" == "1"){
+        alert("로그아웃 되었습니다.")
+        location.href="/"
+      }
+
+      /* --------------------- 확인 버튼 --------------------- */
+      $(".sbtnMini").click(function(){
+        // alert("click");
+
+        // 탈퇴 시 어쩌고저쩌고하는데 괜찮습니까?에 ㅇㅋ하는체크박스 확인
+        if($("#delAgree").prop("checked")){
+          alert("탈퇴동의함");
+          var delAgree = 1;
+        } else{
+          alert("확인버튼을 체크하셔야 합니다.");
+          return false;
+        }
+
+        // 체크 후 확인버튼 누르면 비밀번호 확인할 수 있도록
+        if(delAgree == 1){
+          modal.css("display", "flex");
+        }
+      }); // .sbtnMini
+
+      $(".pwChkBtn").click(function(){
+        alert("click");        
+        let pw = $("#pwChk").val();
+
+        if(pw == ""){
+          alert("비밀번호를 입력하세요.");
+          return false;
+        } 
+
+        $.ajax({
+          headers : {"X-CSRFToken":csrfToken},
+          url : "/member/forDeleteAccount/",
+          type : "post",
+          data : {"pw":pw},
+
+          success : function(data){
+            // 이렇게써도되는게맞나
+            if (data.result == "fail") {
+              console.log("비밀번호 : " + pw);
+              alert("비밀번호가 일치하지 않습니다.");
+              $("#pwChk").val("");
+              $("#pwChk").focus();
+              return false;
+            } else {
+              console.log("비밀번호 : " + pw);
+              alert("2025-01-01 탈퇴되었습니다. 안녕히 가세요.");
+              location.href = "/";
+              return;
+            }
+          },
+          error : function(){
+            alert(response.message);
+          }
+        });	// ajax
+      }); // .pwChkBtn
+
+      $("#cancelBtn").click(function(){
+        modal.css("display", "none");
+      });
+
+    }); // jquery
+  </script>
+</head>
+<body id="page-top">
+  <!-- Navigation-->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+    <div class="container_nav px-4 px-lg-5">
+      <a class="navbar-brand" href="/">앙꼬</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto my-2 my-lg-0">
+          <li class="nav-item"><a class="nav-link" href="/map/success/">지도</a></li>
+          <li class="nav-item"><a class="nav-link" href="/foodBoard/foodList/">맛집추천</a></li>
+          <li class="nav-item"><a class="nav-link" href="/board/nboard/">게시판</a></li>
+          {% comment %} <li class="nav-item"><a class="nav-link" href="#">예약</a></li> {% endcomment %}
+          <li class="nav-item"><a class="nav-link" href="/event/calendar/">이벤트</a></li>
+          <li class="nav-item"><a class="nav-link" href="/Brand">브랜드소개</a></li>
+        </ul>
+      </div>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        {% if not request.session.session_id %}
+          <ul class="navbar-nav ms-auto my-2 my-lg-0">
+            <li class="nav-item login_li"><a class="nav-link nav_login" href="/member/login/">로그인</a></li>
+            <li class="nav-item login_li"><a class="nav-link nav_login nav_mypage" href="/member/login/" data-id="{{request.session.session_id}}">마이페이지</a></li>
+            <li class="nav-item login_li"><a class="nav-link nav_login" href="#">고객센터</a></li>
+            {% comment %} <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li> {% endcomment %}
+          </ul>
+        {% else %}
+          <ul class="navbar-nav ms-auto my-2 my-lg-0">
+            <li class="nav-item login_li"><a class="nav-link nav_login" href="/member/logout/">로그아웃</a></li>
+            <li class="nav-item login_li"><a class="nav-link nav_login" href="/Brand/mypage/update/">마이페이지</a></li>
+            <li class="nav-item login_li"><a class="nav-link nav_login" href="#">고객센터</a></li>
+            {% comment %} <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li> {% endcomment %}
+          </ul>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  {% block content %}
+      
+  {% endblock %}
+
+  <div id="allwrap">
+    <div id="wrap">
+      <!-- container -->
+      <div id="container">
+
+        <div id="location">
+          <ol>
+            <li><a href="#">HOME</a></li>
+            <li><a href="#">MY PAGE</a></li>
+            <li class="last">회원탈퇴</li>
+          </ol>
+        </div>
+        
+        <div id="outbox">		
+          <div id="left">
+            <div id="title">MY PAGE<span>마이페이지</span></div>
+            <ul>	
+              <li><a href="/member/changeInfo/" id="leftNavi1">회원정보</a></li>
+              <li><a href="#" id="leftNavi2">앙 포인트/쿠폰/리뷰 확인</a></li>
+              <li><a href="#" id="leftNavi3">예약 내역 확인</a></li>
+              <li><a href="#" id="leftNavi4">즐겨찾기 목록</a></li>
+              <li><a href="#" id="leftNavi5">게시글 작성 목록</a></li>
+              <li><a href="#" id="leftNavi7">문의 내역</a></li>
+              <li class="last"><a href="/" id="leftNavi8">회원 탈퇴</a></li>
+            </ul>			
+          </div><script type="text/javascript">initSubmenu(8,0);</script> 
+
+          <!-- contents -->
+          <div id="contents">
+            <div id="member">
+              <h2><strong>회원탈퇴</strong></h2>
+              
+              <div class="attention">
+                <ul>
+                  <li>* 아래의 내용을 읽고 동의해 주세요.</li>
+                </ul>
+              </div>
+              <br>
+
+              <div class="agreeWrap">
+                <div class="agreeTxt">탈퇴하시면 다음과 같은 혜택이 사라져요<span></span></div>
+
+                <div class="agreeBox">
+                  <div class="agreeContent">						
+                    <h4>1. 탈퇴하시겠습니까?</h4>
+                    <p>(1) 진짜?</p>
+                    <ul>
+                      <li>- 진짜로?</li>
+                      <li>- 진짜예요?</li>
+                      <li>- 진짜인가요?</li>
+                    </ul>
+
+                    <p>(2) 정말?</p>
+                    <p>정말인가요?</p>
+                    
+                    <h4>2. 진짜탈퇴하시겠습니까?</h4>
+                    <ul>
+                      <li>- 정말로탈퇴를원하는겁니까?</li>
+                      <li>- 정말로그렇게생각하십니까?</li>
+                      <li>- 왜요?</li>
+                    </ul>
+
+                    <h4>3. 정말탈퇴하시겠습니까?</h4>
+                    <ul>
+                      <li>- 진심?</li>
+                      <li>- 으로?</li>
+                      <li>- Why?ㅋㅋ</li>
+                    </ul>
+                  </div> <!-- //agreeContent -->
+                </div> <!-- //agreeBox -->
+
+                <ul>
+                  <li class="chk">
+                    <input type="checkbox" id="delAgree" name="delAgree"/><label for="delAgree">확인했습니다.</label>
+                  </li>
+                  <li class="btn">
+                    <a href="#" class="nbtnMini">전체보기</a>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="btnArea">
+                <div class="bCenter">
+                  <ul>
+                    <li><a href="/member/changeInfo/" class="nbtnbig">취소하기</a></li>
+                    <li><button type="button" class="sbtnMini">확인</button></li>
+                  </ul>
+                </div>
+              </div>
+
+            </div> <!-- //member -->
+          </div> <!-- //contents -->
+
+        </div> <!-- //outbox -->
+      </div> <!-- //container -->
+
+
+      <div class="dAModal">
+        <div class="dAModal_body">
+          <img src="{% static '/images/x.png/' %}" alt="취소버튼" id="cancelBtn">
+          <h2>비밀번호 확인</h2>
+          <p>회원 탈퇴를 위한 비밀번호 확인이 필요합니다.</p>
+
+          <!-- 비밀번호 확인 Form -->
+          <form action="/" method="post">
+            {% csrf_token %}
+
+            <!-- #newPwChk input -->
+            <div class="input__block">
+              <input type="password" placeholder="비밀번호를 입력하세요." class="input" id="pwChk" name="pwChk"/>
+            </div><br>
+            <h4 class="error-message"></h4>
+
+            <!-- 확인 button -->
+            <button type="button" class="pwChkBtn">
+              확인
+            </button>
+          </form>
+
+        </div> <!-- //dAModal_body -->
+      </div> <!-- //dAModal -->
+
+
+
+  <!-- footer -->
+  <footer>
+    <div class="footerr">
+      <div class="ftnavi">
+        <ul>
+          <li><a href="/Brand/">회사소개</a></li>
+          <li><a href="/Brand/#BrndTitle2">오시는길</a></li>
+          <li><a>개인정보처리방침</a></li>
+          <li id="clause"><a href="">이용약관</a></li>
+          <li id="no_email"><a href="">이메일무단수집거부</a></li>
+        </ul>
+      </div>
+
+
+      <div class="bottom_footer">
+        <div class="addr">
+          <p>앙꼬<span>|</span>서울 금천구 가산디지털2로 101</p>
+          <p class="tel">대표번호 : 070-777-7777&nbsp;&nbsp;
+            <span>예약문의 : 7777-7777</span>
+            <span>단체문의 : 02-7171-1717</span>
+            <span>분양문의 : 02-737-3737</span>
+            <span>통신판매업신고 : 2024-서울금천-1213호</span>
+          </p>
+          <p>메리츠화재와 개인정보 배상책임보험 계약을 체결하여 회원 개인정보를 보호하고 있습니다.</p>
+          <p class="copy">COPYRIGHT(C) ANGGGO. ALL RIGHTS RESERVED.</p>
+        </div>
+
+        <!-- <div class="right"> -->
+        <div class="sns">
+          <a href="#"><img src="/static/images/main/insta_btn_fnew.png"></a>
+          <a href="#"><img src="/static/images/main/youtube_btn_fnew.png"></a>
+          <a href="#"><img src="/static/images/main/facebook_btn_fnew.png"></a>
+          <a href="#"><img src="/static/images/main/kakao_ch_btn_fnew.png"></a>
+        </div>
+      </div>
+      <!-- </div> -->
+
+    </div>
+  </footer>
+
+  <!-- Bootstrap core JS-->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- SimpleLightbox plugin JS-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.js"></script>
+  <!-- Core theme JS-->
+  <script src="{% static 'js/scripts.js' %}"></script>
+  <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+  <!-- * *                               SB Forms JS                               * *-->
+  <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+  <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+  <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+  <script type="text/javascript" src="{% static '/js/footermodal.js'%}"></script>
+  <script type="text/javascript" src="{% static '/js/main.js'%}"></script>
+</div>
+</div>
+</body>
+
+</html>

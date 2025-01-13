@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>학생 전체 리스트</title>
+</head>
+<body>
+  <h2>학생 전체 리스트</h2>
+  <h2>등록 인원 : {{slist.count}}명</h2>
+  <table>
+    <tr>
+      <th>번호</th>
+      <th>이름</th>
+      <th>학과</th>
+      <th>학년</th>
+      <th>수정</th>
+      <th>삭제</th>
+    </tr>
+    {% if slist%}
+      {% for s in slist%}
+    <tr>
+      <td><a href={% url "students:view" s.name %}>{{s.id}}</a></td>
+      <td>{{s.name}}</td>
+      <td>{{s.major}}</td>
+      <td>{{s.grade}}</td>
+      <td><button type='button' onclick="location.href = '{% url "students:update" s.name %}' ">수정</button></td>
+      <td><button type='button' onclick="delbtn('{{s.name}}')">삭제</button></td>
+    </tr>
+    {% endfor %}
+    {% endif %}
+  </table>
+  <button type='button' onclick="location.href='/'">메인화면</button>
+  <script>
+  function delbtn(name){
+    alert("클릭")
+    if(confirm(name+"님 학생 정보를 삭제하시겠습니까?")){
+      location.href = '/students/delete/'+name+"/"
+  }
+}
+</script>
+</body>
+{% comment %} 안타깝게도 Django-html에서 js 작성시 Django 함수 구문을 사용할 수 없음 {% endcomment %}
+</html>
