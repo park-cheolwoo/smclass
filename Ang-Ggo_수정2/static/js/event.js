@@ -65,10 +65,10 @@ $(document).ready(function() {
       location.href="/member/login/"
       return;
     }
-
+    console.log(csrfToken);
     // 출석체크 Ajax 요청
     $.ajax({ 
-      headers:{"X-CSRFToken":csrfToken},
+      headers: { "X-CSRFToken": csrfToken },
       url:"/event/calendar/",
       type:"post",
       data:{
